@@ -5,7 +5,7 @@ include::shared-doc/attributes.adoc[]
 :numbered:
 
 ifndef::ProductRelease,EAPCDRelease[]
-= WildFly Quickstarts
+= Auth tests based on WildFly Quickstarts
 
 [toc]
 
@@ -14,6 +14,8 @@ The quickstarts demonstrate Jakarta EE 8 and a few additional technologies from 
 
 [[introduction]]
 == Introduction
+
+_Note_: All text below is from the original quick start documenation. The framework and code from some examples are reused.
 
 These quickstarts run on the WildFly application server. The quickstarts are configured to use the correct Maven dependencies and ensure that you test and compile the quickstarts against the correct runtime environment.
 
