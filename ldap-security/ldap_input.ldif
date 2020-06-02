@@ -43,7 +43,7 @@ cn: admin
 member: uid=admin,ou=users,dc=wildfly,dc=org
 member: uid=developer,ou=users,dc=wildfly,dc=org
 
-dn: cn=guest,ou=roles,dc=wildfly,dc=org
+dn: cn=user,ou=roles,dc=wildfly,dc=org
 objectClass: top
 objectClass: groupOfNames
 cn: guest

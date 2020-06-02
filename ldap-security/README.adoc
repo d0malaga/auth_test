@@ -86,7 +86,7 @@ The application will be running at the following URL: http://localhost:8080/{art
 
 When you access the application you are redirected to a login form, already filled in with the details of the application user you set up above. Once you have logged into the application you see a page showing your username and two buttons.
 
-When you click on the `Employee Method` button you will see the following message: `You executed a @EmployeeAllowed method` - you are authorized to invoke this method.
+When you click on the `User Method` button you will see the following message: `You executed a @UserAllowed method` - you are authorized to invoke this method.
 
 When you click on the `Admin Method` button, you are redirected to an error page with the following exception: `org.apache.deltaspike.security.api.authorization.AccessDeniedException` because you aren't authorized to invoke this method.
 
