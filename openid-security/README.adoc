@@ -1,0 +1,106 @@
+include::../shared-doc/attributes.adoc[]
+
+= openid-security: reuses deltaspike-authorization for ldap authentication. Demonstrate the creation of a custom authorization example using @SecurityBindingType from DeltaSpike
+:author: Tomas Aronsson
+:level: Unknown
+:technologies: JSF, CDI, Deltaspike, WildFly Elytron, LDAP
+
+[abstract]
+Demonstrate how to configure Wildlfy Elytron for LDAP reusing the login/role UI code from Quickstart deltaspike-authorization.
+
+== What is it?
+
+Based on http://www.mastertheboss.com/jboss-server/jboss-security/configuring-ldap-based-authentication-with-elytron-on-wildfly, requires:
+
+ * Wildfly > 11, tested on Wildfly 19
+ * An LDAP Server or a Docker deamon to start an LDAP Server in a Container
+ * opendap-clients: ldapadd and ldapsearch
+
+== Configure an LDAP server
+
+For the sake of simplicity, we will start a Containerised version of OpenLdap, which is available in the DockerHub, using as BASE DN wildfly.org:
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+# Use a prepackaged ldap
+docker run --env LDAP_ORGANISATION="wildfly" --env LDAP_DOMAIN="wildfly.org" --env LDAP_ADMIN_PASSWORD="admin" -p 389:389 --detach osixia/openldap
+
+# requires rpm: openldap-clients
+sleep 5
+ldapadd -x -c -H ldap://localhost:389 -D "cn=admin,dc=wildfly,dc=org" -w admin <ldap_input.ldif
+ldapsearch -H ldap://localhost:389 -D "cn=admin,dc=wildfly,dc=org" -w admin -b "ou=roles,dc=wildfly,dc=org"  -s sub "(objectclass=*)"
+----
+
+If not mapping the 389 port you can check your IP Address from your container:
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+docker inspect --format '{{ .NetworkSettings.IPAddress }}' $(docker ps -q)
+172.17.0.2
+----
+
+[[configure_the_server]]
+== Configure the Server
+
+You configure the security domain by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `configure-elytron.cli` script provided in the root directory of this quickstart.
+
+. Before you begin, make sure you do the following:
+
+* xref:back_up_standalone_server_configuration[Back up the {productName} standalone server configuration] as described above.
+* xref:start_the_eap_standalone_server[Start the {productName} server with the standalone default profile] as described above.
+
+. Review the `configure-elytron.cli` file in the root of this quickstart directory. This script adds the configuration that enables Elytron security for the quickstart components. Comments in the script describe the purpose of each block of commands.
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-elytron.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
++
+
+You should see the following result when you run the script:
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+process-state: reload-required
+----
+
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+// Add the Authorized Application and Management Users
+// include::../shared-doc/add-application-user.adoc[leveloffset=+1]
+// Start the Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+
+
+== Access the application
+
+The application will be running at the following URL: http://localhost:8080/{artifactId}/.
+
+When you access the application you are redirected to a login form, already filled in with the details of the application user you set up above. Once you have logged into the application you see a page showing your username and two buttons.
+
+When you click on the `Employee Method` button you will see the following message: `You executed a @EmployeeAllowed method` - you are authorized to invoke this method.
+
+When you click on the `Admin Method` button, you are redirected to an error page with the following exception: `org.apache.deltaspike.security.api.authorization.AccessDeniedException` because you aren't authorized to invoke this method.
+
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
+include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
+
+== Debug the Application
+
+If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
+
+[source,options="nowrap"]
+----
+$ mvn dependency:sources
+$ mvn dependency:resolve -Dclassifier=javadoc
+----

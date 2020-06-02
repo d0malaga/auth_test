@@ -45,6 +45,7 @@ NOTE: Some of these quickstarts use the H2 database included with WildFly. It is
 | Quickstart Name | Demonstrated Technologies | Description | Experience Level Required | Prerequisites 
 | link:deltaspike-authorization/README{outfilesuffix}[deltaspike-authorization]|JSF, CDI, Deltaspike | Demonstrate the creation of a custom authorization example using @SecurityBindingType from DeltaSpike | Beginner | _none_
 | link:ldap-security/README{outfilesuffix}[ldap-security]|JSF, CDI, Deltaspike, WildFly Elytron, LDAP | Demonstrate how to configure Wildlfy Elytron for LDAP reusing the login/role UI code from Quickstart deltaspike-authorization. | Unknown | _none_
+| link:openid-security/README{outfilesuffix}[openid-security]|JSF, CDI, Deltaspike, WildFly Elytron, LDAP | Demonstrate how to configure Wildlfy Elytron for LDAP reusing the login/role UI code from Quickstart deltaspike-authorization. | Unknown | _none_
 |===
 //</TOC>
 
