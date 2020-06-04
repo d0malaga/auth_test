@@ -1,106 +1,71 @@
 include::../shared-doc/attributes.adoc[]
 
-= openid-security: reuses deltaspike-authorization for ldap authentication. Demonstrate the creation of a custom authorization example using @SecurityBindingType from DeltaSpike
+= openid-security: reuses deltaspike-authorization for openid authentication
 :author: Tomas Aronsson
 :level: Unknown
-:technologies: JSF, CDI, Deltaspike, WildFly Elytron, LDAP
+:technologies: JSF, CDI, Deltaspike, WildFly Elytron, Keycloak, OpenID
 
 [abstract]
-Demonstrate how to configure Wildlfy Elytron for LDAP reusing the login/role UI code from Quickstart deltaspike-authorization.
+Demonstrate how to configure Wildlfy Elytron with a keycloak Adapter for openid reusing the login/role UI code from Quickstart deltaspike-authorization. 
 
 == What is it?
 
-Based on http://www.mastertheboss.com/jboss-server/jboss-security/configuring-ldap-based-authentication-with-elytron-on-wildfly, requires:
+Based on the keycloak docs:
+
+* https://www.keycloak.org/docs/latest/securing_apps/#jboss-eap-wildfly-adapter
+
+Requires:
 
  * Wildfly > 11, tested on Wildfly 19
- * An LDAP Server or a Docker deamon to start an LDAP Server in a Container
- * opendap-clients: ldapadd and ldapsearch
+ * A configured LDAP (see ldap-security example)
+ * A manually installed keycloak adapter for Wildfly
+ * A configured IdP server, see below
 
-== Configure an LDAP server
+== Configure an IdP server
 
-For the sake of simplicity, we will start a Containerised version of OpenLdap, which is available in the DockerHub, using as BASE DN wildfly.org:
-
-[source,subs="+quotes,attributes+",options="nowrap"]
-----
-# Use a prepackaged ldap
-docker run --env LDAP_ORGANISATION="wildfly" --env LDAP_DOMAIN="wildfly.org" --env LDAP_ADMIN_PASSWORD="admin" -p 389:389 --detach osixia/openldap
-
-# requires rpm: openldap-clients
-sleep 5
-ldapadd -x -c -H ldap://localhost:389 -D "cn=admin,dc=wildfly,dc=org" -w admin <ldap_input.ldif
-ldapsearch -H ldap://localhost:389 -D "cn=admin,dc=wildfly,dc=org" -w admin -b "ou=roles,dc=wildfly,dc=org"  -s sub "(objectclass=*)"
-----
-
-If not mapping the 389 port you can check your IP Address from your container:
+For the sake of simplicity, we will start a Containerised version of Keycloak, quay.io/keycloak/keycloak:10.0.x
 
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
-docker inspect --format '{{ .NetworkSettings.IPAddress }}' $(docker ps -q)
-172.17.0.2
+# Use a prepackaged keycloak
+IMAGE=quay.io/keycloak/keycloak:10.0.0
+
+# Import predefined realm. Do not detach, log is useful for troubleshooting
+docker run --rm -p 8080:8080 --name keycloak_idp -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin -e  KEYCLOAK_IMPORT=/tmp/realm_data.json -v $(pwd)/idp_realm_auth_test.json:/tmp/realm_data.json $IMAGE
+----
+
+A realm can be configured manually and then exported using commands like:
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+# Start an empty Idp, mount an export dir
+mkdir tmp
+docker run --rm -d -p 8180:8080 --name kc_tmp -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin -v $(pwd)/tmp:/tmp $IMAGE
+
+# Manually define a new realm called auth_test and export it from the docker
+docker exec -it kc_tmp /opt/jboss/keycloak/bin/standalone.sh -Djboss.socket.binding.port-offset=100 -Dkeycloak.migration.action=export -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.usersExportStrategy=REALM_FILE -Dkeycloak.migration.realmName=auth_test -Dkeycloak.migration.file=/tmp/export_realm.json
 ----
 
 [[configure_the_server]]
 == Configure the Server
 
-You configure the security domain by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `configure-elytron.cli` script provided in the root directory of this quickstart.
+The openid war file does not need any special JBoss CLI commands except for installing a Keycloak adapter, example from Dockerfile:
 
-. Before you begin, make sure you do the following:
-
-* xref:back_up_standalone_server_configuration[Back up the {productName} standalone server configuration] as described above.
-* xref:start_the_eap_standalone_server[Start the {productName} server with the standalone default profile] as described above.
-
-. Review the `configure-elytron.cli` file in the root of this quickstart directory. This script adds the configuration that enables Elytron security for the quickstart components. Comments in the script describe the purpose of each block of commands.
-. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server:
-+
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
-$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-elytron.cli
+# Install keycloak adapter
+COPY keycloak-wildfly-adapter-dist-10.0.1.tar.gz /tmp/
+RUN cd /opt/jboss/wildfly && tar zxf /tmp/keycloak-wildfly-adapter-dist-10.0.1.tar.gz &&  ./bin/jboss-cli.sh --file=bin/adapter-elytron-install-offline.cli
 ----
-+
-NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
-+
-
-You should see the following result when you run the script:
-+
-[source,options="nowrap"]
-----
-The batch executed successfully
-process-state: reload-required
-----
-
-// System Requirements
-include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-// Use of {jbossHomeName}
-include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
-// Add the Authorized Application and Management Users
-// include::../shared-doc/add-application-user.adoc[leveloffset=+1]
-// Start the Server
-include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
-// Build and Deploy the Quickstart
-include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
-
 
 == Access the application
 
-The application will be running at the following URL: http://localhost:8080/{artifactId}/.
+The application will be running at the following URL: http://<external ip>:8080/{artifactId}/.
 
-When you access the application you are redirected to a login form, already filled in with the details of the application user you set up above. Once you have logged into the application you see a page showing your username and two buttons.
+*Note*: With the IdP and the Wildfly running inside NAT:ed containers they cannot use localhost as the hostname. Both the IdP and Wildfly launch scripts takes environment variables like $IDP_HOST, $WEB_HOST. For openid to work they seems to have to be the same in all places, including the url you type in the browser to access the application.
 
-When you click on the `Employee Method` button you will see the following message: `You executed a @EmployeeAllowed method` - you are authorized to invoke this method.
+When you access the application you are redirected to a Keycloak login form. Once you have logged into the application you see a page showing your username and two buttons.
+
+When you click on the `User Method` button you will see the following message: `You executed a @UserAllowed method` - you are authorized to invoke this method.
 
 When you click on the `Admin Method` button, you are redirected to an error page with the following exception: `org.apache.deltaspike.security.api.authorization.AccessDeniedException` because you aren't authorized to invoke this method.
-
-// Undeploy the Quickstart
-include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
-// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
-include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
-
-== Debug the Application
-
-If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
-
-[source,options="nowrap"]
-----
-$ mvn dependency:sources
-$ mvn dependency:resolve -Dclassifier=javadoc
-----

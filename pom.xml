@@ -357,6 +357,7 @@
                     Application Platform or JBoss EAP -->
                 <module>deltaspike-authorization</module>
                 <module>ldap-security</module>
+                <module>openid-security</module>
             </modules>
         </profile>
         <profile>

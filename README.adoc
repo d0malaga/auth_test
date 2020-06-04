@@ -17,7 +17,7 @@ The quickstarts demonstrate Jakarta EE 8 and a few additional technologies from 
 
 _Note_: Most text below and in the examples is from the original quick start documentation, https://github.com/wildfly/quickstart.git. The framework and code from some examples are reused.
 
-My testing has been done on a Fedora 32, using Wildfly 19. This includes checking out the tag `19.0.0.Final`, from quickstart.
+My testing has been done on a Fedora 32, using Wildfly 19. This includes checking out the tag `19.0.0.Final`, from quickstart. For demo purposes I've also used a clean Wildfly docker image from https://hub.docker.com/r/jboss/wildfly/.
 
 Please consider running `mvn clean package -Pdocs` to render html documentation with complete urls and other information for the quickstarts.
 
@@ -25,8 +25,8 @@ Please consider running `mvn clean package -Pdocs` to render html documentation 
 
 1. copied from quickstart - deltaspike-authorization
 2. done - ldap-security using an openldap docker container
-3. saml-security using a keycloak 10.0.0 IdP container + service adapter
-4. openid-security using a keycloak 10.0.0 IdP container + service adapter
+3. openid-security using a keycloak 10.0.0 IdP container + service adapter
+4. saml-security using a keycloak 10.0.0 IdP container + service adapter
 5. Other UI than JSF...
 
 // The following is included for all versions: WildFly, JBoss EAP, and EAP CD
@@ -45,7 +45,7 @@ NOTE: Some of these quickstarts use the H2 database included with WildFly. It is
 | Quickstart Name | Demonstrated Technologies | Description | Experience Level Required | Prerequisites 
 | link:deltaspike-authorization/README{outfilesuffix}[deltaspike-authorization]|JSF, CDI, Deltaspike | Demonstrate the creation of a custom authorization example using @SecurityBindingType from DeltaSpike | Beginner | _none_
 | link:ldap-security/README{outfilesuffix}[ldap-security]|JSF, CDI, Deltaspike, WildFly Elytron, LDAP | Demonstrate how to configure Wildlfy Elytron for LDAP reusing the login/role UI code from Quickstart deltaspike-authorization. | Unknown | _none_
-| link:openid-security/README{outfilesuffix}[openid-security]|JSF, CDI, Deltaspike, WildFly Elytron, LDAP | Demonstrate how to configure Wildlfy Elytron for LDAP reusing the login/role UI code from Quickstart deltaspike-authorization. | Unknown | _none_
+| link:openid-security/README{outfilesuffix}[openid-security]|JSF, CDI, Deltaspike, WildFly Elytron, Keycloak, OpenID | Demonstrate how to configure Wildlfy Elytron with a keycloak Adapter for openid reusing the login/role UI code from Quickstart deltaspike-authorization.  | Unknown | _none_
 |===
 //</TOC>
 

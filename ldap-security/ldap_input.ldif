@@ -22,13 +22,13 @@ sn: guest
 uid: guest
 userPassword: abcd123
 
-dn: uid=admin,ou=users,dc=wildfly,dc=org
+dn: uid=administrator,ou=users,dc=wildfly,dc=org
 objectClass: top
 objectClass: person
 objectClass: inetOrgPerson
-cn: admin1
-sn: admin
-uid: admin
+cn: administrator1
+sn: administrator
+uid: administrator
 userPassword: abcd123
 
 dn: ou=roles,dc=wildfly,dc=org
@@ -40,7 +40,7 @@ dn: cn=admin,ou=roles,dc=wildfly,dc=org
 objectClass: top
 objectClass: groupOfNames
 cn: admin
-member: uid=admin,ou=users,dc=wildfly,dc=org
+member: uid=administrator,ou=users,dc=wildfly,dc=org
 member: uid=developer,ou=users,dc=wildfly,dc=org
 
 dn: cn=user,ou=roles,dc=wildfly,dc=org
