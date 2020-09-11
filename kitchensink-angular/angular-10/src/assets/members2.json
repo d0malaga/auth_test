@@ -1,0 +1,10 @@
+[
+ {"id":0,
+  "name":"John Smith",
+  "email":"john.smith@mailinator.com",
+  "phoneNumber":"2125551212"},
+ {"id":1,
+  "name":"Tomas",
+  "email":"q@q",
+  "phoneNumber":"1234567890"}
+]

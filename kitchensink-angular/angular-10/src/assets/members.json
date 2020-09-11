@@ -1,0 +1,20 @@
+[
+  {
+    "id": 0,
+    "name": "ADonald Duck",
+    "phoneNumber": 799,
+    "email": "donald@duckburg"
+  },
+  {
+    "id":1,
+    "name": "BMickey Mouse",
+    "email": "mickey@duckburg"
+  },
+  {
+    "id":2,
+    "name": "CGoofy",
+    "phoneNumber": 299,
+    "email": "goofy@duckburg"
+  }
+]
+

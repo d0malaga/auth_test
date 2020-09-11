@@ -1,0 +1,31 @@
+<h3>
+Register member
+</h3>
+
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit(registerForm.value)">
+
+  <div>
+    <label for="name">
+      Name:
+    </label>
+    <input id="name" type="text" formControlName="name">
+  </div>
+
+  <div>
+    <label for="email">
+      Email:
+    </label>
+    <input id="email" type="text" formControlName="email">
+  </div>
+
+  <div>
+    <label for="phoneNumber">
+      Phone #:
+    </label>
+    <input id="phoneNumber" type="text" formControlName="phoneNumber">
+  </div>
+
+  <button class="button" type="submit">Register</button>
+  <button class="button" (click)="reset()">Cancel</button>
+
+</form>
