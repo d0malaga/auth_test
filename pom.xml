@@ -355,6 +355,7 @@
             <modules>
                 <!-- All the modules that require nothing but JBoss Enterprise
                     Application Platform or JBoss EAP -->
+                <module>kitchensink-angular</module>
                 <module>deltaspike-authorization</module>
                 <module>ldap-security</module>
                 <module>openid-security</module>
