@@ -1,12 +1,12 @@
 include::../shared-doc/attributes.adoc[]
 
-= kitchensink-angularjs: Demonstrates AngularJS with JAX-RS
+= kitchensink-angular: Demonstrates AngularJS + Angular 10 with JAX-RS
 :author: Pete Muir
 :level: Intermediate
-:technologies: AngularJS, CDI, JPA, EJB, JPA, JAX-RS, BV
+:technologies: AngularJS, Angular 10, CDI, JPA, EJB, JPA, JAX-RS, BV
 
 [abstract]
-The `kitchensink-angularjs` quickstart demonstrates a {javaVersion} application using AngularJS with JAX-RS, CDI, EJB, JPA, and Bean Validation.
+The `kitchensink-angular` quickstart demonstrates a {javaVersion} application using Angular JS/10 with JAX-RS, CDI, EJB, JPA, and Bean Validation. This is a modification using an Angular 10 UI. 
 
 :standalone-server-type: default
 :archiveType: war
@@ -17,9 +17,52 @@ The `kitchensink-angularjs` quickstart demonstrates a {javaVersion} application 
 
 == What is it?
 
-The `kitchensink-angularjs` quickstart is a deployable Maven 3 project to help you get your foot in the door developing with AngularJS on {javaVersion} with {productNameFull}.
+The `kitchensink-angular` quickstart is a deployable Maven 3 project to help you get your foot in the door developing with AngularJS on {javaVersion} with {productNameFull}.
 
 This project is setup to allow you to create a compliant {javaVersion} application using CDI 1.2, EJB 3.2, JPA 2.1 and Bean Validation 1.1. It includes a persistence unit and some sample persistence and transaction code to introduce you to database access in enterprise Java.
+
+== Angular 10
+
+The Angular code is reusing some parts of the Angular 'Tour or Heroes tutorial', 
+https://angular.io/tutorial. Currently is is launched as a separate site:
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ cd angular-10
+$ ng serve --open
+----
+
+[[configure_the_server]]
+== Configure the Server
+
+The server must be configured to allow Cross-Origin Resource Sharing (CORS).
+
+You enable CORS by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `configure-CORS.cli` script provided in the root directory of this quickstart.
+
+. Before you begin, make sure you do the following:
+
+* xref:back_up_standalone_server_configuration[Back up the {productName} standalone server configuration] as described above.
+* xref:start_the_eap_standalone_server[Start the {productName} server with the standalone default profile] as described above.
+
+. Review the `configure-CORS.cli` file in the root of this quickstart directory. This script adds the configuration that enables CORS for the quickstart components. Comments in the script describe the purpose of each block of commands.
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-CORS.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
++
+
+You should see the following result when you run the script:
++
+[source,options="nowrap"]
+----
+The batch executed successfully
+process-state: reload-required
+----
+
 
 //*************************************************
 // Product Release content only
@@ -42,57 +85,6 @@ The application will be running at the following URL: http://localhost:8080/{art
 
 // Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
-// Run the Arquillian Tests
-include::../shared-doc/run-arquillian-tests.adoc[leveloffset=+1]
-// Run the Arquillian Functional Tests
-include::../shared-doc/run-arquillian-functional-tests.adoc[leveloffset=+1]
-// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
-include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
-
-// Additional Red Hat CodeReady Studio instructions
-NOTE: If you have not installed the https://github.com/angelozerr/angularjs-eclipse[AngularJS Eclipse plugin] into {JBDSProductName}, you may see one or more of the following warnings when you import this project. You can ignore these warnings.
-
-[source,options="nowrap"]
-----
-HTML Problem: Undefined attribute name (ng-app)
-HTML Problem: Undefined attribute name (ng-click)
-HTML Problem: Undefined attribute name (ng-disabled)
-HTML Problem: Undefined attribute name (ng-hide)
-HTML Problem: Undefined attribute name (ng-model)
-HTML Problem: Undefined attribute name (ng-pattern)
-HTML Problem: Undefined attribute name (ng-repeat)
-HTML Problem: Undefined attribute name (ng-show)
-HTML Problem: Undefined attribute name (ng-submit)
-HTML Problem: Undefined attribute name (ng-view)
-----
-
-== Debug the Application
-
-If you want to debug the source code or look at the Javadocs of any library in the project, run either of the following commands to pull them into your local repository. The IDE should then detect them.
-
-[source,options="nowrap"]
-----
-$ mvn dependency:sources
-$ mvn dependency:resolve -Dclassifier=javadoc
-----
 
 endif::[]
 
-//*************************************************
-// CD Release content only
-//*************************************************
-
-ifdef::EAPCDRelease[]
-
-// Getting Started with OpenShift
-include::../shared-doc/cd-openshift-getting-started.adoc[leveloffset=+1]
-//Prepare OpenShift for Quickstart Deployment
-include::../shared-doc/cd-create-project.adoc[leveloffset=+1]
-// Import the Latest {xpaasproduct-shortname} Image Streams and Templates
-include::../shared-doc/cd-import-imagestreams-templates.adoc[leveloffset=+1]
-// Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to OpenShift
-include::../shared-doc/cd-deploy-project.adoc[leveloffset=+1]
-// OpenShift Post Deployment Tasks: This is not currently needed.
-// include::../shared-doc/cd-post-deployment-tasks.adoc[leveloffset=+1]
-
-endif::[]

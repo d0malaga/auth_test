@@ -1,0 +1,16 @@
+# Batch script to enable another server to call the REST API
+# ie, be able to publish UI from "ng serve"
+
+# Start batching commands
+batch
+
+# Add CORS header to allow any site
+/subsystem="undertow"/server="default-server"/host="default-host"/filter-ref="Access-Control-Allow-Origin":add()
+
+/subsystem="undertow"/configuration="filter"/response-header="Access-Control-Allow-Origin":add(header-name="Access-Control-Allow-Origin",header-value="*")
+
+# Run the batch commands
+run-batch
+
+# Reload the server configuration
+reload
