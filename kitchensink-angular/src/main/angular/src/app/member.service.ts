@@ -10,9 +10,10 @@ import { Member } from './member';
 
 export class MemberService {
 
-  private membersUrl = '/assets/members2.json';  // URL to web api
+  private membersUrlFile = 'assets/members2.json';  // URL to web api
   // Fails because webapp served from another server than API
   private membersUrlCORS = 'http://localhost:8080/kitchensink-angularjs/rest/members'
+  private membersUrl = 'http://localhost:8080/kitchensink-angularjs/rest/members'
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
