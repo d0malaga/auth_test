@@ -28,10 +28,10 @@
         <version>20.0.1.Final</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>kitchensink-angularjs</artifactId>
+    <artifactId>kitchensink-angular</artifactId>
     <packaging>war</packaging>
-    <name>Quickstart: kitchensink-angularjs</name>
-    <description>A starter Jakarta EE web application project for use on JBoss EAP using AngularJS for the view</description>
+    <name>Quickstart: kitchensink-angular</name>
+    <description>A starter Jakarta EE web application project for use on JBoss EAP using Angular (10 + JS) for the view</description>
 
     <licenses>
         <license>
@@ -154,63 +154,104 @@
     <build>
         <!-- Set the name of the WAR, used as the context root when the app is deployed -->
         <finalName>${project.artifactId}</finalName>
-        <plugins>
-          <plugin>
-            <groupId>com.github.eirslett</groupId>
-            <artifactId>frontend-maven-plugin</artifactId>
-            <version>1.6</version>
-
-            <configuration>
-                <workingDirectory>src/main/angular</workingDirectory>
-            </configuration>
-
-            <executions>
-
-                <execution>
-                    <id>install-node-and-npm</id>
-                    <goals>
-                        <goal>install-node-and-npm</goal>
-                    </goals>
-                    <configuration>
-                        <nodeVersion>v10.16.1</nodeVersion>
-                    </configuration>
-                </execution>
-		
-                <execution>
-                    <id>npm install</id>
-                    <goals>
-                        <goal>npm</goal>
-                    </goals>
-                    <configuration>
-                        <arguments>install</arguments>
-                    </configuration>
-                </execution>
-                <execution>
-                    <id>npm build</id>
-                    <goals>
-                        <goal>npm</goal>
-                    </goals>
-                    <configuration>
-                        <arguments>run buildProduction</arguments>
-                    </configuration>
-                    <phase>generate-resources</phase>
-                </execution>
-            </executions>
-       </plugin>
-       <plugin>
-          <artifactId>maven-war-plugin</artifactId>
-          <version>3.2.2</version>
-          <configuration>
-            <failOnMissingWebXml>false</failOnMissingWebXml>
-
-            <!-- Add angular folder to war package -->
-            <webResources>
-                <resource>
-                    <directory>src/main/angular/dist/angular</directory>
-                </resource>
-            </webResources>
-          </configuration>
-        </plugin>
-      </plugins>      
     </build>
+    <profiles>
+        <profile>
+            <id>angularjs</id>
+            <activation>
+                <property>
+                    <name>release</name>
+                </property>
+            </activation>
+            <modules>
+                <!-- not real maven projects, but here for centralized mgmt and docs -->
+            </modules>
+            <build>
+              <plugins>
+		<plugin>
+		  <artifactId>maven-war-plugin</artifactId>
+		  <version>3.3.1</version>
+		  <configuration>
+		    <failOnMissingWebXml>false</failOnMissingWebXml>
+		    <!-- Add angularjs folder to war package -->
+		    <webResources>
+                      <resource>
+			<directory>src/main/angularjs</directory>
+                      </resource>
+		    </webResources>
+		  </configuration>
+		</plugin>
+	      </plugins>
+	    </build>
+	</profile>
+        <profile>
+            <id>angular</id>
+            <activation>
+                <property>
+                    <name>release</name>
+                </property>
+            </activation>
+            <modules>
+                <!-- not real maven projects, but here for centralized mgmt and docs -->
+            </modules>
+            <build>
+              <plugins>
+		<plugin>
+		  <groupId>com.github.eirslett</groupId>
+		  <artifactId>frontend-maven-plugin</artifactId>
+		  <version>1.6</version>
+
+		  <configuration>
+                    <workingDirectory>src/main/angular</workingDirectory>
+		  </configuration>
+
+		  <executions>
+                    <execution>
+                      <id>install-node-and-npm</id>
+                      <goals>
+                        <goal>install-node-and-npm</goal>
+                      </goals>
+                      <configuration>
+                        <nodeVersion>v10.16.1</nodeVersion>
+                      </configuration>
+                    </execution>
+                    <execution>
+                      <id>npm install</id>
+                      <goals>
+                        <goal>npm</goal>
+                      </goals>
+                      <configuration>
+                        <arguments>install</arguments>
+                      </configuration>
+                    </execution>
+                    <execution>
+                      <id>npm build</id>
+                      <goals>
+                        <goal>npm</goal>
+                      </goals>
+                      <configuration>
+                        <arguments>run buildProduction</arguments>
+                      </configuration>
+                      <phase>generate-resources</phase>
+                    </execution>
+		  </executions>
+		</plugin>
+		<plugin>
+		  <artifactId>maven-war-plugin</artifactId>
+		  <version>3.3.1</version>
+		  <configuration>
+		    <failOnMissingWebXml>false</failOnMissingWebXml>
+
+		    <!-- Add angular folder to war package -->
+		    <webResources>
+                      <resource>
+			<directory>src/main/angular/dist/angular</directory>
+                      </resource>
+		    </webResources>
+		  </configuration>
+		</plugin>
+	      </plugins>
+	    </build>
+	</profile>
+    </profiles>
 </project>

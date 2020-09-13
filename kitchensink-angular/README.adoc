@@ -21,21 +21,28 @@ The `kitchensink-angular` quickstart is a deployable Maven 3 project to help you
 
 This project is setup to allow you to create a compliant {javaVersion} application using CDI 1.2, EJB 3.2, JPA 2.1 and Bean Validation 1.1. It includes a persistence unit and some sample persistence and transaction code to introduce you to database access in enterprise Java.
 
-== Angular 10
-
-The Angular code is reusing some parts of the Angular 'Tour or Heroes tutorial', 
-https://angular.io/tutorial. Currently is is launched as a separate site:
+By default the site only includes the REST services. The UI can be included by using the profiles 'angular' or 'angularjs':
 
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
-$ cd angular-10
+$ mvn clean package -Pangular
+----
+
+== Angular 10
+
+The Angular code is reusing some parts of the Angular 'Tour or Heroes tutorial', 
+https://angular.io/tutorial. It can be launched as a separate site:
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ cd src/main/angular
 $ ng serve --open
 ----
 
 [[configure_the_server]]
 == Configure the Server
 
-The server must be configured to allow Cross-Origin Resource Sharing (CORS).
+If the UI runs in another server, the main server with the REST API must be configured to allow Cross-Origin Resource Sharing (CORS).
 
 You enable CORS by running JBoss CLI commands. For your convenience, this quickstart batches the commands into a `configure-CORS.cli` script provided in the root directory of this quickstart.
 
