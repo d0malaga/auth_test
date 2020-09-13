@@ -1,4 +1,6 @@
-<h2>Members</h2>
+<h2>
+    Members
+</h2>
 
 <em *ngIf="members.length == 0">No registered members.</em>
 <table [hidden]="members.length == 0" class="simpletablestyle">
@@ -8,13 +10,13 @@
       <th>Name</th>
       <th>Email</th>
       <th>Phone #</th>
-      <th>REST URL</th>
+      <th>Action</th>
     </tr>
   </thead>
 
   <tr *ngFor="let member of members; index as memberId">
 
-    <td>{{ memberId }}</td>
+    <td>{{ member.id }}</td>
     <td>{{ member.name }}</td>
     <td *ngIf="member.email">
       {{ member.email }}
@@ -28,15 +30,19 @@
    <td *ngIf="!member.phoneNumber">
       Undefined
     </td>
-    <button (click)="modify()">
-      Modify
-    </button>
+    <td>
+      <a title="Modify" [routerLink]="['/regmember', member.id]">
+	Modify
+      </a>
+    </td>
   </tr>
 </table>
 
 <div>
-        REST URL for all members: <a href="localhost:8080/kitchensink-angularjs/rest/members">/rest/members</a>
+  <button (click)="refresh()">
+    Refresh
+  </button>
+  <button [routerLink]="['/regmember', -1]">
+    Add member
+  </button>
 </div>
-<button (click)="refresh()">
-  Refresh
-</button>

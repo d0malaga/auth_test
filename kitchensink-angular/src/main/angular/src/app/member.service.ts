@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { MessageService } from './message.service';
-import { Member } from './member';
+import { Member, NewMember } from './member';
 
 @Injectable()
 
@@ -24,10 +24,11 @@ export class MemberService {
     private messageService: MessageService
   ) {}
 
+  /** GET all members */
   getMembers(): Observable<Member[]>  {
     return this.http.get<Member[]>(this.membersUrl)
         .pipe(
-           tap(_ => this.log('fetched heroes')),
+           tap(_ => this.log('fetched members from ' + this.membersUrl)),
            catchError(this.handleError<Member[]>('getMembers', []))
         );
   }
@@ -36,15 +37,15 @@ export class MemberService {
   getMember(id: number): Observable<Member> {
     const url = `${this.membersUrl}/${id}`;
     return this.http.get<Member>(url).pipe(
-      tap(_ => this.log(`fetched hero id=${id}`)),
+      tap(_ => this.log(`fetched member id=${id}`)),
       catchError(this.handleError<Member>(`getMember id=${id}`))
     );
   }
 
-  /** PUT: update the member on the server */
-  updateMember(member: Member): Observable<any> {
-    return this.http.put(this.membersUrl, member, this.httpOptions).pipe(
-      tap(_ => this.log(`updated member id=${member.id}`)),
+  /** POST: update the member on the server */
+  updateMember(member: NewMember): Observable<any> {
+    return this.http.post(this.membersUrl, JSON.stringify(member), this.httpOptions).pipe(
+      tap(_ => this.log(`Added member: ${member.name}`)),
       catchError(this.handleError<any>('updateMember'))
     );
   }

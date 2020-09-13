@@ -1,7 +1,11 @@
-export interface Member {
-  id: number;
+// Used when creating new members
+export interface NewMember {
   name: string;
   phoneNumber: number;
-  // phonenumber: string;
   email: string;
+}
+
+// When reading members the also have an id
+export interface Member extends NewMember {
+  id: number;
 }

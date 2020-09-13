@@ -23,14 +23,12 @@ export class MemberListComponent implements OnInit {
   ngOnInit() {
   }
 
-  modify() {
-    this.messageService.add('Todo: modify member');
-  }
-
   refresh() {
     // Need to subscribe to asynch Observable data
-    this.memberService.getMembers().subscribe(members => this.members = members);
-    this.messageService.add('Refresh: ' + JSON.stringify(this.members));
+    this.memberService.getMembers().subscribe(members => {
+      this.members = members;
+      this.messageService.add('Refresh: ' + JSON.stringify(this.members));
+      }
+    );
   }
-
 }

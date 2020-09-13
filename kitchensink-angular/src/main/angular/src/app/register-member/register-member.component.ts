@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 
 import { MessageService } from '../message.service';
-import { Member } from '../member';
+import { Member, NewMember } from '../member';
 import { MemberService } from '../member.service';
 
 @Component({
@@ -11,10 +12,11 @@ import { MemberService } from '../member.service';
   styleUrls: ['./register-member.component.css']
 })
 export class RegisterMemberComponent implements OnInit {
-
+  member;
   registerForm;
 
   constructor(
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private memberService: MemberService,
     private messageService: MessageService
@@ -27,6 +29,19 @@ export class RegisterMemberComponent implements OnInit {
   }
 
   ngOnInit() {
+    let mId: number = -1
+    this.route.paramMap.subscribe(params => {
+      // this.member = members[+params.get('memberId')];
+      mId = parseInt(params.get('memberId'));
+    });
+    // Need to subscribe to asynch Observable data
+    if (mId >= 0) {
+        this.memberService.getMember(mId).subscribe(member => {
+	    this.member = member;
+	    this.messageService.add("Called with: " + mId + " -> " + JSON.stringify(this.member));
+	    this.set(this.member)
+	});
+    }
   }
 
   reset() {
@@ -43,17 +58,14 @@ export class RegisterMemberComponent implements OnInit {
   }
 
   onSubmit(memberData) {
-    this.messageService.add("Todo - Register:" + memberData.name + ", "+ memberData.email + ", " + memberData.phoneNumber);
-    // window.alert("Register:" + memberData.name + ", "+ memberData.email + ", " + memberData.phoneNumber);
-
     memberData.name.trim();
     if (!memberData.name) { return; }
-    // const  newMember:Member = new Member(-1, memberData.name, memberData.email,memberData.phoneNumber);
+    const  newMember:NewMember = {name:memberData.name, phoneNumber:memberData.phoneNumber, email:memberData.email};
 
-    // this.memberService.updateMember({ newMember } as Member)
-    //   .subscribe(member => {
-    //        this.messageService.add('The new user has been registered' + memberData);
-    //  });
+    this.memberService.updateMember(newMember)
+      .subscribe(member => {
+           this.messageService.add('The new user has been registered: ' + memberData.name);
+      });
     this.registerForm.reset();
   }
 }

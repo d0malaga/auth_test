@@ -1,5 +1,13 @@
-<hello name="{{ name }}"></hello>
+<app-top-bar name="{{ name }}"></app-top-bar>
 
+<div class="container">
+  <router-outlet></router-outlet>
+</div>
+
+<!-- 
+Using routes sinstead of including all on one page
 <app-member-list></app-member-list>
 <app-register-member></app-register-member>
+-->
+
 <app-messages></app-messages>
