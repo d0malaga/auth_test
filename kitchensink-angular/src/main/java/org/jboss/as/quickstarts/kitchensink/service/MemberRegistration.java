@@ -42,4 +42,16 @@ public class MemberRegistration {
         em.persist(member);
         memberEventSrc.fire(member);
     }
+
+    public void update(Member member) throws Exception {
+        log.info("Updating " + member.getName());
+        em.merge(member);
+        memberEventSrc.fire(member);
+    }
+
+    public void remove(Member member) throws Exception {
+        log.info("Removing " + member.getName());
+        em.remove(member);
+        memberEventSrc.fire(member);
+    }
 }

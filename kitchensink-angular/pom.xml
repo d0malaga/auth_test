@@ -136,6 +136,13 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- Import the openapi, we use provided scope as the API is included in JBoss EAP 6, requires starting wildfly with -c standalone-microprofile.xml -->
+       <dependency>
+            <groupId>org.eclipse.microprofile.openapi</groupId>
+            <artifactId>microprofile-openapi-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- Import the JAX-RS API, we use provided scope as the API is included in JBoss EAP 6 -->
         <dependency>
             <groupId>org.jboss.spec.javax.ws.rs</groupId>
