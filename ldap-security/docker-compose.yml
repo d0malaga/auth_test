@@ -1,0 +1,36 @@
+version: "2"
+
+services:
+  ldap:
+    hostname: ldap
+    image: ldap-security-openldap:0.3.0
+    networks:
+      ldap-security:
+        aliases:
+          - ldap
+    ports:
+      - "389:389"
+    environment:
+      - LDAP_ORGANISATION=wildfly
+      - LDAP_DOMAIN=wildfly.org
+      - LDAP_ADMIN_PASSWORD=admin
+
+  web:
+    hostname: web
+    image: ldap-security-wildfly:0.3.0
+    networks:
+      ldap-security:
+        aliases:
+          - web
+    ports:
+      - "8080:8080"
+      - "9990:9990"
+      - "8787:8787"
+    environment:
+      - JCMS_JBOSS_SERVER_OPTS=--debug 8787
+
+networks:
+  ldap-security:
+
+
+
