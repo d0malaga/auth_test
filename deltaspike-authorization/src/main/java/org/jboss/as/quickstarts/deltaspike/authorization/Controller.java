@@ -38,10 +38,10 @@ public class Controller {
     @Inject
     private FacesContext facesContext;
 
-    //This method is allowed only to users with employee role
-    @EmployeeAllowed
-    public void employeeMethod() {
-        facesContext.addMessage(null, new FacesMessage("You executed a @EmployeeAllowed method"));
+    //This method is allowed only to users with user role
+    @AppuserAllowed
+    public void appuserMethod() {
+        facesContext.addMessage(null, new FacesMessage("You executed a @AppuserAllowed method"));
     }
 
     //This method is allowed only to users with admin role

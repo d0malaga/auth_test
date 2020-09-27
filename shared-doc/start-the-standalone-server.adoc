@@ -1,5 +1,5 @@
 [[start_the_eap_standalone_server]]
-= Start the {productName} Standalone Server
+= Old instructions for starting the {productName} Standalone Server
 //******************************************************************************
 // Include this template if your quickstart requires a normal start of a single
 // standalone server.
@@ -20,6 +20,8 @@
 //******************************************************************************
 
 include::define-standalone-server-attributes.adoc[]
+
+NOTE: This is no longer needed for basic use cases packaged into docker.
 
 . Open a terminal and navigate to the root of the {productName} directory.
 . Start the {productName} server with the {serverProfile} by typing the following command.

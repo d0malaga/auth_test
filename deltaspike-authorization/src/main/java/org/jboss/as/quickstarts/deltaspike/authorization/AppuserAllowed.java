@@ -34,6 +34,6 @@ import org.apache.deltaspike.security.api.authorization.SecurityBindingType;
 @Target({ ElementType.TYPE, ElementType.METHOD })
 @Documented
 @SecurityBindingType
-public @interface EmployeeAllowed {
+public @interface AppuserAllowed {
 
 }

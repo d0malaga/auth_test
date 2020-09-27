@@ -23,15 +23,32 @@ This quickstart uses secured management interfaces and requires that you create 
 |===
 |UserName |Realm |Password |Roles
 
-|quickstartUser |ApplicationRealm |quickstartPwd1! |{app-group-list}
+|guest |ApplicationRealm |abcd123 |{app-group-list}
+|appuser |ApplicationRealm |abcd123 |{app-group-list}
+|admin |ApplicationRealm |abcd123 |{app-group-list}
+|developer |ApplicationRealm |abcd123 |{app-group-list}
 |===
 
-To add the application user, open a terminal and type the following command:
+The users and their groups can be added to the Wildlfy image by updating the pom.xml file to run add-user.sh when the image is built:
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
-$ __{jbossHomeName}__/bin/add-user.sh -a -u 'quickstartUser' -p 'quickstartPwd1!' {app-group-command}
+	<configuration>
+	  <images>
+	    <image>
+	      <build>
+		<runCmds>
+		  <run>${jboss_home}/bin/add-user.sh -a -u 'appuser' -p 'abcd123' -g 'appuser'</run>
+		</runCmds>
+	      </build>
+	    </image>
+	  </images>
+	</configuration>
 ----
-NOTE: For Windows, use the `__{jbossHomeName}__\bin\add-user.bat` script.
 
-If you prefer, you can use the `add-user` utility interactively.
-For an example of how to use the add-user utility, see the instructions located here: link:{addApplicationUserDocUrl}[Add an Application User].
+
+To add the application user, open a terminal, connect to the container and use th add-suser.sh (works in a running Wildfly):
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __docker exec -ti deltaspike-web bash
+$jboss@web --$JBOSS_HOME/bin/add-user.sh -a -u 'admin' -p 'abcd123' -g 'admin' {app-group-command}
+----

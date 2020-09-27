@@ -1,0 +1,24 @@
+version: "2"
+
+services:
+  web:
+    hostname: web
+    container_name: deltaspike-web
+    # image: quickstarts/deltaspike-authorization:0.3.0
+    image: deltaspike-authorization:0.3.0
+    networks:
+      deltaspike-authorization:
+        aliases:
+          - web
+    ports:
+      - "8080:8080"
+      - "9990:9990"
+      - "8787:8787"
+    environment:
+      - JCMS_JBOSS_SERVER_OPTS=--debug 8787
+
+networks:
+  deltaspike-authorization:
+
+
+

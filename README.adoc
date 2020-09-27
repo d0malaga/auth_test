@@ -43,7 +43,7 @@ NOTE: Some of these quickstarts use the H2 database included with WildFly. It is
 [cols="1,1,2,1,1", options="header"]
 |===
 | Quickstart Name | Demonstrated Technologies | Description | Experience Level Required | Prerequisites 
-| link:deltaspike-authorization/README{outfilesuffix}[deltaspike-authorization]|JSF, CDI, Deltaspike | Demonstrate the creation of a custom authorization example using @SecurityBindingType from DeltaSpike | Beginner | _none_
+| link:deltaspike-authorization/README{outfilesuffix}[deltaspike-authorization]|JSF, CDI, Deltaspike, jkube, docker | Demonstrate the creation of a custom authorization example using @SecurityBindingType from DeltaSpike | Beginner | _none_
 | link:kitchensink-angular/README{outfilesuffix}[kitchensink-angular]|AngularJS, Angular 10, CDI, JPA, EJB, JPA, JAX-RS, BV | The `kitchensink-angular` quickstart demonstrates a {javaVersion} application using Angular JS/10 with JAX-RS, CDI, EJB, JPA, and Bean Validation. This is a modification using an Angular 10 UI.  | Intermediate | _none_
 | link:ldap-security/README{outfilesuffix}[ldap-security]|JSF, CDI, Deltaspike, WildFly Elytron, LDAP | Demonstrate how to configure Wildlfy Elytron for LDAP reusing the login/role UI code from Quickstart deltaspike-authorization. | Unknown | _none_
 | link:openid-security/README{outfilesuffix}[openid-security]|JSF, CDI, Deltaspike, WildFly Elytron, Keycloak, OpenID | Demonstrate how to configure Wildlfy Elytron with a keycloak Adapter for openid reusing the login/role UI code from Quickstart deltaspike-authorization.  | Unknown | _none_

@@ -33,6 +33,7 @@
             <url-pattern>/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
+            <role-name>appuser</role-name>
             <role-name>guest</role-name>
             <role-name>admin</role-name>
         </auth-constraint>

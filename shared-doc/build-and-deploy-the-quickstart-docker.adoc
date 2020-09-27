@@ -1,5 +1,5 @@
-[[build_and_deploy_the_quickstart]]
-= Build and Deploy the Quickstart to a local Wildfly
+[[build_and_deploy_the_quickstart_docker]]
+= Build and Deploy the Quickstart to docker
 //******************************************************************************
 // Include this template if your quickstart does a normal deployment of a archive.
 //
@@ -54,20 +54,19 @@ endif::archiveDir[]
 
 ifndef::mavenCommand[]
 ifeval::["{archiveType}"=="ear"]
-:mavenCommand: clean install wildfly:deploy
+:mavenCommand: clean install k8s:build
 endif::[]
 
 ifeval::["{archiveType}"=="war"]
-:mavenCommand: clean package wildfly:deploy
+:mavenCommand: clean package k8s:build
 endif::[]
 
 ifeval::["{archiveType}"=="jar"]
-:mavenCommand: clean install wildfly:deploy
+:mavenCommand: clean install k8s:build
 endif::[]
 
 endif::mavenCommand[]
 
-. Make sure you xref:start_the_eap_standalone_server[start the {productName} server] as described above.
 . Open a terminal and navigate to the root directory of this quickstart.
 . Type the following command to build the artifacts.
 +
@@ -76,6 +75,10 @@ endif::mavenCommand[]
 $ mvn {mavenCommand}
 ----
 
-This deploys the `{archiveDir}/{archiveFileName}` to the running instance of the server.
+This creates the docker image(s). You can start them by using:
+[source,subs="attributes+",options="nowrap"]
+----
+$ docker-compose up
+----
+which shows the log(s) in your shell. Type ctrl-c to stop all containers.
 
-You should see a message in the server log indicating that the archive deployed successfully.

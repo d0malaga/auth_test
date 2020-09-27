@@ -44,6 +44,7 @@ limitations under the License.
   <properties>
     <jkube.version>1.0.0</jkube.version>
     <jkube.enricher.jkube-service.type>NodePort</jkube.enricher.jkube-service.type>
+    <jboss_home>/opt/jboss/wildfly</jboss_home>
   </properties>
 
   <dependencyManagement>
@@ -202,22 +203,34 @@ limitations under the License.
 	<groupId>org.eclipse.jkube</groupId>
 	<artifactId>kubernetes-maven-plugin</artifactId>
 	<version>${jkube.version}</version>
+    <!--
+    -->
 	<configuration>
 	  <images>
 	    <image>
 	      <name>%a:%l</name>
 	      <alias>service</alias>
 	      <build>
+		<!--
+		<from>jboss/wildfly:19.0.0.Final</from>
+		-->
 		<from>jboss/wildfly:20.0.1.Final</from>
 		<user>jboss</user>
+		<runCmds>
+		  <run>${jboss_home}/bin/add-user.sh -a -u 'appuser' -p 'abcd123' -g 'appuser'</run>
+		  <run>${jboss_home}/bin/add-user.sh -a -u 'guest' -p 'abcd123' -g 'guest'</run>
+		  <run>${jboss_home}/bin/add-user.sh -a -u 'developer' -p 'abcd123' -g 'developer' -g 'appuser' -g 'admin'</run>
+		  <run>${jboss_home}/bin/add-user.sh -a -u 'admin' -p 'abcd123' -g 'admin'</run>
+		</runCmds>
 		<assembly>
 		  <user>jboss:jboss:jboss</user>
+		  <targetDir>${jboss_home}/standalone/deployments</targetDir>
 		</assembly>
 	      </build>
 	    </image>
 	  </images>
 	</configuration>
-      </plugin>
+     </plugin>
     </plugins>
   </build>
 </project>

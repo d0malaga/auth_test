@@ -3,17 +3,17 @@ include::../shared-doc/attributes.adoc[]
 = deltaspike-authorization: Demonstrate the creation of a custom authorization example using @SecurityBindingType from DeltaSpike
 :author: Rafael Benevides
 :level: Beginner
-:technologies: JSF, CDI, Deltaspike
+:technologies: JSF, CDI, Deltaspike, Docker, jkube
 
 [abstract]
-Demonstrate the creation of a custom authorization example using @SecurityBindingType from DeltaSpike
+Demonstrate the creation of a custom authorization example using @SecurityBindingType from DeltaSpike. This is an updated version of the Wildfly quickstart which uses the jkube maven plugin to create a docker file and reduces manual steps to get started without installing a local Wildfly.
 
 
 == What is it?
 
 Security binding is DeltaSpike feature that restricts who can invoke a method (under the covers, it uses interceptors).
 
-To restrict who can invoke a method, we create an annotation, called a security binding type. This quickstart has two security binding types - `@AdminAllowed` and `@GuestAllowed`.
+To restrict who can invoke a method, we create an annotation, called a security binding type. This quickstart has two security binding types - `@AdminAllowed` and `@AppuserAllowed`.
 
 The quickstart defines an `Authorizer` class that implements the restrictions for the security binding types. The authorizer is a CDI bean which defines methods (annotated with `@Secures) which perform the authorization checks for each security binding we create.
 
@@ -27,11 +27,8 @@ include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 // Add the Authorized Application and Management Users
 include::../shared-doc/add-application-user.adoc[leveloffset=+1]
-// Start the Server
-include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
-// Build and Deploy the Quickstart
-include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
-
+// Build and Deploy the Quickstart for Docker
+include::../shared-doc/build-and-deploy-the-quickstart-docker.adoc[leveloffset=+1]
 
 == Access the application
 
@@ -39,14 +36,17 @@ The application will be running at the following URL: http://localhost:8080/{art
 
 When you access the application you are redirected to a login form, already filled in with the details of the application user you set up above. Once you have logged into the application you see a page showing your username and two buttons.
 
-When you click on the `Employee Method` button you will see the following message: `You executed a @EmployeeAllowed method` - you are authorized to invoke this method.
+When you click on the `Appuser Method` button you will see the following message: `You executed a @AppuserAllowed method` - you are authorized to invoke this method.
 
 When you click on the `Admin Method` button, you are redirected to an error page with the following exception: `org.apache.deltaspike.security.api.authorization.AccessDeniedException` because you aren't authorized to invoke this method.
 
+
+// Start the Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 // Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
-// Run the Quickstart in Red Hat CodeReady Studio or Eclipse
-include::../shared-doc/run-the-quickstart-in-jboss-developer-studio.adoc[leveloffset=+1]
 
 == Debug the Application
 
@@ -57,3 +57,4 @@ If you want to debug the source code or look at the Javadocs of any library in t
 $ mvn dependency:sources
 $ mvn dependency:resolve -Dclassifier=javadoc
 ----
+
