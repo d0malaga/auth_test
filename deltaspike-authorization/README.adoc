@@ -29,6 +29,8 @@ include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 include::../shared-doc/add-application-user.adoc[leveloffset=+1]
 // Build and Deploy the Quickstart for Docker
 include::../shared-doc/build-and-deploy-the-quickstart-docker.adoc[leveloffset=+1]
+// Build and Deploy the Quickstart for Kubernetes
+include::../shared-doc/build-and-deploy-the-quickstart-kubernetes.adoc[leveloffset=+1]
 
 == Access the application
 

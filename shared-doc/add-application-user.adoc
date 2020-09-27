@@ -49,6 +49,6 @@ The users and their groups can be added to the Wildlfy image by updating the pom
 To add the application user, open a terminal, connect to the container and use th add-suser.sh (works in a running Wildfly):
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
-$ __docker exec -ti deltaspike-web bash
-$jboss@web --$JBOSS_HOME/bin/add-user.sh -a -u 'admin' -p 'abcd123' -g 'admin' {app-group-command}
+$ docker exec -ti deltaspike-web bash
+$jboss@web $JBOSS_HOME/bin/add-user.sh -a -u 'admin' -p 'abcd123' -g 'admin' {app-group-command}
 ----

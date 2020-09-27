@@ -1,5 +1,5 @@
 [[build_and_deploy_the_quickstart_docker]]
-= Build and Deploy the Quickstart to Docker
+= Build and Deploy the Quickstart to Kubernetes
 //******************************************************************************
 // Include this template if your quickstart does a normal deployment of a archive.
 //
@@ -17,9 +17,9 @@
 //   define the `archiveDir` variable, for example:
 //    :archiveDir: ear/target
 //
-// * To override the Maven command, define the `mvnDockerCommand` variable,
+// * To override the Maven command, define the `k8sCommand` variable,
 //   for example:
-//    :mvnDockerCommand: clean install wildfly:deploy
+//    :k8sCommand: clean install wildfly:deploy
 //******************************************************************************
 
 // The archive name defaults to the artifactId if not overridden
@@ -52,33 +52,41 @@ endif::[]
 
 endif::archiveDir[]
 
-ifndef::mvnDockerCommand[]
+ifndef::k8sCommand[]
 ifeval::["{archiveType}"=="ear"]
-:mvnDockerCommand: clean install k8s:build
+:k8sCommand: clean install k8s:build k8s:resource k85:apply
 endif::[]
 
 ifeval::["{archiveType}"=="war"]
-:mvnDockerCommand: clean package k8s:build
+:k8sCommand: clean install k8s:build k8s:resource k85:apply
 endif::[]
 
 ifeval::["{archiveType}"=="jar"]
-:mvnDockerCommand: clean install k8s:build
+:k8sCommand: clean install k8s:build k8s:resource k85:apply
 endif::[]
 
-endif::mvnDockerCommand[]
+endif::k8sCommand[]
 
 . Open a terminal and navigate to the root directory of this quickstart.
 . Type the following command to build the artifacts.
 +
 [source,subs="attributes+",options="nowrap"]
 ----
-$ mvn {mvnDockerCommand}
+$ mvn {k8sCommand}
 ----
 
-This creates the docker image(s). You can start them by using:
+This creates the docker image(s), Kubernetes definitions and deploys them to your Kubernetes cluster. You can stop them by typing:
 [source,subs="attributes+",options="nowrap"]
 ----
-$ docker-compose up
+$ mvn k8s:undeploy
 ----
-which shows the log(s) in your shell. Type ctrl-c to stop all containers.
+
+The Kubernetes services will use ports above 32000. You can find which port the server listens to by typing:
+
+[source,subs="attributes+",options="nowrap"]
+----
+$ kubectl get services
+NAME	                	TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+{artifactId}-http	NodePort    10.106.252.180   <none>        8080:32583/TCP   66s
+----
 

@@ -11,3 +11,5 @@
 The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
 
 All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
+
+The quickstarts builds Docker images that can be be run by docker-compose or Kubernetes. Some help services runs in docker images so at least docker is neccesary to run these examples.
