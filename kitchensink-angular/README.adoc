@@ -6,7 +6,7 @@ include::../shared-doc/attributes.adoc[]
 :technologies: AngularJS, Angular 10, CDI, JPA, EJB, JPA, JAX-RS, BV
 
 [abstract]
-The `kitchensink-angular` quickstart demonstrates a {javaVersion} application using Angular JS/10 with JAX-RS, CDI, EJB, JPA, and Bean Validation. This is a modification using an Angular 10 UI. 
+The `kitchensink-angular` quickstart demonstrates a {javaVersion} application using Angular JS/10 with JAX-RS, CDI, EJB, JPA, and Bean Validation. This is a modification using an Angular 10 UI. It is also updated to use the jkube maven plugin to create a docker file and reduce manual steps to get started without installing a local Wildfly.
 
 :standalone-server-type: default
 :archiveType: war
@@ -21,7 +21,7 @@ The `kitchensink-angular` quickstart is a deployable Maven 3 project to help you
 
 This project is setup to allow you to create a compliant {javaVersion} application using CDI 1.2, EJB 3.2, JPA 2.1 and Bean Validation 1.1. It includes a persistence unit and some sample persistence and transaction code to introduce you to database access in enterprise Java.
 
-By default the site only includes the REST services. The UI can be included by using the profiles 'angular' or 'angularjs':
+By default the site only includes the REST services. The UI can be included by using the profiles 'angular' (enabled by default) or 'angularjs':
 
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -58,9 +58,6 @@ You enable CORS by running JBoss CLI commands. For your convenience, this quicks
 ----
 $ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=configure-CORS.cli
 ----
-+
-NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
-+
 
 You should see the following result when you run the script:
 +
@@ -81,17 +78,17 @@ ifndef::EAPCDRelease[]
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 // Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
-// Start the {productName} Standalone Server
-include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
-// Build and Deploy the Quickstart
-include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+
+// Add the Authorized Application and Management Users
+include::../shared-doc/add-application-user.adoc[leveloffset=+1]
+// Build and Deploy the Quickstart for Docker
+include::../shared-doc/build-and-deploy-the-quickstart-docker.adoc[leveloffset=+1]
+// Build and Deploy the Quickstart for Kubernetes
+include::../shared-doc/build-and-deploy-the-quickstart-kubernetes.adoc[leveloffset=+1]
 
 == Access the Application
 
 The application will be running at the following URL: http://localhost:8080/{artifactId}/.
-
-// Undeploy the Quickstart
-include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
 endif::[]
 

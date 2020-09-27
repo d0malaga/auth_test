@@ -31,7 +31,6 @@ limitations under the License.
   <packaging>war</packaging>
   <name>Quickstart: deltaspike-authorization</name>
   <description>DeltaSpike Authorization: shows a custom authorization example using security binding types from DeltaSpike</description>
-  <url>http://wildfly.org</url>
 
   <licenses>
     <license>
