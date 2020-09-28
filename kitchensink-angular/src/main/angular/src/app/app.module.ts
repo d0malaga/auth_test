@@ -38,7 +38,7 @@ import { MessagesComponent } from './messages/messages.component';
   bootstrap:    [ AppComponent ],
   providers: [
     MemberService,
-    {provide: APP_BASE_HREF, useValue: '/'}
+    {provide: APP_BASE_HREF, useValue: '/kitchensink-angular'}
   ]  
 })
 export class AppModule { }

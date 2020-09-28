@@ -2,9 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+import { LocationStrategy, Location } from '@angular/common';
 
 import { MessageService } from './message.service';
 import { Member, NewMember } from './member';
+import { environment } from '../environments/environment';
 
 @Injectable()
 
@@ -12,8 +14,10 @@ export class MemberService {
 
   private membersUrlFile = 'assets/members2.json';  // URL to web api
   // Fails because webapp served from another server than API
-  private membersUrlCORS = 'http://localhost:8080/kitchensink-angularjs/rest/members'
-  private membersUrl = 'http://localhost:8080/kitchensink-angular/rest/members'
+  private membersUrlCORS = environment.API_URL + 'members'
+  // private membersUrl = location.origin + this.locationStrategy.getBaseHref() + '/rest';
+  private membersUrlTry = this.locationStrategy.getBaseHref() + '/rest/members';
+  private membersUrl = environment.API_URL + 'members'
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -21,7 +25,8 @@ export class MemberService {
 
   constructor(
     private http: HttpClient,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private locationStrategy: LocationStrategy
   ) {}
 
   /** GET all members */
