@@ -1,6 +1,7 @@
 export const environment = 
 {
-    production: false,
-    API_URL: 'http://localhost:8080/kitchensink-angular/rest/',
+    production: true,
+    // Relative path works when the UI is deployed with the rest API
+    API_URL: './rest/',
 };
 

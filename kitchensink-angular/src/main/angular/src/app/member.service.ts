@@ -14,12 +14,7 @@ export class MemberService {
 
   private membersUrlFile = 'assets/members2.json';  // URL to web api
 
-  // Fails because webapp served from another server
-  // unless the server add CORS for the api
-  private membersUrlCORS = environment.API_URL + 'members'
-
-  // Relative path works when deployed with the rest API
-  private membersUrl = './rest/members';
+  private membersUrl = environment.API_URL + 'members'
 
   private httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })

@@ -3,9 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "buildProduction0": "ng build --prod --base-href /",
+    "start": "ng serve --base-href /",
+    "build": "ng build --base-href /",
     "buildProduction": "ng build --prod --base-href /kitchensink-angular/ --deploy-url /kitchensink-angular/",
     "wrongbuildProduction": "ng build --prod --output-path ../webpack/angular-10",
     "test": "ng test",

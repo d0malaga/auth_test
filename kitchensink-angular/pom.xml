@@ -279,12 +279,22 @@ limitations under the License.
 		    <from>jboss/wildfly:20.0.1.Final</from>
 		    <user>jboss</user>
 		    <runCmds>
+		      <run>mv ${jboss_home}/standalone/deployments/cli ${jboss_home}/standalone/</run>
+		      <run>chmod a+x ${jboss_home}/standalone/cli/entrypoint_for_cli_scripts.sh</run>
+		      <run>${jboss_home}/standalone/cli/entrypoint_for_cli_scripts.sh --only-run-cli</run>
 		      <run>${jboss_home}/bin/add-user.sh -a -u 'appuser' -p 'abcd123' -g 'appuser'</run>
 		      <run>${jboss_home}/bin/add-user.sh -a -u 'guest' -p 'abcd123' -g 'guest'</run>
 		      <run>${jboss_home}/bin/add-user.sh -a -u 'developer' -p 'abcd123' -g 'developer' -g 'appuser' -g 'admin'</run>
 		      <run>${jboss_home}/bin/add-user.sh -a -u 'admin' -p 'abcd123' -g 'admin'</run>
 		    </runCmds>
 		    <assembly>
+		      <inline>
+			<fileSets>
+			  <fileSet>
+                            <directory>${project.basedir}/src/main/cli</directory>
+			  </fileSet>
+			</fileSets>
+                      </inline>
 		      <user>jboss:jboss:jboss</user>
 		      <targetDir>${jboss_home}/standalone/deployments</targetDir>
 		    </assembly>
