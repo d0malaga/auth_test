@@ -39,9 +39,9 @@ public class Controller {
     private FacesContext facesContext;
 
     //This method is allowed only to users with user role
-    @UserAllowed
-    public void userMethod() {
-        facesContext.addMessage(null, new FacesMessage("You executed a @UserAllowed method"));
+    @AppuserAllowed
+    public void appuserMethod() {
+        facesContext.addMessage(null, new FacesMessage("You executed a @AppuserAllowed method"));
     }
 
     //This method is allowed only to users with admin role

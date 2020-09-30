@@ -53,7 +53,7 @@ public class CustomAuthorizer {
     }
 
     /**
-     * This method is used to check if classes and methods annotated with {@link UserAllowed} can perform
+     * This method is used to check if classes and methods annotated with {@link AppuserAllowed} can perform
      * the operation or not
      *
      * @param invocationContext
@@ -62,9 +62,9 @@ public class CustomAuthorizer {
      * @throws Exception
      */
     @Secures
-    @UserAllowed
-    public boolean doUserCheck(InvocationContext invocationContext, BeanManager manager) throws Exception {
-        return facesContext.getExternalContext().isUserInRole("user");
+    @AppuserAllowed
+    public boolean doAppuserCheck(InvocationContext invocationContext, BeanManager manager) throws Exception {
+        return facesContext.getExternalContext().isUserInRole("appuser");
     }
 
 }

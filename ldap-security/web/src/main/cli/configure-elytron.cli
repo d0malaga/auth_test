@@ -4,7 +4,7 @@
 batch
 
 # configure a Directory Context with the URL of the LDAP Server and the information related to the Principal
-/subsystem=elytron/dir-context=exampleDC:add(url="ldap://localhost:389",principal="cn=admin,dc=wildfly,dc=org",credential-reference={clear-text="admin"})
+/subsystem=elytron/dir-context=exampleDC:add(url="${jboss.ldap.url,env.LDAPURL:ldap://192.168.1.155:389}",principal="cn=admin,dc=wildfly,dc=org",credential-reference={clear-text="admin"})
 
 # create an LDAP Realm which references the Directory Context, specifying the Search Base DN, how and Users are mapped
 /subsystem=elytron/ldap-realm=exampleLR:add(dir-context=exampleDC,identity-mapping={search-base-dn="ou=users,dc=wildfly,dc=org",rdn-identifier="uid",user-password-mapper={from="userPassword"},attribute-mapping=[{filter-base-dn="ou=roles,dc=wildfly,dc=org",filter="(&(objectClass=groupOfNames)(member={1}))",from="cn",to="Roles"}]})
