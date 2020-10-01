@@ -59,10 +59,43 @@
 		    <alias>service</alias>
 		    <build>
 		      <from>osixia/openldap</from>
+		      <env>
+			<LDAP_ORGANISATION>wildfly</LDAP_ORGANISATION>
+			<LDAP_DOMAIN>wildfly.org</LDAP_DOMAIN>
+			<LDAP_ADMIN_PASSWORD>admin</LDAP_ADMIN_PASSWORD>
+                      </env>
+		      <assembly>
+			<inline>
+			  <id>copy-ldif-file</id>
+			  <files>
+			    <file>
+                              <source>
+				${project.basedir}/src/main/resources/ldap_input.ldif
+                              </source>
+                              <outputDirectory>ldif</outputDirectory>
+			    </file>
+			  </files>
+			</inline>
+			<user>openldap:openldap</user>
+			<targetDir>/container/service/slapd/assets/config/bootstrap</targetDir>
+		      </assembly>
+                      <ports>
+			<port>389</port>
+			<port>636</port>
+                      </ports>
 		    </build>
 		  </image>
 		</images>
-              </configuration>
+		<enricher>
+		  <config>
+		    <jkube-service>
+		      <name>ldap-service</name>
+		      <type>NodePort</type>
+		      <multiPort>true</multiPort>
+		    </jkube-service>
+		  </config>
+		</enricher>
+	      </configuration>
 	    </plugin>
         </plugins>
     </build>

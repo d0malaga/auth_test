@@ -22,13 +22,22 @@ sn: guest
 uid: guest
 userPassword: abcd123
 
-dn: uid=administrator,ou=users,dc=wildfly,dc=org
+dn: uid=appuser,ou=users,dc=wildfly,dc=org
 objectClass: top
 objectClass: person
 objectClass: inetOrgPerson
-cn: administrator1
-sn: administrator
-uid: administrator
+cn: guest1
+sn: guest
+uid: guest
+userPassword: abcd123
+
+dn: uid=admin,ou=users,dc=wildfly,dc=org
+objectClass: top
+objectClass: person
+objectClass: inetOrgPerson
+cn: admin1
+sn: admin
+uid: admin
 userPassword: abcd123
 
 dn: ou=roles,dc=wildfly,dc=org
@@ -36,16 +45,28 @@ objectclass: top
 objectclass: organizationalUnit
 ou: roles
 
-dn: cn=admin,ou=roles,dc=wildfly,dc=org
-objectClass: top
-objectClass: groupOfNames
-cn: admin
-member: uid=administrator,ou=users,dc=wildfly,dc=org
-member: uid=developer,ou=users,dc=wildfly,dc=org
-
-dn: cn=user,ou=roles,dc=wildfly,dc=org
+dn: cn=guest,ou=roles,dc=wildfly,dc=org
 objectClass: top
 objectClass: groupOfNames
 cn: user
 member: uid=guest,ou=users,dc=wildfly,dc=org
+
+dn: cn=admin,ou=roles,dc=wildfly,dc=org
+objectClass: top
+objectClass: groupOfNames
+cn: admin
+member: uid=admin,ou=users,dc=wildfly,dc=org
+member: uid=developer,ou=users,dc=wildfly,dc=org
+
+dn: cn=appuser,ou=roles,dc=wildfly,dc=org
+objectClass: top
+objectClass: groupOfNames
+cn: user
+member: uid=appuser,ou=users,dc=wildfly,dc=org
+member: uid=developer,ou=users,dc=wildfly,dc=org
+
+dn: cn=developer,ou=roles,dc=wildfly,dc=org
+objectClass: top
+objectClass: groupOfNames
+cn: user
 member: uid=developer,ou=users,dc=wildfly,dc=org
