@@ -213,8 +213,8 @@ limitations under the License.
 		<!-- default values to allow non expanded env to be inserted in
                      wf config. Consider overriding them in runtime -->
 		<env>
-		  <LDAP_URL>url</LDAP_URL>
-		  <LDAP_ADMIN_PASSWORD>pwd</LDAP_ADMIN_PASSWORD>
+		  <LDAP_URL>ldap://ldap-service.default.svc.cluster.local:389</LDAP_URL>
+		  <LDAP_ADMIN_PASSWORD>admin</LDAP_ADMIN_PASSWORD>
                 </env>
 		<user>jboss</user>
 		<runCmds>
