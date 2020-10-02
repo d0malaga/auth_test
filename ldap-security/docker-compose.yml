@@ -28,6 +28,10 @@ services:
       - "8787:8787"
     environment:
       - JCMS_JBOSS_SERVER_OPTS=--debug 8787
+    environment:
+      - LDAP_URL=ldap://192.168.1.155:389
+      - LDAP_ADMIN_PASSWORD=admin
+
 
 networks:
   ldap-security:

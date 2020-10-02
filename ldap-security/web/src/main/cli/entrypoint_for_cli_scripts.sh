@@ -20,8 +20,9 @@ consider_cli_scripts() {
     #/init directory exists and contain cli scripts
     if [ -d ${1} ] && [ $(find ${1} -name "*.cli" | wc -l) -gt 0 ]; then
 
-	# Make sure cli values from env can be used
-	sed -i "s:<resolve-parameter-values>false</resolve-parameter-values>:<resolve-parameter-values>true</resolve-parameter-values>:g" $JBOSS_HOME/bin/jboss-cli.xml
+	# Make sure cli values from env are not expanded, the whole point
+	# is to insert env variables that can be used in runtime
+	sed -i "s:<resolve-parameter-values>.*</resolve-parameter-values>:<resolve-parameter-values>false</resolve-parameter-values>:g" $JBOSS_HOME/bin/jboss-cli.xml
         # store env so Java can read them
 	printenv > /tmp/env.properties
 	

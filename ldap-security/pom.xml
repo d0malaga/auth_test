@@ -47,14 +47,29 @@
   </properties>
 
   <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.eclipse.jkube</groupId>
+        <artifactId>kubernetes-maven-plugin</artifactId>
+        <version>${jkube.version}</version>
+      </dependency>
+    </dependencies>
   </dependencyManagement>
 
-  <dependencies>
-  </dependencies>
 
   <modules>
     <module>ldap</module>
     <module>web</module>
   </modules>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.eclipse.jkube</groupId>
+        <artifactId>kubernetes-maven-plugin</artifactId>
+        <version>${jkube.version}</version>
+      </plugin>
+    </plugins>
+  </build>
   
 </project>
