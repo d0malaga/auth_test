@@ -46,10 +46,24 @@
         </license>
     </licenses>
 
-    <properties>
-        <root.dir>${project.basedir}</root.dir>
+    <scm>
+        <connection>scm:git:ssh://git@github.com:d0malaga/auth_test.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:d0malaga/auth_test.git</developerConnection>
+    </scm>
+
+    <distributionManagement>
+      <repository>
+	<id>project.local</id>
+	<name>project.local, Keep deployed artifacts locally</name>
+	<url>file:${local_repo.dir}/local_repo</url>
+      </repository>
+    </distributionManagement>
+
+  <properties>
+       <local_repo.dir>/home/tomasa/src/web/auth_test</local_repo.dir>
         <jboss.home.name>/opt/wildfly-20.0.1.Final</jboss.home.name>
         <product.name>WildFly</product.name>
+
         <!-- A base list of dependency and plug-in version used in the various quick starts. -->
         <version.wildfly.maven.plugin>2.0.1.Final</version.wildfly.maven.plugin>
         <version.org.wildfly.checkstyle-config>1.0.7.Final</version.org.wildfly.checkstyle-config>
@@ -78,7 +92,7 @@
         -->
         <version.server.bom>20.0.1.Final</version.server.bom>
 
-        <!-- Versions of unmanaged dependencies -->
+        <!-- Versions of dependencies not managed by jboss.parent poms -->
         <version.arquillian.angularjs.graphene>1.2.0.Beta1</version.arquillian.angularjs.graphene>
         <version.com.nimbusds.jose.jwt>5.4</version.com.nimbusds.jose.jwt>
         <version.deltaspike.core>1.5.1</version.deltaspike.core>
@@ -117,6 +131,19 @@
     </dependencyManagement>
 
     <repositories>
+      <repository>
+	<id>project.local</id>
+	<name>project</name>
+	<url>file:${local_repo.dir}/local_repo</url>
+        <releases>
+          <enabled>true</enabled>
+          <updatePolicy>never</updatePolicy>
+        </releases>
+        <snapshots>
+          <enabled>true</enabled>
+          <updatePolicy>never</updatePolicy>
+        </snapshots>
+      </repository>
         <repository>
             <releases>
                 <enabled>true</enabled>

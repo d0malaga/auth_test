@@ -20,10 +20,6 @@
     <parent>
         <groupId>auth_test.quickstarts</groupId>
         <artifactId>quickstart-parent</artifactId>
-        <!--
-        Maintain separation between the artifact id and the version to help prevent
-        merge conflicts between commits changing the GA and those changing the V.
-        -->
         <version>0.3.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>

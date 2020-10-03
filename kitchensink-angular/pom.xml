@@ -169,6 +169,16 @@ limitations under the License.
     <finalName>${project.artifactId}</finalName>
   </build>
   <profiles>
+    <!-- The definitions in the parent is enough to build, but including a
+         reference here avoids building more when using the docs profile -->
+    <profile>
+      <id>docs</id>
+      <activation>
+        <property>
+          <name>release</name>
+        </property>
+      </activation>
+    </profile>
     <profile>
       <id>angularjs</id>
       <activation>

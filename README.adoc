@@ -39,6 +39,13 @@ Each quickstart provides the list of technologies demonstrated by the quickstart
 
 NOTE: Some of these quickstarts use the H2 database included with WildFly. It is a lightweight, relational example datasource that is used for examples only. It is not robust or scalable, is not supported, and should NOT be used in a production environment!
 
+NOTE: Some of these depends on each other and the setup inclues a local repo for its own artifacts. Due to have Maven dependencies work you may have to first deploy the main module, for example with the command:
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn -pl . deploy
+----
+
+
 //<TOC>
 [cols="1,1,2,1,1", options="header"]
 |===

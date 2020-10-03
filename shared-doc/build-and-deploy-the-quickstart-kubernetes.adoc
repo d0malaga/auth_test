@@ -1,4 +1,4 @@
-[[build_and_deploy_the_quickstart_docker]]
+[[build_and_deploy_the_quickstart_k8s]]
 = Build and Deploy the Quickstart to Kubernetes
 //******************************************************************************
 // Include this template if your quickstart does a normal deployment of a archive.

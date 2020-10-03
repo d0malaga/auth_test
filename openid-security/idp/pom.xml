@@ -14,15 +14,14 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>auth_test.quickstarts</groupId>
-        <artifactId>quickstart-parent</artifactId>
+        <artifactId>openid-security</artifactId>
         <version>0.3.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>openid-security</artifactId>
+    <artifactId>openid-security-keycloak</artifactId>
     <packaging>pom</packaging>
-    <name>Quickstart: openid-security</name>
-    <description>OPENID security: using Keycloak Elytron in Wildfly</description>
-    <url>http://wildfly.org</url>
+    <name>openid-security-keycloak</name>
+    <description>Keycloakd IdP configured for OpenID</description>
 
     <licenses>
         <license>
@@ -33,34 +32,61 @@
     </licenses>
 
   <properties>
-    <jkube.version>1.0.0</jkube.version>
-    <jkube.enricher.jkube-service.type>NodePort</jkube.enricher.jkube-service.type>
   </properties>
 
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.eclipse.jkube</groupId>
-        <artifactId>kubernetes-maven-plugin</artifactId>
-        <version>${jkube.version}</version>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-
-
-  <modules>
-    <module>web</module>
-    <module>idp</module>
-  </modules>
-
   <build>
+    <finalName>${project.artifactId}</finalName>
     <plugins>
       <plugin>
         <groupId>org.eclipse.jkube</groupId>
         <artifactId>kubernetes-maven-plugin</artifactId>
         <version>${jkube.version}</version>
+        <configuration>
+	  <images>
+	    <image>
+	      <name>%a:%l</name>
+	      <alias>service</alias>
+	      <build>
+		<from>quay.io/keycloak/keycloak:10.0.2</from>
+		<env>
+		  <LDAP_ORGANISATION>wildfly</LDAP_ORGANISATION>
+		  <LDAP_DOMAIN>wildfly.org</LDAP_DOMAIN>
+		  <LDAP_ADMIN_PASSWORD>admin</LDAP_ADMIN_PASSWORD>
+		  <KEYCLOAK_USER>admin</KEYCLOAK_USER>
+		  <KEYCLOAK_PASSWORD>admin</KEYCLOAK_PASSWORD>
+                </env>
+		<assembly>
+		  <inline>
+		    <id>copy-config-file</id>
+		    <files>
+		      <file>
+                        <source>
+			  ${project.basedir}/src/main/resources/idp_realm_auth_test.json
+                        </source>
+                        <outputDirectory>config</outputDirectory>
+		      </file>
+		    </files>
+		  </inline>
+		  <user>root:root:root</user>
+		  <targetDir>/tmp</targetDir>
+		</assembly>
+                <ports>
+		  <port>8080</port>
+                </ports>
+	      </build>
+	    </image>
+	  </images>
+	  <enricher>
+	    <config>
+	      <jkube-service>
+		<name>idp-service</name>
+		<type>NodePort</type>
+		<multiPort>true</multiPort>
+	      </jkube-service>
+	    </config>
+	  </enricher>
+	</configuration>
       </plugin>
     </plugins>
   </build>
-  
 </project>
