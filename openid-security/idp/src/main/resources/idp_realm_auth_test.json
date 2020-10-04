@@ -489,7 +489,7 @@
     "clientAuthenticatorType" : "client-secret",
     "secret" : "9544caf6-e40c-4523-9310-69cc9117d12e",
     "redirectUris" : [ "http://WEB_HOST:8080/openid-security/*" ],
-    "webOrigins" : [ "http://WEB_HOST:8080" ],
+    "webOrigins" : [ "*" ],
     "notBefore" : 0,
     "bearerOnly" : false,
     "consentRequired" : false,
@@ -1140,7 +1140,7 @@
     } ],
     "org.keycloak.storage.UserStorageProvider" : [ {
       "id" : "a6bd9499-1edb-489e-9269-594cbfacb945",
-      "name" : "ldap-security@docker",
+      "name" : "ldap-security@k8s",
       "providerId" : "ldap",
       "subComponents" : {
         "org.keycloak.storage.ldap.mappers.LDAPStorageMapper" : [ {
@@ -1251,7 +1251,7 @@
         "vendor" : [ "other" ],
         "uuidLDAPAttribute" : [ "uid" ],
         "allowKerberosAuthentication" : [ "false" ],
-        "connectionUrl" : [ "ldap://LDAP_HOST:389" ],
+        "connectionUrl" : [ "ldap://ldap-service.default.svc.cluster.local:389" ],
         "syncRegistrations" : [ "false" ],
         "authType" : [ "simple" ],
         "debug" : [ "false" ],

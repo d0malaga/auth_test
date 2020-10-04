@@ -14,24 +14,28 @@ Based on the keycloak docs:
 
 * https://www.keycloak.org/docs/latest/securing_apps/#jboss-eap-wildfly-adapter
 
-Requires:
+Included components:
 
- * Wildfly > 11, tested on Wildfly 19
+ * Wildfly > 11, tested on Wildfly 20
  * A configured LDAP (see ldap-security example)
- * A manually installed keycloak adapter for Wildfly
+ * An installed keycloak adapter for Wildfly
  * A configured IdP server, see below
 
-== Configure an IdP server
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 
-For the sake of simplicity, we will start a Containerised version of Keycloak, quay.io/keycloak/keycloak:10.0.x
+[[configure_the_idp]]
+== Configure the Identity provider (IdP)
+
+The IdP is based on Keycloak, quay.io/keycloak/keycloak:10.0.x. This image can take a json file as input to setup the configuration, in this case to find an ldap server and accept the wildfly app as a recognized service to authenticate.
+
+This is federated authentication where the browser communicates with the Idp and the service. Both these must be available as externel interfaces, it is not enough to only use docker or kubernetes networks.
+
+When running with docker-compose, there is a wrapper script that updates the Idp config to use ports on the host where docker-compose is started:
 
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
-# Use a prepackaged keycloak
-IMAGE=quay.io/keycloak/keycloak:10.0.0
-
-# Import predefined realm. Do not detach, log is useful for troubleshooting
-docker run --rm -p 8080:8080 --name keycloak_idp -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin -e  KEYCLOAK_IMPORT=/tmp/realm_data.json -v $(pwd)/idp_realm_auth_test.json:/tmp/realm_data.json $IMAGE
+idp/src/main/resources/idp_setup.sh
 ----
 
 A realm can be configured manually and then exported using commands like:
@@ -46,8 +50,14 @@ docker run --rm -d -p 8180:8080 --name kc_tmp -e KEYCLOAK_USER=admin -e KEYCLOAK
 docker exec -it kc_tmp /opt/jboss/keycloak/bin/standalone.sh -Djboss.socket.binding.port-offset=100 -Dkeycloak.migration.action=export -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.usersExportStrategy=REALM_FILE -Dkeycloak.migration.realmName=auth_test -Dkeycloak.migration.file=/tmp/export_realm.json
 ----
 
-[[configure_the_server]]
-== Configure the Server
+// Build and Deploy the Quickstart for Docker
+include::../shared-doc/build-and-deploy-the-quickstart-docker.adoc[leveloffset=+1]
+
+// Build and Deploy the Quickstart for Kubernetes
+include::../shared-doc/build-and-deploy-the-quickstart-kubernetes.adoc[leveloffset=+1]
+
+[[configure_the_wildfly]]
+== Configure the Wildfly manually
 
 The openid war file does not need any special JBoss CLI commands except for installing a Keycloak adapter, example from Dockerfile:
 
@@ -64,8 +74,4 @@ The application will be running at the following URL: http://<external ip>:8080/
 
 *Note*: With the IdP and the Wildfly running inside NAT:ed containers they cannot use localhost as the hostname. Both the IdP and Wildfly launch scripts takes environment variables like $IDP_HOST, $WEB_HOST. For openid to work they seems to have to be the same in all places, including the url you type in the browser to access the application.
 
-When you access the application you are redirected to a Keycloak login form. Once you have logged into the application you see a page showing your username and two buttons.
-
-When you click on the `User Method` button you will see the following message: `You executed a @UserAllowed method` - you are authorized to invoke this method.
-
-When you click on the `Admin Method` button, you are redirected to an error page with the following exception: `org.apache.deltaspike.security.api.authorization.AccessDeniedException` because you aren't authorized to invoke this method.
+When you access the application you are redirected to a Keycloak login form. Once you have logged into the application you see the deltaspike app welcome page.

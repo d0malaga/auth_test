@@ -10,7 +10,12 @@ ifndef::ProductRelease,EAPCDRelease[]
 [toc]
 
 [abstract]
-The quickstarts demonstrate Jakarta EE 8 and a few additional technologies from the WildFly stack. They provide small, specific, working examples that can be used as a reference for your own project.
+The original Wildlfy quickstarts demonstrate Jakarta EE 8 and a few additional technologies from the WildFly stack. They provide small, specific, working examples that can be used as a reference for your own project.
+
+These examples have been repackaged to use the jkube maven plugin to create a docker file and reduces manual steps to get started without installing a local Wildfly. Most of the examples can also be run in Kubernetes.
+
+The focus of the selected quickstarts relates to security and some parts are based on the Keycloak quickstarts. The Kitchensink is a rewrite of the WF quickstart AngularJS UI, using several examples from the Angular `Tour of heroes` tutorial.
+
 
 [[introduction]]
 == Introduction
@@ -23,13 +28,12 @@ Please consider running `mvn clean package -Pdocs` to render html documentation 
 
 == Plans
 
-1. copied from quickstart - deltaspike-authorization
-2. done - ldap-security using an openldap docker container
+1. copied from wf quickstart - deltaspike-authorization, adds jkube (docker+k8s)
+2. ldap-security using an openldap docker container instead of wf accounts
 3. openid-security using a keycloak 10.0.0 IdP container + service adapter
-4. saml-security using a keycloak 10.0.0 IdP container + service adapter
-5. Other UI than JSF...
+4. Angular 10 UI on top of WF kitchensink quickstart
+5. todo: saml-security using a keycloak 10.0.0 IdP container + service adapter
 
-// The following is included for all versions: WildFly, JBoss EAP, and EAP CD
 [[available_quickstarts]]
 == Table of Available Quickstarts
 

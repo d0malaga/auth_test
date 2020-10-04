@@ -11,10 +11,6 @@ The `kitchensink-angular` quickstart demonstrates a {javaVersion} application us
 :standalone-server-type: default
 :archiveType: war
 
-//*************************************************
-// Shared CD and Product Release content
-//*************************************************
-
 == What is it?
 
 The `kitchensink-angular` quickstart is a deployable Maven 3 project to help you get your foot in the door developing with AngularJS on {javaVersion} with {productNameFull}.
@@ -67,13 +63,6 @@ The batch executed successfully
 process-state: reload-required
 ----
 
-
-//*************************************************
-// Product Release content only
-//*************************************************
-
-ifndef::EAPCDRelease[]
-
 // System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 // Use of {jbossHomeName}
@@ -89,6 +78,4 @@ include::../shared-doc/build-and-deploy-the-quickstart-kubernetes.adoc[leveloffs
 == Access the Application
 
 The application will be running at the following URL: http://localhost:8080/{artifactId}/.
-
-endif::[]
 

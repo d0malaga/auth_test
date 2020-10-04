@@ -23,10 +23,6 @@ Methods on the `Controller` bean have been restricted using the security binding
 
 // System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
-// Use of {jbossHomeName}
-include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
-// Add the Authorized Application and Management Users
-include::../shared-doc/add-application-user.adoc[leveloffset=+1]
 // Build and Deploy the Quickstart for Docker
 include::../shared-doc/build-and-deploy-the-quickstart-docker.adoc[leveloffset=+1]
 // Build and Deploy the Quickstart for Kubernetes
@@ -42,6 +38,10 @@ When you click on the `Appuser Method` button you will see the following message
 
 When you click on the `Admin Method` button, you are redirected to an error page with the following exception: `org.apache.deltaspike.security.api.authorization.AccessDeniedException` because you aren't authorized to invoke this method.
 
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+// Add the Authorized Application and Management Users
+include::../shared-doc/add-application-user.adoc[leveloffset=+1]
 
 // Start the Server
 include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
@@ -59,4 +59,3 @@ If you want to debug the source code or look at the Javadocs of any library in t
 $ mvn dependency:sources
 $ mvn dependency:resolve -Dclassifier=javadoc
 ----
-

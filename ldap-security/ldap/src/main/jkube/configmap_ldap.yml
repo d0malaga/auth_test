@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ldap-settings
+data:
+  # property-like keys; each key maps to a simple value
+  ldap_domain: "wildfly.org"
+  ldap_admin_password: "admin"
+  # The service inside k8s
+  ldap_url: "ldap://ldap-service.default.svc.cluster.local:389"
+  # sample data, not yet used
+  ldap_properties_file_name: "ldap.properties"
+
+  # file-like keys
+  ldap.properties: |
+    userdir.src = ldif
+    userdir.type = openldap

@@ -11,27 +11,28 @@
     limitations under the License.
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>auth_test.quickstarts</groupId>
-        <artifactId>openid-security</artifactId>
-        <version>0.3.0</version>
-        <relativePath>../pom.xml</relativePath>
-    </parent>
-    <artifactId>openid-security-keycloak</artifactId>
-    <packaging>pom</packaging>
-    <name>openid-security-keycloak</name>
-    <description>Keycloakd IdP configured for OpenID</description>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>auth_test.quickstarts</groupId>
+    <artifactId>openid-security</artifactId>
+    <version>0.3.0</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  <artifactId>openid-security-keycloak</artifactId>
+  <packaging>pom</packaging>
+  <name>openid-security-keycloak</name>
+  <description>Keycloakd IdP configured for OpenID</description>
 
-    <licenses>
-        <license>
-            <name>Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
 
   <properties>
+    <keycloak_import_file>idp_realm_auth_test.json</keycloak_import_file>
   </properties>
 
   <build>
@@ -54,6 +55,7 @@
 		  <LDAP_ADMIN_PASSWORD>admin</LDAP_ADMIN_PASSWORD>
 		  <KEYCLOAK_USER>admin</KEYCLOAK_USER>
 		  <KEYCLOAK_PASSWORD>admin</KEYCLOAK_PASSWORD>
+		  <KEYCLOAK_IMPORT>/tmp/config/${keycloak_import_file}</KEYCLOAK_IMPORT>
                 </env>
 		<assembly>
 		  <inline>
@@ -61,7 +63,7 @@
 		    <files>
 		      <file>
                         <source>
-			  ${project.basedir}/src/main/resources/idp_realm_auth_test.json
+			  ${project.basedir}/src/main/resources/${keycloak_import_file}
                         </source>
                         <outputDirectory>config</outputDirectory>
 		      </file>

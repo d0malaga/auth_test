@@ -26,6 +26,7 @@ limitations under the License.
 
   <properties>
     <jboss_home>/opt/jboss/wildfly</jboss_home>
+    <keycloak_adapter>keycloak-wildfly-adapter-dist-10.0.1.tar.gz</keycloak_adapter>
   </properties>
 
   <licenses>
@@ -202,6 +203,61 @@ limitations under the License.
         <groupId>org.wildfly.plugins</groupId>
         <artifactId>wildfly-maven-plugin</artifactId>
         <version>${version.wildfly.maven.plugin}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.jkube</groupId>
+        <artifactId>kubernetes-maven-plugin</artifactId>
+        <version>${jkube.version}</version>
+        <configuration>
+	  <images>
+	    <image>
+	      <name>%a:%l</name>
+	      <alias>service</alias>
+	      <build>
+		<from>jboss/wildfly:20.0.1.Final</from>
+		<!-- default values to allow non expanded env to be inserted in
+                     wf config. Consider overriding them in runtime -->
+		<env>
+		  <LDAP_URL>ldap://ldap-service.default.svc.cluster.local:389</LDAP_URL>
+		  <LDAP_ADMIN_PASSWORD>admin</LDAP_ADMIN_PASSWORD>
+                </env>
+		<user>jboss</user>
+		<runCmds>
+		  <!-- Install wildfly adapter -->
+		  <run>mv ${jboss_home}/standalone/deployments/resources ${jboss_home}/standalone/</run>
+		  <run>cd ${jboss_home} &amp;&amp; tar zxf ${jboss_home}/standalone/resources/${keycloak_adapter} &amp;&amp; ${jboss_home}/bin/jboss-cli.sh --file=bin/adapter-elytron-install-offline.cli</run>
+		</runCmds>
+		<assembly>
+		  <inline>
+		    <fileSets>
+		      <fileSet>
+                        <directory>${project.basedir}/src/main/resources</directory>
+		      </fileSet>
+		    </fileSets>
+                  </inline>
+		  <user>jboss:jboss:jboss</user>
+		  <targetDir>${jboss_home}/standalone/deployments</targetDir>
+		</assembly>
+	      </build>
+	    </image>
+	  </images>
+          <resources>
+            <services>
+              <service>
+                <type>NodePort</type>
+                <name>${project.artifactId}-http</name>
+                <headless>false</headless>
+                <ports>
+                  <port>
+                    <protocol>tcp</protocol>
+                    <port>8080</port>
+                    <targetPort>8080</targetPort>
+                  </port>
+                </ports>
+	      </service>
+	    </services>
+          </resources>
+	</configuration>
       </plugin>
     </plugins>
   </build>
