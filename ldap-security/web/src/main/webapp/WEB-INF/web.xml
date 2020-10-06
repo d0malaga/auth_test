@@ -35,7 +35,7 @@
         <auth-constraint>
             <role-name>appuser</role-name>
             <role-name>guest</role-name>
-            <role-name>admin</role-name>
+            <role-name>appadmin</role-name>
         </auth-constraint>
     </security-constraint>
 
@@ -51,7 +51,7 @@
 
     <!-- Define application roles -->
     <security-role>
-        <role-name>admin</role-name>
+        <role-name>appadmin</role-name>
     </security-role>
     <security-role>
         <role-name>appuser</role-name>

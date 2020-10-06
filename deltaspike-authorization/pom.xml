@@ -218,8 +218,8 @@ limitations under the License.
 		<runCmds>
 		  <run>${jboss_home}/bin/add-user.sh -a -u 'appuser' -p 'abcd123' -g 'appuser'</run>
 		  <run>${jboss_home}/bin/add-user.sh -a -u 'guest' -p 'abcd123' -g 'guest'</run>
-		  <run>${jboss_home}/bin/add-user.sh -a -u 'developer' -p 'abcd123' -g 'developer' -g 'appuser' -g 'admin'</run>
-		  <run>${jboss_home}/bin/add-user.sh -a -u 'admin' -p 'abcd123' -g 'admin'</run>
+		  <run>${jboss_home}/bin/add-user.sh -a -u 'developer' -p 'abcd123' -g 'developer' -g 'appuser,appadmin'</run>
+		  <run>${jboss_home}/bin/add-user.sh -a -u 'appadmin' -p 'abcd123' -g 'appadmin'</run>
 		</runCmds>
 		<assembly>
 		  <user>jboss:jboss:jboss</user>

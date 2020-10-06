@@ -49,7 +49,7 @@ public class CustomAuthorizer {
     @Secures
     @AdminAllowed
     public boolean doAdminCheck(InvocationContext invocationContext, BeanManager manager) throws Exception {
-        return facesContext.getExternalContext().isUserInRole("admin");
+        return facesContext.getExternalContext().isUserInRole("appadmin");
     }
 
     /**

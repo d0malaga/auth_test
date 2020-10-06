@@ -19,13 +19,21 @@ wait_for_url() {
 consider_cli_scripts() {
     #/init directory exists and contain cli scripts
     if [ -d ${1} ] && [ $(find ${1} -name "*.cli" | wc -l) -gt 0 ]; then
-        #start standalone server in admin only mode
+
+	# Make sure cli values from env are not expanded, the whole point
+	# is to insert env variables that can be used in runtime
+	sed -i "s:<resolve-parameter-values>.*</resolve-parameter-values>:<resolve-parameter-values>false</resolve-parameter-values>:g" $JBOSS_HOME/bin/jboss-cli.xml
+        # store env so Java can read them
+	printenv > /tmp/env.properties
+	
+	#start standalone server in admin only mode
         $JBOSS_HOME/bin/standalone.sh --admin-only &
         #wait for cli to be available
         wait_for_url http://localhost:9990
         for s in ${1}/*.cli; do
             #execute cli script
-            $JBOSS_HOME/bin/jboss-cli.sh --connect --file=$s
+	    echo "Running cli: $s"
+            $JBOSS_HOME/bin/jboss-cli.sh --connect --properties=/tmp/env.properties --file=$s 
         done
         #shutdown admin only server
         $JBOSS_HOME/bin/jboss-cli.sh --connect --command=shutdown
@@ -35,6 +43,7 @@ consider_cli_scripts() {
 # Special case when using this in Dockerfiles and not as an entry point
 if [ "$1" = "--only-run-cli" ]; then
     consider_cli_scripts $(dirname $0)
+    echo Done
 #docker run [COMMAND] not provided, only entrypoint
 elif [ "$#" -eq 0 ]; then
     consider_cli_scripts $(dirname $0)

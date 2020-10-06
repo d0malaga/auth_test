@@ -31,13 +31,13 @@ sn: guest
 uid: guest
 userPassword: abcd123
 
-dn: uid=admin,ou=users,dc=wildfly,dc=org
+dn: uid=appadmin,ou=users,dc=wildfly,dc=org
 objectClass: top
 objectClass: person
 objectClass: inetOrgPerson
-cn: admin1
-sn: admin
-uid: admin
+cn: appadmin1
+sn: appadmin
+uid: appadmin
 userPassword: abcd123
 
 dn: ou=roles,dc=wildfly,dc=org
@@ -51,11 +51,11 @@ objectClass: groupOfNames
 cn: user
 member: uid=guest,ou=users,dc=wildfly,dc=org
 
-dn: cn=admin,ou=roles,dc=wildfly,dc=org
+dn: cn=appadmin,ou=roles,dc=wildfly,dc=org
 objectClass: top
 objectClass: groupOfNames
-cn: admin
-member: uid=admin,ou=users,dc=wildfly,dc=org
+cn: appadmin
+member: uid=appadmin,ou=users,dc=wildfly,dc=org
 member: uid=developer,ou=users,dc=wildfly,dc=org
 
 dn: cn=appuser,ou=roles,dc=wildfly,dc=org
