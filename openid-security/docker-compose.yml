@@ -1,4 +1,4 @@
-version: "2"
+version: "3"
 
 services:
   ldap:
@@ -25,11 +25,11 @@ services:
     ports:
       - "8081:8080"
     environment:
+      - WEB_URL=http://${THIS_HOST:?err}:8080/openid-security-wildfly
+      - LDAP_URL=ldap://${THIS_HOST:?err}:389
+      # todo: - LDAP_ADMIN_PASSWORD=admin
       - KEYCLOAK_USER=admin
       - KEYCLOAK_PASSWORD=admin
-      - KEYCLOAK_IMPORT=/tmp/realm_data.json
-    volumes:
-      - /tmp/realm_data.json:/tmp/realm_data.json
 
   web:
     hostname: web
@@ -44,10 +44,7 @@ services:
       - "8787:8787"
     environment:
       - JCMS_JBOSS_SERVER_OPTS=--debug 8787
-    environment:
-      - LDAP_URL=ldap://192.168.1.155:389
-      - LDAP_ADMIN_PASSWORD=admin
-
+      - IDP_URL=http://${THIS_HOST:?err}:8081/auth/
 
 networks:
   openid-security:

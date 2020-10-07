@@ -49,8 +49,8 @@
 
 
   <modules>
-    <module>web</module>
     <module>idp</module>
+    <module>web</module>
   </modules>
 
   <build>

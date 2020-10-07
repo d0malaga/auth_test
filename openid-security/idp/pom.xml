@@ -55,7 +55,6 @@
 		  <LDAP_ADMIN_PASSWORD>admin</LDAP_ADMIN_PASSWORD>
 		  <KEYCLOAK_USER>admin</KEYCLOAK_USER>
 		  <KEYCLOAK_PASSWORD>admin</KEYCLOAK_PASSWORD>
-		  <KEYCLOAK_IMPORT>/tmp/config/${keycloak_import_file}</KEYCLOAK_IMPORT>
                 </env>
 		<assembly>
 		  <inline>
@@ -67,11 +66,25 @@
                         </source>
                         <outputDirectory>config</outputDirectory>
 		      </file>
+		      <file>
+                        <source>
+			  ${project.basedir}/src/main/resources/entrypoint.sh
+                        </source>
+                        <outputDirectory>config</outputDirectory>
+		      </file>
 		    </files>
 		  </inline>
-		  <user>root:root:root</user>
+		  <user>jboss:jboss:root</user>
 		  <targetDir>/tmp</targetDir>
 		</assembly>
+		<runCmds>
+		  <!-- Prepare entrypoint and realm file -->
+		  <run>[ "${keycloak_import_file}" = "realm_data.json" ] || mv /tmp/config/${keycloak_import_file} /tmp/config/realm_data.json</run>
+		  <run>chmod a+x /tmp/config/entrypoint.sh</run>
+		</runCmds>
+		<entryPoint>
+		  <shell>/tmp/config/entrypoint.sh</shell>
+		</entryPoint>
                 <ports>
 		  <port>8080</port>
                 </ports>

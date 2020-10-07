@@ -27,16 +27,18 @@ include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 [[configure_the_idp]]
 == Configure the Identity provider (IdP)
 
-The IdP is based on Keycloak, quay.io/keycloak/keycloak:10.0.x. This image can take a json file as input to setup the configuration, in this case to find an ldap server and accept the wildfly app as a recognized service to authenticate.
+The IdP image is based on Keycloak, quay.io/keycloak/keycloak:10.0.x. This image can take a json file as input to setup a realm, in this case to find an ldap server and accept the wildfly app as a recognized service to authenticate.
 
 This is federated authentication where the browser communicates with the Idp and the service. Both these must be available as externel interfaces, it is not enough to only use docker or kubernetes networks.
 
-When running with docker-compose, there is a wrapper script that updates the Idp config to use ports on the host where docker-compose is started:
+When running with docker-compose you must tell the containers where they can find each other by defining the varable ${THIS_HOST}. This will be used to define ldap/webapp/idp urls, and patch the realm file inside the IdP image before launching keycloak. Note that localhost/127.0.0.1 cannot be used because each container is their own localhost.
 
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
-idp/src/main/resources/idp_setup.sh
+env THIS_HOST=192.168.1.155 docker-compose up
 ----
+
+See more details about launching an IdP in the script idp/src/main/resources/idp_setup.sh.
 
 A realm can be configured manually and then exported using commands like:
 

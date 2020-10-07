@@ -5,7 +5,7 @@
 # Can be used to preapre a docker-compose or launch a single IdP container
 # by adding argument -launch
 
-# settings for confbox ldap, access, tic
+# settings for a VM without a real dns name
 # if ldap/web have real dns names you can use those instead of ip address
 if [ -z "$WEB_HOST" -a -z "$WEB_URL" ]; then
     WEB_HOST=$(ip route get 8.8.8.8 | head -1 | cut -d' ' -f7)
