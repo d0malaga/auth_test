@@ -26,9 +26,9 @@ dn: uid=appuser,ou=users,dc=wildfly,dc=org
 objectClass: top
 objectClass: person
 objectClass: inetOrgPerson
-cn: guest1
-sn: guest
-uid: guest
+cn: appuser1
+sn: appuser
+uid: appuser
 userPassword: abcd123
 
 dn: uid=appadmin,ou=users,dc=wildfly,dc=org

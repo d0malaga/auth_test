@@ -35,6 +35,7 @@
   <properties>
     <jkube.version>1.0.0</jkube.version>
     <jkube.enricher.jkube-service.type>NodePort</jkube.enricher.jkube-service.type>
+    <this.host>${env.THIS_HOST}</this.host>
   </properties>
 
   <dependencyManagement>

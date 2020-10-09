@@ -113,6 +113,7 @@ limitations under the License.
                     <protocol>tcp</protocol>
                     <port>8080</port>
                     <targetPort>8080</targetPort>
+                    <nodePort>31080</nodePort>
                   </port>
                 </ports>
 	      </service>

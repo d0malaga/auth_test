@@ -91,15 +91,17 @@
 	      </build>
 	    </image>
 	  </images>
+	  <!-- Didn't seem to include setting external nodeport #, use fragment instead
 	  <enricher>
 	    <config>
 	      <jkube-service>
 		<name>idp-service</name>
 		<type>NodePort</type>
-		<multiPort>true</multiPort>
+		<expose>true</expose>
 	      </jkube-service>
 	    </config>
 	  </enricher>
+	  -->
 	</configuration>
       </plugin>
     </plugins>

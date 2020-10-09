@@ -81,7 +81,7 @@ This creates the docker image(s), Kubernetes definitions and deploys them to you
 $ mvn k8s:undeploy
 ----
 
-The Kubernetes services will use ports above 32000. You can find which port the server listens to by typing:
+The Kubernetes services will use ports above in the range 30000-32767. You can find which port the server listens to by typing:
 
 [source,subs="attributes+",options="nowrap"]
 ----
