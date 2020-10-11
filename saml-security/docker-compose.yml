@@ -1,0 +1,50 @@
+version: "3"
+
+services:
+  ldap:
+    hostname: ldap
+    image: ldap-security-openldap:0.3.0
+    networks:
+      saml-security:
+        aliases:
+          - ldap
+    ports:
+      - "389:389"
+    environment:
+      - LDAP_ORGANISATION=wildfly
+      - LDAP_DOMAIN=wildfly.org
+      - LDAP_ADMIN_PASSWORD=admin
+
+  idp:
+    hostname: idp
+    image: saml-security-keycloak:0.3.0
+    networks:
+      saml-security:
+        aliases:
+          - idp
+    ports:
+      - "8081:8080"
+    environment:
+      - WEB_URL=http://${THIS_HOST:?err}:8080/saml-security-wildfly
+      - LDAP_URL=ldap://${THIS_HOST:?err}:389
+      # todo: - LDAP_ADMIN_PASSWORD=admin
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+
+  web:
+    hostname: web
+    image: saml-security-wildfly:0.3.0
+    networks:
+      saml-security:
+        aliases:
+          - web
+    ports:
+      - "8080:8080"
+      - "9990:9990"
+      - "8787:8787"
+    environment:
+      - JCMS_JBOSS_SERVER_OPTS=--debug 8787
+      - IDP_URL=http://${THIS_HOST:?err}:8081/auth/
+
+networks:
+  saml-security:

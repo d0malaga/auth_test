@@ -1,0 +1,21 @@
+<keycloak-saml-adapter>
+    <SP entityID="saml-security"
+        sslPolicy="NONE"
+        logoutPage="SPECIFY YOUR LOGOUT PAGE!">
+        <IDP entityID="idp">
+            <SingleSignOnService signRequest="false"
+                                 validateResponseSignature="true"
+                                 validateAssertionSignature="false"
+                                 requestBinding="POST"
+                                 bindingUrl="${env.IDP_URL}"/>
+            <SingleLogoutService signRequest="false"
+                                 signResponse="false"
+                                 validateRequestSignature="true"
+                                 validateResponseSignature="true"
+                                 requestBinding="POST"
+                                 responseBinding="POST"
+                                 postBindingUrl="${env.IDP_URL}"
+                                 redirectBindingUrl="${env.IDP_URL}"/>
+        </IDP>
+    </SP>
+</keycloak-saml-adapter>

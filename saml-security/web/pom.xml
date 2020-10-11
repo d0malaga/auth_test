@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>auth_test.quickstarts</groupId>
+    <artifactId>saml-security</artifactId>
+    <version>0.3.0</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  <artifactId>saml-security-wildfly</artifactId>
+  <packaging>war</packaging>
+  <name>saml-security-wildfly</name>
+  <description>OPENID security: using Keycloak Elytron in Wildfly</description>
+  <url>http://wildfly.org</url>
+
+  <properties>
+    <jboss_home>/opt/jboss/wildfly</jboss_home>
+    <keycloak_adapter>keycloak-saml-wildfly-adapter-dist-10.0.2.tar.gz</keycloak_adapter>
+  </properties>
+
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>auth_test.quickstarts</groupId>
+        <artifactId>deltaspike-authorization</artifactId>
+        <version>${project.version}</version>
+        <type>war</type>
+        <scope>compile</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>auth_test.quickstarts</groupId>
+      <artifactId>deltaspike-authorization</artifactId>
+      <type>war</type>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <finalName>${project.artifactId}</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.wildfly.plugins</groupId>
+        <artifactId>wildfly-maven-plugin</artifactId>
+        <version>${version.wildfly.maven.plugin}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.jkube</groupId>
+        <artifactId>kubernetes-maven-plugin</artifactId>
+        <version>${jkube.version}</version>
+        <configuration>
+	  <images>
+	    <image>
+	      <name>%a:%l</name>
+	      <alias>service</alias>
+	      <build>
+		<from>jboss/wildfly:20.0.1.Final</from>
+		<!-- default values to allow non expanded env to be inserted in
+                     wf config. Consider overriding them in runtime -->
+		<env>
+		  <IDP_URL>http://external-ip:8081/auth</IDP_URL>
+                </env>
+		<user>jboss</user>
+		<runCmds>
+		  <!-- Install wildfly adapter -->
+		  <run>mv ${jboss_home}/standalone/deployments/resources ${jboss_home}/standalone/</run>
+		  <run>cd ${jboss_home} &amp;&amp; tar zxf ${jboss_home}/standalone/resources/${keycloak_adapter} &amp;&amp; ${jboss_home}/bin/jboss-cli.sh --file=bin/adapter-elytron-install-saml-offline.cli</run>
+		</runCmds>
+		<assembly>
+		  <inline>
+		    <fileSets>
+		      <fileSet>
+                        <directory>${project.basedir}/src/main/resources</directory>
+		      </fileSet>
+		    </fileSets>
+                  </inline>
+		  <user>jboss:jboss:jboss</user>
+		  <targetDir>${jboss_home}/standalone/deployments</targetDir>
+		</assembly>
+	      </build>
+	    </image>
+	  </images>
+          <resources>
+            <services>
+              <service>
+                <type>NodePort</type>
+                <name>${project.artifactId}-http</name>
+                <headless>false</headless>
+                <ports>
+                  <port>
+                    <protocol>tcp</protocol>
+                    <port>8080</port>
+                    <targetPort>8080</targetPort>
+                    <nodePort>31080</nodePort>
+                  </port>
+                </ports>
+	      </service>
+	    </services>
+          </resources>
+	</configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
