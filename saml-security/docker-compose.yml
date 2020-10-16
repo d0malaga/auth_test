@@ -18,6 +18,8 @@ services:
   idp:
     hostname: idp
     image: saml-security-keycloak:0.3.0
+    volumes:
+      - ".:/tmp/output"
     networks:
       saml-security:
         aliases:
@@ -44,7 +46,7 @@ services:
       - "8787:8787"
     environment:
       - JCMS_JBOSS_SERVER_OPTS=--debug 8787
-      - IDP_URL=http://${THIS_HOST:?err}:8081/auth/
+      - IDP_URL=http://${THIS_HOST:?err}:8081/auth/realms/auth_test/protocol/saml
 
 networks:
   saml-security:

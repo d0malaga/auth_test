@@ -7,15 +7,15 @@
                                  validateResponseSignature="true"
                                  validateAssertionSignature="false"
                                  requestBinding="POST"
-                                 bindingUrl="${env.IDP_URL}"/>
+                                 bindingUrl="${saml.IDP_URL}"/>
             <SingleLogoutService signRequest="false"
                                  signResponse="false"
                                  validateRequestSignature="true"
                                  validateResponseSignature="true"
                                  requestBinding="POST"
                                  responseBinding="POST"
-                                 postBindingUrl="${env.IDP_URL}"
-                                 redirectBindingUrl="${env.IDP_URL}"/>
+                                 postBindingUrl="${saml.IDP_URL}"
+                                 redirectBindingUrl="${saml.IDP_URL}"/>
         </IDP>
     </SP>
 </keycloak-saml-adapter>

@@ -83,14 +83,24 @@ limitations under the License.
 		  <IDP_URL>http://external-ip:8081/auth</IDP_URL>
                 </env>
 		<user>jboss</user>
+		<cmd>
+		  <shell>/opt/jboss/wildfly/bin/standalone.sh -b  0.0.0.0 -Dsaml.IDP_URL=$IDP_URL</shell>
+		</cmd>
 		<runCmds>
 		  <!-- Install wildfly adapter -->
 		  <run>mv ${jboss_home}/standalone/deployments/resources ${jboss_home}/standalone/</run>
 		  <run>cd ${jboss_home} &amp;&amp; tar zxf ${jboss_home}/standalone/resources/${keycloak_adapter} &amp;&amp; ${jboss_home}/bin/jboss-cli.sh --file=bin/adapter-elytron-install-saml-offline.cli</run>
+		  <!-- Enable property replacement -->
+		  <run>mv ${jboss_home}/standalone/deployments/cli ${jboss_home}/standalone/</run>
+		  <run>chmod a+x ${jboss_home}/standalone/cli/entrypoint_for_cli_scripts.sh</run>
+		  <run>${jboss_home}/standalone/cli/entrypoint_for_cli_scripts.sh --only-run-cli</run>
 		</runCmds>
 		<assembly>
 		  <inline>
 		    <fileSets>
+		      <fileSet>
+                        <directory>${project.basedir}/src/main/cli</directory>
+		      </fileSet>
 		      <fileSet>
                         <directory>${project.basedir}/src/main/resources</directory>
 		      </fileSet>

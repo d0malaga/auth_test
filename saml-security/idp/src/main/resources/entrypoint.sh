@@ -14,7 +14,7 @@ KEYCLOAK_REALM_FILE=/tmp/config/realm_data.json
 echo "Patching realm file: $KEYCLOAK_REALM_FILE"
 echo $LDAP_URL
 echo $WEB_URL
-sed -i "s;http://.*/saml-security;${WEB_URL};g" ${KEYCLOAK_REALM_FILE}
+sed -i "s;http.*/saml-security-wildfly;${WEB_URL};g" ${KEYCLOAK_REALM_FILE}
 sed -i "s;ldap://.*:389;${LDAP_URL};g" ${KEYCLOAK_REALM_FILE}
 
 # From base image docs, will load this on start

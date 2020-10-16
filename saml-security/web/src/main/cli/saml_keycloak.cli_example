@@ -1,0 +1,22 @@
+/subsystem=keycloak-saml/secure-deployment=YOUR-WAR.war/:add
+
+/subsystem=keycloak-saml/secure-deployment=YOUR-WAR.war/SP="http://192.168.59.110:8080/saml-security-wildfly"/:add(sslPolicy=EXTERNAL,logoutPage="SPECIFY YOUR LOGOUT PAGE!"
+
+/subsystem=keycloak-saml/secure-deployment=YOUR-WAR.war/SP="http://192.168.59.110:8080/saml-security-wildfly"/IDP=idp/:add( \
+    SingleSignOnService={ \
+        signRequest=false, \
+        validateResponseSignature=true, \
+        validateAssertionSignature=false, \
+        requestBinding=POST, \
+        bindingUrl=http://192.168.59.110:8081/auth/realms/auth_test/protocol/saml}, \
+    SingleLogoutService={ \
+        signRequest=false, \
+        signResponse=false, \
+        validateRequestSignature=true, \
+        validateResponseSignature=true, \
+        requestBinding=POST, \
+        responseBinding=POST, \
+        postBindingUrl=http://192.168.59.110:8081/auth/realms/auth_test/protocol/saml, \
+        redirectBindingUrl=http://192.168.59.110:8081/auth/realms/auth_test/protocol/saml} \
+)
+
