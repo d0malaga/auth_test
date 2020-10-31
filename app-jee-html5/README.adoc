@@ -1,0 +1,91 @@
+include::../shared-doc/attributes.adoc[]
+
+= app-jee-html5: docker repackaging of keycloak quickstart
+:author: Tomas Aronsson
+:level: Unknown
+:technologies: html5, WildFly Elytron, Keycloak, OpenID
+
+[abstract]
+Demonstrate how to configure Wildlfy Elytron with a keycloak Adapter for openid reusing the login/role UI code from app-jee-html5. 
+
+== What is it?
+
+Based on the keycloak docs/quickstarts:
+
+* https://www.keycloak.org/docs/latest/securing_apps/#jboss-eap-wildfly-adapter
+* https://github.com/keycloak/keycloak-quickstarts/tree/latest/app-jee-html5
+* https://github.com/keycloak/keycloak-quickstarts/tree/latest/service-jee-jaxrs
+
+Included components:
+
+ * Wildfly > 11, tested on Wildfly 20
+ * An installed keycloak adapter for Wildfly
+ * A configured IdP server, see below
+
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+
+[[configure_the_idp]]
+== Configure the Identity provider (IdP)
+
+The IdP image is based on Keycloak, quay.io/keycloak/keycloak:10.0.x. This image can take a json file as input to setup a realm, in this case to find an ldap server and accept the wildfly app as a recognized service to authenticate.
+
+This is federated authentication where the browser communicates with the Idp and the service. Both these must be available as externel interfaces, it is not enough to only use docker or kubernetes networks.
+
+When running with docker-compose you must tell the containers where they can find each other by defining the varable ${THIS_HOST}. This will be used to define ldap/webapp/idp urls, and patch the realm file inside the IdP image before launching keycloak. Note that localhost/127.0.0.1 cannot be used because each container is their own localhost.
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+env THIS_HOST=192.168.1.155 docker-compose up
+----
+
+In a similar way the Kubernetes deployment uses nodePort mappings to expose ports on the host and needs to know $THIS_HOST:
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+env THIS_HOST=192.168.1.155 mvn k8s:resources
+----
+
+See more details about launching an IdP in the script idp/src/main/resources/idp_setup.sh.
+
+A realm can be configured manually and then exported using commands like:
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+# Start an empty Idp, mount an export dir
+mkdir tmp
+docker run --rm -d -p 8180:8080 --name kc_tmp -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin -v $(pwd)/tmp:/tmp $IMAGE
+
+# Manually define a new realm called auth_test and export it from the docker
+docker exec -it kc_tmp /opt/jboss/keycloak/bin/standalone.sh -Djboss.socket.binding.port-offset=100 -Dkeycloak.migration.action=export -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.usersExportStrategy=REALM_FILE -Dkeycloak.migration.realmName=auth_test -Dkeycloak.migration.file=/tmp/export_realm.json
+----
+
+// Build and Deploy the Quickstart for Docker
+include::../shared-doc/build-and-deploy-the-quickstart-docker.adoc[leveloffset=+1]
+
+// Build and Deploy the Quickstart for Kubernetes
+include::../shared-doc/build-and-deploy-the-quickstart-kubernetes.adoc[leveloffset=+1]
+
+[[configure_the_wildfly]]
+== Configure the Wildfly manually
+
+The openid war file does not need any special JBoss CLI commands except for installing a Keycloak adapter, example from Dockerfile:
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+# Install keycloak adapter
+COPY keycloak-wildfly-adapter-dist-10.0.1.tar.gz /tmp/
+RUN cd /opt/jboss/wildfly && tar zxf /tmp/keycloak-wildfly-adapter-dist-10.0.1.tar.gz &&  ./bin/jboss-cli.sh --file=bin/adapter-elytron-install-offline.cli
+----
+
+== Access the application
+
+The application will be running at the following URLs:
+
+ * Docker-compose http://<THIS_HOST>:8080/{artifactId}-wildfly/
+ * K8s: http://<THIS_HOST>:31080/{artifactId}-wildfly/
+ * The IdP runs on the port 8081/31081, user: admin, password admin
+ * The ldap runs om 389 for docker-compose and a dynamic nodePort for k8s. This is ok for the IdP which contacts the ldap over the internal k8s network. But the IdP will not be able start unless the ldap has been launched first because it uses a configMap from the ldap-security example to find the ldap url.
+
+*Note*: With the IdP and the Wildfly running inside NAT:ed containers they cannot use localhost as the hostname. Both the IdP and Wildfly launch scripts takes environment variables like $IDP_HOST, $WEB_HOST. For openid to work they seems to have to be the same in all places, including the url you type in the browser to access the application.
+
+When you access the application you are redirected to a Keycloak login form. Once you have logged into the application you see the deltaspike app welcome page.

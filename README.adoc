@@ -54,10 +54,12 @@ $ mvn -pl . deploy
 [cols="1,1,2,1,1", options="header"]
 |===
 | Quickstart Name | Demonstrated Technologies | Description | Experience Level Required | Prerequisites 
+| link:app-jee-html5/README{outfilesuffix}[app-jee-html5]|html5, WildFly Elytron, Keycloak, OpenID | Demonstrate how to configure Wildlfy Elytron with a keycloak Adapter for openid reusing the login/role UI code from app-jee-html5.  | Unknown | _none_
 | link:deltaspike-authorization/README{outfilesuffix}[deltaspike-authorization]|JSF, CDI, Deltaspike, Docker, jkube | Demonstrate the creation of a custom authorization example using @SecurityBindingType from DeltaSpike. This is an updated version of the Wildfly quickstart which uses the jkube maven plugin to create a docker file and reduces manual steps to get started without installing a local Wildfly. | Beginner | _none_
 | link:kitchensink-angular/README{outfilesuffix}[kitchensink-angular]|AngularJS, Angular 10, CDI, JPA, EJB, JPA, JAX-RS, BV | The `kitchensink-angular` quickstart demonstrates a {javaVersion} application using Angular JS/10 with JAX-RS, CDI, EJB, JPA, and Bean Validation. This is a modification using an Angular 10 UI. It is also updated to use the jkube maven plugin to create a docker file and reduce manual steps to get started without installing a local Wildfly. | Intermediate | _none_
 | link:ldap-security/README{outfilesuffix}[ldap-security]|JSF, CDI, Deltaspike, WildFly Elytron, LDAP | Demonstrate how to configure Wildlfy Elytron for LDAP reusing the login/role UI code from Quickstart deltaspike-authorization. | Unknown | _none_
 | link:openid-security/README{outfilesuffix}[openid-security]|JSF, CDI, Deltaspike, WildFly Elytron, Keycloak, OpenID | Demonstrate how to configure Wildlfy Elytron with a keycloak Adapter for openid reusing the login/role UI code from Quickstart deltaspike-authorization.  | Unknown | _none_
+| link:saml-security/README{outfilesuffix}[saml-security]|JSF, CDI, Deltaspike, WildFly Elytron, Keycloak, OpenID | Demonstrate how to configure Wildlfy Elytron with a keycloak Adapter for openid reusing the login/role UI code from Quickstart deltaspike-authorization.  | Unknown | _none_
 |===
 //</TOC>
 

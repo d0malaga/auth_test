@@ -69,6 +69,7 @@
         <version.org.wildfly.checkstyle-config>1.0.7.Final</version.org.wildfly.checkstyle-config>
         <version.org.wildfly.quickstarts.documentation.plugin>2.0.0.Final</version.org.wildfly.quickstarts.documentation.plugin>
         <!-- other plug-in versions -->
+        <version.resources.maven.plugin>3.0.2</version.resources.maven.plugin>
         <version.com.mycyla.license>3.0</version.com.mycyla.license>
         <version.checkstyle>8.5</version.checkstyle>
         <version.jaxws-tools-maven-plugin>1.2.3.Final</version.jaxws-tools-maven-plugin>
@@ -386,6 +387,8 @@
                 <module>deltaspike-authorization</module>
                 <module>ldap-security</module>
                 <module>openid-security</module>
+                <module>saml-security</module>
+                <module>app-jee-html5</module>
             </modules>
         </profile>
         <profile>

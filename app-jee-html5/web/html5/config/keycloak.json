@@ -1,0 +1,7 @@
+{
+  "realm": "auth_test",
+  "auth-server-url": "http://192.168.59.110:8081/auth/",
+  "ssl-required": "external",
+  "resource": "app-jee-html5-wildfly",
+  "public-client": true
+}
