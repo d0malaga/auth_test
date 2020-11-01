@@ -20,7 +20,7 @@ limitations under the License.
   </parent>
   <artifactId>app-jee-html5-wildfly</artifactId>
   <packaging>war</packaging>
-  <name>app-jee-html5-wildfly</name>
+  <name>app-jee-html5-wildfly: docker with html5 + REST API</name>
   <description>OPENID security: using Keycloak Elytron in Wildfly</description>
   <url>http://wildfly.org</url>
 
@@ -98,6 +98,9 @@ limitations under the License.
 		  <IDP_URL>http://external-ip:8081/auth</IDP_URL>
                 </env>
 		<user>jboss</user>
+		<cmd>
+		  <shell>/opt/jboss/wildfly/bin/standalone.sh -b  0.0.0.0 -Dopenid.IDP_URL=$IDP_URL</shell>
+		</cmd>
 		<runCmds>
 		  <!-- Install wildfly adapter -->
 		  <run>mv ${jboss_home}/standalone/deployments/resources ${jboss_home}/standalone/</run>
@@ -106,6 +109,9 @@ limitations under the License.
 		<assembly>
 		  <inline>
 		    <fileSets>
+		      <fileSet>
+                        <directory>${project.basedir}/src/main/cli</directory>
+		      </fileSet>
 		      <fileSet>
                         <directory>${project.basedir}/src/main/resources</directory>
 		      </fileSet>

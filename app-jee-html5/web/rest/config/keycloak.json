@@ -4,6 +4,6 @@
   "auth-server-url": "${env.IDP_URL}",
   "ssl-required": "none",
   "resource": "service-jaxrs",
-  "confidential-port": 0,
-  "enable-cors": false
+  "enable-cors": true,
+  "confidential-port": 0
 }

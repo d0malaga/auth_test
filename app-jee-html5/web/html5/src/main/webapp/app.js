@@ -15,7 +15,9 @@
  * limitations under the License.
  */
 var keycloak = new Keycloak();
-var serviceUrl = 'http://localhost:8080/service-jee-jaxrs'
+var serviceUrl_new = 'http://127.0.0.1:8080/service-jee-jaxrs'
+var serviceUrl_org = 'http://127.0.0.1:8080/service'
+var serviceUrl = '/service-jee-jaxrs'
 
 function notAuthenticated() {
     document.getElementById('not-authenticated').style.display = 'block';
@@ -25,7 +27,7 @@ function notAuthenticated() {
 function authenticated() {
     document.getElementById('not-authenticated').style.display = 'none';
     document.getElementById('authenticated').style.display = 'block';
-    document.getElementById('message').innerHTML = 'User: ' + keycloak.tokenParsed['preferred_username'];
+    document.getElementById('message').innerHTML = 'User: ' + keycloak.tokenParsed['preferred_username'] + JSON.stringify(keycloak.tokenParsed['realm_access']);
 }
 
 function request(endpoint) {
