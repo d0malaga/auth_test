@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-var keycloak = new Keycloak();
+var keycloak = new Keycloak('/app-jee-html5-wildfly/env?file=keycloak.json');
 var serviceUrl_new = 'http://127.0.0.1:8080/service-jee-jaxrs'
 var serviceUrl_org = 'http://127.0.0.1:8080/service'
 var serviceUrl = '/service-jee-jaxrs'

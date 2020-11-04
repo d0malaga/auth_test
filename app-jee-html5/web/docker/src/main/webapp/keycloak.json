@@ -1,0 +1,7 @@
+{
+  "realm": "auth_test",
+  "auth-server-url": "${IDP_URL}",
+  "ssl-required": "none",
+  "resource": "app-jee-html5-wildfly",
+  "public-client": false
+}

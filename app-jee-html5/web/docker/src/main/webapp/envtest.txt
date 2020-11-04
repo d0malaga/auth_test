@@ -1,0 +1,5 @@
+qwe
+${USER}
+qaz
+${HOME}
+qsc
