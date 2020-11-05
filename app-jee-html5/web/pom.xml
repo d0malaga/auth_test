@@ -50,10 +50,19 @@ limitations under the License.
   </dependencyManagement>
 
   <modules>
-    <module>rest</module>
-    <module>html5</module>
     <module>docker</module>
   </modules>
+
+  <profiles>
+    <profile>
+      <id>all</id>
+      <modules>
+	<module>rest</module>
+	<module>html5</module>
+	<module>docker</module>
+      </modules>
+    </profile>
+  </profiles>
 
   <build>
     <plugins>

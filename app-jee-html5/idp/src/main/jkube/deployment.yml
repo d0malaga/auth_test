@@ -5,14 +5,4 @@ spec:
       containers:
         - env:
           - name: WEB_URL
-            value: http://${this.host}:31080/openid-security-wildfly
-          - name: LDAP_URL
-            valueFrom:
-              configMapKeyRef:
-                name: ldap-settings
-                key: ldap.service.url
-          - name: LDAP_ADMIN_PASSWORD
-            valueFrom:
-              configMapKeyRef:
-                name: ldap-settings
-                key: ldap.admin.password
+            value: http://${this.host}:31080/app-html5
