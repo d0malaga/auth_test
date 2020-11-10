@@ -43,9 +43,10 @@
         <artifactId>kubernetes-maven-plugin</artifactId>
         <version>${jkube.version}</version>
         <configuration>
+          <registry>${docker.registry}</registry>
 	  <images>
 	    <image>
-	      <name>%a:%l</name>
+	      <name>${docker.path}%a:%l</name>
 	      <alias>service</alias>
 	      <build>
 		<from>prom/prometheus</from>

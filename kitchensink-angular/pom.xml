@@ -278,9 +278,10 @@ limitations under the License.
 	    <!--
 	    -->
 	    <configuration>
+              <registry>${docker.registry}</registry>
 	      <images>
 		<image>
-		  <name>%a:%l</name>
+		  <name>${docker.path}%a:%l</name>
 		  <alias>service</alias>
 		  <build>
 		    <!--
