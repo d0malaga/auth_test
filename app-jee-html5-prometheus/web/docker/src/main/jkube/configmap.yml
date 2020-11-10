@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wildfly-settings
+data:
+  # The service inside k8s, the way Prometheus likes it with host and port
+  wildfly.metrics.url: "app-jee-html5-wildfly.default.svc.cluster.local:9990"

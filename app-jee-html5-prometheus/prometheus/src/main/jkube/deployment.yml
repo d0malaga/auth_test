@@ -5,4 +5,7 @@ spec:
       containers:
         - env:
           - name: WILDFLY_METRICS_URL
-            value: http://${this.host}:31080
+            valueFrom:
+              configMapKeyRef:
+                name: wildfly-settings
+                key: wildfly.metrics.url
