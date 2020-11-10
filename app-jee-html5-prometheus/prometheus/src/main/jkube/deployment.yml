@@ -1,0 +1,8 @@
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - env:
+          - name: WILDFLY_METRICS_URL
+            value: http://${this.host}:31080

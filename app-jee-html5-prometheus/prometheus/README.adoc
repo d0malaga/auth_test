@@ -1,0 +1,6 @@
+Basic tests running Prometheues and Grafana in dockers.
+
+This is a crude packaging where Prometheus can read metrcis from a single wildfly.
+The original docker image is wrapped into a script that takes the environment variable $WILDFLY_METRICS_URL.
+
+login: admin/pass

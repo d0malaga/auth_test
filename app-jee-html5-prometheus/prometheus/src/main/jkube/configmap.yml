@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-settings
+data:
+  # property-like keys; each key maps to a simple value
+  grafana_user: "admin"
+  grafana_password: "pass"
+  # The service inside k8s
+  prometheus.service.internal.url: "http://prometheus.default.svc.cluster.local:9090"
+  # The service outside k8s, needed for browser (via webapp)
+  prometheus.service.url: "http://${this.host}:31090"
