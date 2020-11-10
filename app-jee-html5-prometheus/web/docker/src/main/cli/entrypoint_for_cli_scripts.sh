@@ -26,7 +26,8 @@ consider_cli_scripts() {
         # store env so Java can read them
 	printenv > /tmp/env.properties
 	
-	#start standalone server in admin only mode
+	#start standalone server in admin only mode without deploying any war files
+	mv $JBOSS_HOME/standalone/deployments $JBOSS_HOME/standalone/deployments_not_yet
         $JBOSS_HOME/bin/standalone.sh --admin-only &
         #wait for cli to be available
         wait_for_url http://localhost:9990
@@ -37,6 +38,7 @@ consider_cli_scripts() {
         done
         #shutdown admin only server
         $JBOSS_HOME/bin/jboss-cli.sh --connect --command=shutdown
+	mv $JBOSS_HOME/standalone/deployments_not_yet $JBOSS_HOME/standalone/deployments
     fi
 }
 
