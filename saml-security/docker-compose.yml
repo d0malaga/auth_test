@@ -3,7 +3,7 @@ version: "3"
 services:
   ldap:
     hostname: ldap
-    image: ldap-security-openldap:0.3.0
+    image: auth-test/ldap-security-openldap:0.3.0
     networks:
       saml-security:
         aliases:
@@ -17,7 +17,7 @@ services:
 
   idp:
     hostname: idp
-    image: saml-security-keycloak:0.3.0
+    image: auth-test/saml-security-keycloak:0.3.0
     volumes:
       - ".:/tmp/output"
     networks:
@@ -35,7 +35,7 @@ services:
 
   web:
     hostname: web
-    image: saml-security-wildfly:0.3.0
+    image: auth-test/saml-security-wildfly:0.3.0
     networks:
       saml-security:
         aliases:

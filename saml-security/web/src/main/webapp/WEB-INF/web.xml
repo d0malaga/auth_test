@@ -20,10 +20,11 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 
     <!-- Redirect any 500 Error Code to /error.jsf -->
-    <error-page>
+    <!--     <error-page>
         <error-code>500</error-code>
         <location>/error.jsf</location>
     </error-page>
+    -->
 
     <!-- Apply security to all pages -->
     <security-constraint>
@@ -31,6 +32,10 @@
         <web-resource-collection>
             <web-resource-name>welcome page</web-resource-name>
             <url-pattern>/welcome.jsf</url-pattern>
+        </web-resource-collection>
+        <web-resource-collection>
+            <web-resource-name>app</web-resource-name>
+            <url-pattern>/profile.jsp</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>*</role-name>

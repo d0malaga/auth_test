@@ -3,7 +3,7 @@ version: "3"
 services:
   idp:
     hostname: idp
-    image: app-jee-html5-keycloak:0.3.0
+    image: auth-test/app-jee-html5-keycloak:0.3.0
     volumes:
       - ".:/tmp/output"
     networks:
@@ -20,7 +20,7 @@ services:
 
   web:
     hostname: web
-    image: app-jee-html5-wildfly:0.3.0
+    image: auth-test/app-jee-html5-wildfly:0.3.0
     networks:
       app-jee-html5:
         aliases:
