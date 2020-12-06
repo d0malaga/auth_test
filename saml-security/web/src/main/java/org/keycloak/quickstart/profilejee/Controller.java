@@ -46,6 +46,13 @@ public class Controller {
         return getFriendlyAttrib(req, "email");
     }
 
+    public String getRoles(HttpServletRequest req) {
+        SamlPrincipal principal = getAccount(req);
+        // return String.join(",", principal.getAttributeNames());
+        // return String.join(",", principal.getFriendlyAttributes("Roles"));
+        return String.join(",", principal.getAttributes("Roles"));
+    }
+
     public String getUsername(HttpServletRequest req) {
         return getAccount(req).getName();
     }

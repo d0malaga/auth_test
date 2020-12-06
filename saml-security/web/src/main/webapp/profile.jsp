@@ -54,6 +54,10 @@
                             <td class="label">Email</td>
                             <td><span id="email">${controller.getEmail(req)}</span></td>
                         </tr>
+                        <tr>
+                            <td class="label">Roles</td>
+                            <td><span id="roles">${controller.getRoles(req)}</span></td>
+                        </tr>
                     </table>
                 </div>
             </div>
