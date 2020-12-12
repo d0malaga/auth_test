@@ -1,18 +1,20 @@
 include::../shared-doc/attributes.adoc[]
 
-= saml-security: reuses deltaspike-authorization for openid authentication
+= saml-security: reuses app-profile-saml-jee-jsp for saml authentication with a role mapper
 :author: Tomas Aronsson
 :level: Unknown
-:technologies: JSF, CDI, Deltaspike, WildFly Elytron, Keycloak, OpenID
+:technologies: JSP, WildFly Elytron, Keycloak, SAML
 
 [abstract]
-Demonstrate how to configure Wildlfy Elytron with a keycloak Adapter for openid reusing the login/role UI code from Quickstart deltaspike-authorization. 
+Demonstrate how to configure Wildlfy Elytron with a keycloak Adapter for saml reusing the login/role UI code from the keycloak Quickstart app-profile-saml-jee-jsp. Adds role info to UI and role mappers.
 
 == What is it?
 
 Based on the keycloak docs:
 
 * https://www.keycloak.org/docs/latest/securing_apps/#jboss-eap-wildfly-adapter
+* https://www.keycloak.org/docs/latest/securing_apps/#_saml-general-config
+* https://www.keycloak.org/docs/latest/server_development/#_saml_role_mappings_spi
 
 Included components:
 
@@ -20,6 +22,9 @@ Included components:
  * A configured LDAP (see ldap-security example)
  * An installed keycloak adapter for Wildfly
  * A configured IdP server, see below
+ * Configuration for the built-in Keycloak role mapper
+ * A basic example for a custom role mappings provider
+
 
 // System Requirements
 include::../shared-doc/system-requirements.adoc[leveloffset=+1]
@@ -41,7 +46,7 @@ env THIS_HOST=192.168.1.155 docker-compose up
 In a similar way the Kubernetes deployment uses nodePort mappings to expose ports on the host and needs to know $THIS_HOST:
 [source,subs="+quotes,attributes+",options="nowrap"]
 ----
-env THIS_HOST=192.168.1.155 mvn k8s:resources
+env THIS_HOST=192.168.1.155 mvn k8s:resource
 ----
 
 See more details about launching an IdP in the script idp/src/main/resources/idp_setup.sh.
@@ -87,4 +92,4 @@ The application will be running at the following URLs:
 
 *Note*: With the IdP and the Wildfly running inside NAT:ed containers they cannot use localhost as the hostname. Both the IdP and Wildfly launch scripts takes environment variables like $IDP_HOST, $WEB_HOST. For openid to work they seems to have to be the same in all places, including the url you type in the browser to access the application.
 
-When you access the application you are redirected to a Keycloak login form. Once you have logged into the application you see the deltaspike app welcome page.
+When you access the application you are redirected to a Keycloak login form. Once you have logged into the application you see the app-profile-saml-jee-jsp app welcome page.

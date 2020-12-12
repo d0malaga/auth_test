@@ -28,11 +28,14 @@ Please consider running `mvn clean package -Pdocs` to render html documentation 
 
 == Plans
 
-1. copied from wf quickstart - deltaspike-authorization, adds jkube (docker+k8s)
-2. ldap-security using an openldap docker container instead of wf accounts
-3. openid-security using a keycloak 10.0.0 IdP container + service adapter
-4. Angular 10 UI on top of WF kitchensink quickstart
-5. todo: saml-security using a keycloak 10.0.0 IdP container + service adapter
+1. wildfly quickstart deltaspike-authorization, adds jkube (docker+k8s)
+2. deltaspike - ldap-security using an openldap docker container instead of wf accounts
+3. deltaspike - openid-security using a keycloak 10.0.0 IdP container + service adapter
+4. keycloak quickstart app-profile-saml-jee-jsp - saml-security, IdP/service adapter, adds roles
+5. wildfly quickstart kitchensink-angular - originally using AngularJS, adds Angular 10 UI
+6. keycloak quickstart app-jee-html5 - openid-security for a REST API and a separate html5 app, adds jkube (docker+k8s)
+7. app-jee-html5-prometheus - REST API, adding microprofile metrics + Prometheus/Grafana
+8. TBD: what's next?
 
 [[available_quickstarts]]
 == Table of Available Quickstarts
@@ -55,11 +58,12 @@ $ mvn -pl . deploy
 |===
 | Quickstart Name | Demonstrated Technologies | Description | Experience Level Required | Prerequisites 
 | link:app-jee-html5/README{outfilesuffix}[app-jee-html5]|html5, WildFly Elytron, Keycloak, OpenID | Demonstrate how to configure Wildlfy Elytron with a keycloak Adapter for openid reusing the login/role UI code from app-jee-html5.  | Unknown | _none_
+| link:app-jee-html5-prometheus/README{outfilesuffix}[app-jee-html5-prometheus]|html5, WildFly Elytron, Keycloak, microprofile-metrics, OpenID, Prometheus, Grafana | Demonstrate how to configure Wildlfy Elytron with a keycloak Adapter for openid reusing the login/role UI code from app-jee-html5. Collecting application and wildfly metrics into Prometheus/Grafana. | Unknown | _none_
 | link:deltaspike-authorization/README{outfilesuffix}[deltaspike-authorization]|JSF, CDI, Deltaspike, Docker, jkube | Demonstrate the creation of a custom authorization example using @SecurityBindingType from DeltaSpike. This is an updated version of the Wildfly quickstart which uses the jkube maven plugin to create a docker file and reduces manual steps to get started without installing a local Wildfly. | Beginner | _none_
 | link:kitchensink-angular/README{outfilesuffix}[kitchensink-angular]|AngularJS, Angular 10, CDI, JPA, EJB, JPA, JAX-RS, BV | The `kitchensink-angular` quickstart demonstrates a {javaVersion} application using Angular JS/10 with JAX-RS, CDI, EJB, JPA, and Bean Validation. This is a modification using an Angular 10 UI. It is also updated to use the jkube maven plugin to create a docker file and reduce manual steps to get started without installing a local Wildfly. | Intermediate | _none_
 | link:ldap-security/README{outfilesuffix}[ldap-security]|JSF, CDI, Deltaspike, WildFly Elytron, LDAP | Demonstrate how to configure Wildlfy Elytron for LDAP reusing the login/role UI code from Quickstart deltaspike-authorization. | Unknown | _none_
 | link:openid-security/README{outfilesuffix}[openid-security]|JSF, CDI, Deltaspike, WildFly Elytron, Keycloak, OpenID | Demonstrate how to configure Wildlfy Elytron with a keycloak Adapter for openid reusing the login/role UI code from Quickstart deltaspike-authorization.  | Unknown | _none_
-| link:saml-security/README{outfilesuffix}[saml-security]|JSF, CDI, Deltaspike, WildFly Elytron, Keycloak, OpenID | Demonstrate how to configure Wildlfy Elytron with a keycloak Adapter for openid reusing the login/role UI code from Quickstart deltaspike-authorization.  | Unknown | _none_
+| link:saml-security/README{outfilesuffix}[saml-security]|JSP, WildFly Elytron, Keycloak, SAML | Demonstrate how to configure Wildlfy Elytron with a keycloak Adapter for saml reusing the login/role UI code from the keycloak Quickstart app-profile-saml-jee-jsp. Adds role info to UI and role mappers. | Unknown | _none_
 |===
 //</TOC>
 
