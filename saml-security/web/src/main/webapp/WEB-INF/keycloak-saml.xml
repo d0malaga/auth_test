@@ -12,6 +12,12 @@
         </CertificatePem>
       </Key>
     </Keys>
+    <!-- Keycloak considers the last mappings provider only, but leaving this in did not seem to destroy anything
+    <RoleMappingsProvider id="properties-based-role-mapper">
+        <Property name="properties.file.location" value="/opt/jboss/wildfly/standalone/resources/roles.properties"/>
+    </RoleMappingsProvider>
+    -->
+    <RoleMappingsProvider id="auth_test.saml_security.role-mapper"/>
     <IDP entityID="idp"
          signatureAlgorithm="RSA_SHA256"
          signatureCanonicalizationMethod="http://www.w3.org/2001/10/xml-exc-c14n#">
