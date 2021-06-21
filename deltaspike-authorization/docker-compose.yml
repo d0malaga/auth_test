@@ -4,8 +4,7 @@ services:
   web:
     hostname: web
     container_name: deltaspike-web
-    # image: quickstarts/deltaspike-authorization:0.3.0
-    image: deltaspike-authorization:0.3.0
+    image: auth-test/deltaspike-authorization:0.4.0
     networks:
       deltaspike-authorization:
         aliases:

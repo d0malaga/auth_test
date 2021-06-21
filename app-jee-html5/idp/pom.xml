@@ -15,7 +15,7 @@
   <parent>
     <groupId>auth_test.quickstarts</groupId>
     <artifactId>app-jee-html5</artifactId>
-    <version>0.3.0</version>
+    <version>0.4.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>app-jee-html5-keycloak</artifactId>
@@ -49,7 +49,7 @@
 	      <name>${docker.path}%a:%l</name>
 	      <alias>service</alias>
 	      <build>
-		<from>quay.io/keycloak/keycloak:10.0.2</from>
+		<from>quay.io/keycloak/keycloak:${keycloak.version}</from>
 		<env>
 		  <LDAP_ORGANISATION>wildfly</LDAP_ORGANISATION>
 		  <LDAP_DOMAIN>wildfly.org</LDAP_DOMAIN>

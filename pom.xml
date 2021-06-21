@@ -30,7 +30,7 @@ limitations under the License.
       Maintain separation between the artifact id and the version to help prevent
       merge conflicts between commits changing the GA and those changing the V.
   -->
-  <version>0.3.0</version>
+  <version>0.4.0</version>
 
   <packaging>pom</packaging>
 
@@ -60,12 +60,14 @@ limitations under the License.
   </distributionManagement>
 
   <properties>
+    <local_repo.dir>/home/tomasa/src/own/auth_test</local_repo.dir>
+    <jboss.home.name>/opt/wildfly-24.0.0.Final</jboss.home.name>
+    <product.name>WildFly</product.name>
+
     <!-- <docker.registry>d0malaga.asuscomm.com:5000</docker.registry> -->
     <docker.path>auth-test/</docker.path>
-
-    <local_repo.dir>/home/tomasa/src/web/auth_test</local_repo.dir>
-    <jboss.home.name>/opt/wildfly-20.0.1.Final</jboss.home.name>
-    <product.name>WildFly</product.name>
+    <keycloak.version>12.0.3</keycloak.version>
+    <wildfly.version>23.0.2.Final</wildfly.version>
 
     <!-- A base list of dependency and plug-in version used in the various quick starts. -->
     <version.wildfly.maven.plugin>2.0.1.Final</version.wildfly.maven.plugin>

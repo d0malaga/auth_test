@@ -3,7 +3,7 @@ version: "2"
 services:
   ldap:
     hostname: ldap
-    image: ldap-security-openldap:0.3.0
+    image: auth-test/ldap-security-openldap:0.4.0
     networks:
       ldap-security:
         aliases:
@@ -17,7 +17,7 @@ services:
 
   web:
     hostname: web
-    image: ldap-security-wildfly:0.3.0
+    image: auth-test/ldap-security-wildfly:0.4.0
     networks:
       ldap-security:
         aliases:

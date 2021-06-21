@@ -15,7 +15,7 @@ limitations under the License.
   <parent>
     <groupId>auth_test.quickstarts</groupId>
     <artifactId>app-jee-html5-web</artifactId>
-    <version>0.3.0</version>
+    <version>0.4.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>app-jee-html5-wildfly</artifactId>
@@ -87,7 +87,7 @@ limitations under the License.
 	      <name>${docker.path}%a:%l</name>
 	      <alias>service</alias>
 	      <build>
-		<from>jboss/wildfly:20.0.1.Final</from>
+		<from>jboss/wildfly:${wildfly.version}</from>
 		<!-- default values to allow non expanded env to be inserted in
                      wf config. Consider overriding them in runtime -->
 		<env>

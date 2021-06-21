@@ -4,7 +4,7 @@ services:
   web:
     hostname: web
     container_name: kitchensink-web
-    image: kitchensink-angular:0.3.0
+    image: auth-test/kitchensink-angular:0.4.0
     networks:
       kitchensink-angular:
         aliases:

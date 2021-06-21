@@ -3,7 +3,7 @@ version: "3"
 services:
   ldap:
     hostname: ldap
-    image: ldap-security-openldap:0.3.0
+    image: auth-test/ldap-security-openldap:0.4.0
     networks:
       openid-security:
         aliases:
@@ -17,7 +17,7 @@ services:
 
   idp:
     hostname: idp
-    image: openid-security-keycloak:0.3.0
+    image: auth-test/openid-security-keycloak:0.4.0
     networks:
       openid-security:
         aliases:
@@ -33,7 +33,7 @@ services:
 
   web:
     hostname: web
-    image: openid-security-wildfly:0.3.0
+    image: auth-test/openid-security-wildfly:0.4.0
     networks:
       openid-security:
         aliases:

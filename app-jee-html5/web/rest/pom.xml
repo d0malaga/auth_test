@@ -21,7 +21,7 @@
   <parent>
     <groupId>auth_test.quickstarts</groupId>
     <artifactId>app-jee-html5-web</artifactId>
-    <version>0.3.0</version>
+    <version>0.4.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>service-jee-jaxrs</artifactId>

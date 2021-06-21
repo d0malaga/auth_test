@@ -24,7 +24,7 @@ limitations under the License.
         Maintain separation between the artifact id and the version to help prevent
         merge conflicts between commits changing the GA and those changing the V.
     -->
-    <version>0.3.0</version>
+    <version>0.4.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
   <artifactId>deltaspike-authorization</artifactId>
@@ -210,9 +210,9 @@ limitations under the License.
 	      <alias>service</alias>
 	      <build>
 		<!--
-		<from>jboss/wildfly:19.0.0.Final</from>
+		<from>jboss/wildfly:${wildfly.version}</from>
 		-->
-		<from>jboss/wildfly:20.0.1.Final</from>
+		<from>jboss/wildfly:${wildfly.version}</from>
 		<user>jboss</user>
 		<runCmds>
 		  <run>${jboss_home}/bin/add-user.sh -a -u 'appuser' -p 'abcd123' -g 'appuser'</run>
