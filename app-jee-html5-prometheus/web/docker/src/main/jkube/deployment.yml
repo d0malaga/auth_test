@@ -5,7 +5,7 @@ spec:
       containers:
         - env:
           - name: WEB_URL
-            value: http://${this.host}:31080/openid-security-wildfly
+            value: http://${this.host}:31280/app-html5-prometheus
           - name: IDP_URL
             valueFrom:
               configMapKeyRef:

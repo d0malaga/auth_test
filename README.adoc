@@ -22,7 +22,7 @@ The focus of the selected quickstarts relates to security and some parts are bas
 
 _Note_: Most text below and in the examples is from the original quick start documentation, https://github.com/wildfly/quickstart.git. The framework and code from some examples are reused.
 
-My testing has been done on a Fedora 32, using Wildfly 20. This includes checking out the tag `20.0.1.Final`, from quickstart. For demo purposes I've also used a clean Wildfly docker image from https://hub.docker.com/r/jboss/wildfly/.
+My testing has been done on a Fedora 34, using Wildfly 24. This includes checking out the tag `24.0.1.Final`, from quickstart. For demo purposes I've also used a clean Wildfly docker image from https://hub.docker.com/r/jboss/wildfly/.
 
 Please consider running `mvn clean package -Pdocs` to render html documentation with complete urls and other information for the quickstarts.
 
@@ -44,14 +44,16 @@ All available quickstarts, which are listed in the following table, can be found
 
 Each quickstart provides the list of technologies demonstrated by the quickstart and the required experience level needed to build and deploy it. Click on the quickstart link in the table to see more detailed information about how to run it. Some quickstarts require deployment of other quickstarts. This information is noted in the `Prerequisites` section of the quickstart `README.html` file.
 
-NOTE: Some of these quickstarts use the H2 database included with WildFly. It is a lightweight, relational example datasource that is used for examples only. It is not robust or scalable, is not supported, and should NOT be used in a production environment!
-
 NOTE: Some of these depends on each other and the setup inclues a local repo for its own artifacts. Due to have Maven dependencies work you may have to first deploy the main module, for example with the command:
 [source,subs="attributes+",options="nowrap"]
 ----
 $ mvn -pl . deploy
 ----
 
+NOTE: when deploying docker images to a docker repo where Kubernetes can find them you have to update the docker.registry in the main pom.xml file. The images can be uploaded by
+----
+$ mvn k8s:push
+----
 
 //<TOC>
 [cols="1,1,2,1,1", options="header"]

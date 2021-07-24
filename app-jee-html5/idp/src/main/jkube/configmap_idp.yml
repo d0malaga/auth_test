@@ -9,7 +9,7 @@ data:
   # The service inside k8s
   idp.service.internal.url: "http://idp-service.default.svc.cluster.local:8080/auth"
   # The service outside k8s, needed for browser (via webapp)
-  idp.service.url: "http://${this.host}:31081/auth"
+  idp.service.url: "http://${this.host}:31181/auth"
   # sample data, not yet used
   idp_properties_file_name: "idp.properties"
 

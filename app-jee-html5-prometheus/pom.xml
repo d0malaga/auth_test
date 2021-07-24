@@ -18,7 +18,7 @@
         <version>0.4.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>app-jee-html5</artifactId>
+    <artifactId>app-jee-html5-prometheus</artifactId>
     <packaging>pom</packaging>
     <name>Quickstart: app-jee-html5</name>
     <description>OPENID security: using Keycloak Elytron in Wildfly</description>
@@ -33,7 +33,6 @@
     </licenses>
 
   <properties>
-    <jkube.version>1.0.0</jkube.version>
     <jkube.enricher.jkube-service.type>NodePort</jkube.enricher.jkube-service.type>
     <this.host>${env.THIS_HOST}</this.host>
   </properties>

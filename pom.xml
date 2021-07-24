@@ -64,7 +64,7 @@ limitations under the License.
     <jboss.home.name>/opt/wildfly-24.0.0.Final</jboss.home.name>
     <product.name>WildFly</product.name>
 
-    <!-- <docker.registry>d0malaga.asuscomm.com:5000</docker.registry> -->
+    <docker.registry>d0malaga.asuscomm.com:5000</docker.registry>
     <docker.path>auth-test/</docker.path>
     <keycloak.version>12.0.3</keycloak.version>
     <wildfly.version>23.0.2.Final</wildfly.version>
@@ -73,6 +73,9 @@ limitations under the License.
     <version.wildfly.maven.plugin>2.0.1.Final</version.wildfly.maven.plugin>
     <version.org.wildfly.checkstyle-config>1.0.7.Final</version.org.wildfly.checkstyle-config>
     <version.org.wildfly.quickstarts.documentation.plugin>2.0.0.Final</version.org.wildfly.quickstarts.documentation.plugin>
+
+    <jkube.version>1.3.0</jkube.version>
+
     <!-- other plug-in versions -->
     <version.jackson.databind>2.9.5</version.jackson.databind>
     <version.resources.maven.plugin>3.0.2</version.resources.maven.plugin>
@@ -398,6 +401,7 @@ limitations under the License.
         <module>openid-security</module>
         <module>saml-security</module>
         <module>app-jee-html5</module>
+        <module>app-jee-html5-prometheus</module>
       </modules>
     </profile>
     <profile>

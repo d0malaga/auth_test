@@ -1,5 +1,5 @@
 metadata:
-  name: idp-service
+  name: ${project.artifactId}
 spec:
   ports:
   - name: http

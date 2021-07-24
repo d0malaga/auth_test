@@ -34,7 +34,8 @@
         </web-resource-collection>
         <auth-constraint>
             <role-name>user</role-name>
-            <role-name>admin</role-name>
+            <role-name>appuser</role-name>
+            <role-name>appadmin</role-name>
         </auth-constraint>
     </security-constraint>
 
@@ -46,9 +47,12 @@
 
     <!-- Define application roles -->
     <security-role>
-        <role-name>admin</role-name>
+        <role-name>user</role-name>
     </security-role>
     <security-role>
-        <role-name>user</role-name>
+        <role-name>appuser</role-name>
+    </security-role>
+    <security-role>
+        <role-name>appadmin</role-name>
     </security-role>
 </web-app>

@@ -75,6 +75,7 @@ limitations under the License.
 	  <images>
 	    <image>
 	      <name>${docker.path}%a:%l</name>
+              <registry>${docker.registry}</registry>
 	      <alias>service</alias>
 	      <build>
 		<from>jboss/wildfly:${wildfly.version}</from>

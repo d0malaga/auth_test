@@ -54,15 +54,15 @@ endif::archiveDir[]
 
 ifndef::k8sCommand[]
 ifeval::["{archiveType}"=="ear"]
-:k8sCommand: clean install k8s:build k8s:resource k85:apply
+:k8sCommand: clean install k8s:build k8s:resource k8s:apply
 endif::[]
 
 ifeval::["{archiveType}"=="war"]
-:k8sCommand: clean install k8s:build k8s:resource k85:apply
+:k8sCommand: clean install k8s:build k8s:resource k8s:apply
 endif::[]
 
 ifeval::["{archiveType}"=="jar"]
-:k8sCommand: clean install k8s:build k8s:resource k85:apply
+:k8sCommand: clean install k8s:build k8s:resource k8s:apply
 endif::[]
 
 endif::k8sCommand[]
@@ -74,6 +74,8 @@ endif::k8sCommand[]
 ----
 $ mvn {k8sCommand}
 ----
+
+Note: if using a private docker repo you may have to do an additional k8s:push to upload the new docker image(s).
 
 This creates the docker image(s), Kubernetes definitions and deploys them to your Kubernetes cluster. You can stop them by typing:
 [source,subs="attributes+",options="nowrap"]

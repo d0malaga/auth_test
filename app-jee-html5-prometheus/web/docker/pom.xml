@@ -14,11 +14,11 @@ limitations under the License.
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>auth_test.quickstarts</groupId>
-    <artifactId>app-jee-html5-web</artifactId>
+    <artifactId>app-jee-html5-prometheus-web</artifactId>
     <version>0.4.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
-  <artifactId>app-jee-html5-wildfly</artifactId>
+  <artifactId>app-jee-html5-prometheus-wildfly</artifactId>
   <packaging>war</packaging>
   <name>app-jee-html5-wildfly: docker with html5 + REST API</name>
   <description>OPENID security: using Keycloak Elytron in Wildfly</description>
@@ -81,10 +81,10 @@ limitations under the License.
         <artifactId>kubernetes-maven-plugin</artifactId>
         <version>${jkube.version}</version>
         <configuration>
-          <registry>${docker.registry}</registry>
 	  <images>
 	    <image>
 	      <name>${docker.path}%a:%l</name>
+              <registry>${docker.registry}</registry>
 	      <alias>service</alias>
 	      <build>
 		<from>jboss/wildfly:${wildfly.version}</from>
@@ -117,13 +117,13 @@ limitations under the License.
 		    <files>
 		      <file>
                         <source>
-                          ${project.basedir}/../rest/target/service-jee-jaxrs.war
+                          ${project.basedir}/../rest/target/service-jee-jaxrs-prometheus.war
                         </source>
                         <outputDirectory>.</outputDirectory>
                       </file>
 		      <file>
                         <source>
-                          ${project.basedir}/../html5/target/app-html5.war
+                          ${project.basedir}/../html5/target/app-html5-prometheus.war
                         </source>
                         <outputDirectory>.</outputDirectory>
                       </file>
@@ -151,7 +151,7 @@ limitations under the License.
                     <protocol>tcp</protocol>
                     <port>8080</port>
                     <targetPort>8080</targetPort>
-                    <nodePort>31080</nodePort>
+                    <nodePort>31280</nodePort>
                   </port>
                   <port>
                     <name>${project.artifactId}-metrics</name>

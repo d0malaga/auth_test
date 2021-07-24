@@ -14,11 +14,11 @@ limitations under the License.
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>auth_test.quickstarts</groupId>
-    <artifactId>app-jee-html5</artifactId>
+    <artifactId>app-jee-html5-prometheus</artifactId>
     <version>0.4.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
-  <artifactId>app-jee-html5-web</artifactId>
+  <artifactId>app-jee-html5-prometheus-web</artifactId>
   <packaging>pom</packaging>
   <name>app-jee-html5-wildfly</name>
   <description>OPENID security: using Keycloak Elytron in Wildfly</description>

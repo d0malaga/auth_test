@@ -86,8 +86,9 @@ RUN cd /opt/jboss/wildfly && tar zxf /tmp/keycloak-wildfly-adapter-dist-10.0.1.t
 The application will be running at the following URLs:
 
  * Docker-compose http://<THIS_HOST>:8080/{artifactId}-wildfly/
- * K8s: http://<THIS_HOST>:31080/{artifactId}-wildfly/
- * The IdP runs on the port 8081/31081, user: admin, password admin
+ * K8s: http://<THIS_HOST>:31380/{artifactId}-wildfly/
+ ** users: appadmin/abcd123, appuser/abcd123, guest/abcd123
+ * The IdP runs on the port 8081/31381, user: admin, password admin
  * The ldap runs om 389 for docker-compose and a dynamic nodePort for k8s. This is ok for the IdP which contacts the ldap over the internal k8s network. But the IdP will not be able start unless the ldap has been launched first because it uses a configMap from the ldap-security example to find the ldap url.
 
 *Note*: With the IdP and the Wildfly running inside NAT:ed containers they cannot use localhost as the hostname. Both the IdP and Wildfly launch scripts takes environment variables like $IDP_HOST, $WEB_HOST. For openid to work they seems to have to be the same in all places, including the url you type in the browser to access the application.

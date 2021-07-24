@@ -14,11 +14,11 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>auth_test.quickstarts</groupId>
-    <artifactId>app-jee-html5</artifactId>
+    <artifactId>app-jee-html5-prometheus</artifactId>
     <version>0.4.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
-  <artifactId>app-jee-html5-prometheus</artifactId>
+  <artifactId>app-jee-html5-prometheus-server</artifactId>
   <packaging>pom</packaging>
   <name>app-jee-html5-prometheus</name>
   <description>Prometheus with Grafana</description>
@@ -43,10 +43,10 @@
         <artifactId>kubernetes-maven-plugin</artifactId>
         <version>${jkube.version}</version>
         <configuration>
-          <registry>${docker.registry}</registry>
 	  <images>
 	    <image>
 	      <name>${docker.path}%a:%l</name>
+              <registry>${docker.registry}</registry>
 	      <alias>service</alias>
 	      <build>
 		<from>prom/prometheus</from>

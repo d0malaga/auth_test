@@ -42,7 +42,6 @@ limitations under the License.
   </licenses>
 
   <properties>
-    <jkube.version>1.0.0</jkube.version>
     <jkube.enricher.jkube-service.type>NodePort</jkube.enricher.jkube-service.type>
     <jboss_home>/opt/jboss/wildfly</jboss_home>
   </properties>
@@ -278,10 +277,10 @@ limitations under the License.
 	    <!--
 	    -->
 	    <configuration>
-              <registry>${docker.registry}</registry>
 	      <images>
 		<image>
 		  <name>${docker.path}%a:%l</name>
+		  <registry>${docker.registry}</registry>
 		  <alias>service</alias>
 		  <build>
 		    <!--

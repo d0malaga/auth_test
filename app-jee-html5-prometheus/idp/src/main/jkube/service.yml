@@ -1,10 +1,10 @@
 metadata:
-  name: idp-service
+  name: ${project.artifactId}
 spec:
   ports:
   - name: http
     port: 8080
     protocol: TCP
     targetPort: 8080
-    nodePort: 31081
+    nodePort: 31281
   type: NodePort

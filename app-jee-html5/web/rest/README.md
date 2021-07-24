@@ -81,8 +81,8 @@ You can access the application with the following URL: <http://localhost:8080/ap
 The application provides buttons that allows invoking the different endpoints on the service:
 
 * Invoke public - Invokes the public endpoint and doesn't require a user to be logged-in
-* Invoke secured - Invokes the secured endpoint and requires a user with the role `user` to be logged-in
-* Invoke admin - Invokes the secured endpoint and requires a user with the role `admin` to be logged-in
+* Invoke appuser - Invokes the secured endpoint and requires a user with the role `appuser` to be logged-in
+* Invoke appadmin - Invokes the secured endpoint and requires a user with the role `appadmin` to be logged-in
 
 If you invoke the endpoints without the required permissions an error will be shown.
 

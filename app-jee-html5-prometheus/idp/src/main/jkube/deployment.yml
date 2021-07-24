@@ -5,4 +5,4 @@ spec:
       containers:
         - env:
           - name: WEB_URL
-            value: http://${this.host}:31080/app-html5
+            value: http://${this.host}:31280/app-html5-prometheus

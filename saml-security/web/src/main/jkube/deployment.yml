@@ -5,7 +5,7 @@ spec:
       containers:
         - env:
           - name: WEB_URL
-            value: http://${this.host}:31080/saml-security-wildfly
+            value: http://${this.host}:31380/saml-security-wildfly
           - name: IDP_URL
             valueFrom:
               configMapKeyRef:

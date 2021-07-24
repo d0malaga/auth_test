@@ -72,4 +72,4 @@ include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
 
 == Access the application
 
-The application will be running at the following URL: http://localhost:8080/{artifactId}/. It looks just like the deltaspike app, but uses ldap for the authentication.
+The application will be running at the following URL: http://localhost:8080/{artifactId}-wildfly/. It looks just like the deltaspike app, but uses ldap for the authentication.

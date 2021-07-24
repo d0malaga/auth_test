@@ -20,11 +20,11 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>auth_test.quickstarts</groupId>
-    <artifactId>app-jee-html5-web</artifactId>
+    <artifactId>app-jee-html5-prometheus-web</artifactId>
     <version>0.4.0</version>
     <relativePath>../pom.xml</relativePath>
   </parent>
-  <artifactId>service-jee-jaxrs</artifactId>
+  <artifactId>service-jee-jaxrs-prometheus</artifactId>
   <packaging>war</packaging>
   <name>Keycloak Quickstart: service-jee-jaxrs</name>
   <description>HTML5 Service Invocation Application packaged as a WAR</description>
