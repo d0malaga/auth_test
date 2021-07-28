@@ -51,6 +51,15 @@ limitations under the License.
     <developerConnection>scm:git:ssh://git@github.com:d0malaga/auth_test.git</developerConnection>
   </scm>
 
+  <developers>
+    <developer>
+      <id>d0malaga</id>
+      <name>Tomas Aronsson</name>
+      <email>d0malaga@gmail.com</email>
+      <organization>own tests</organization>
+    </developer>
+  </developers>
+
   <distributionManagement>
     <repository>
       <id>project.local</id>
@@ -68,6 +77,10 @@ limitations under the License.
     <docker.path>auth-test/</docker.path>
     <keycloak.version>12.0.3</keycloak.version>
     <wildfly.version>23.0.2.Final</wildfly.version>
+
+    <!-- references to ldap used by many modules -->
+    <ldap.component>ldap-security-openldap</ldap.component>
+    <ldap.helm>ldap-security/ldap/target/jkube/helm/${ldap.component}/kubernetes/</ldap.helm>
 
     <!-- A base list of dependency and plug-in version used in the various quick starts. -->
     <version.wildfly.maven.plugin>2.0.1.Final</version.wildfly.maven.plugin>

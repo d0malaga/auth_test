@@ -43,6 +43,12 @@
         <artifactId>kubernetes-maven-plugin</artifactId>
         <version>${jkube.version}</version>
         <configuration>
+          <helm>
+	    <chart>${project.ArtifactId}</chart>
+	    <keywords>prometheus</keywords>
+	    <dependencies>
+	    </dependencies>
+	  </helm>
 	  <images>
 	    <image>
 	      <name>${docker.path}%a:%l</name>

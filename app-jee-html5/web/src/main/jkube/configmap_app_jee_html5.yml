@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-html5-example
+data:
+  # file-like keys
+  app.properties: |
+    ui.type = html5

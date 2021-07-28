@@ -92,3 +92,20 @@ NAME	                	TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        
 {artifactId}-http	NodePort    10.106.252.180   <none>        8080:32583/TCP   66s
 ----
 
+== Using helm
+
+The maven files can create a crude helm chart. This is the easiest way to deploy them to Kubernetes.
+
+[source,subs="attributes+",options="nowrap"]
+----
+# Helm depends on the kubernetes files
+$ mvn k8s:resource
+$ mvn k8s:helm
+# Examples with sub modules need to include them in the main chart 'charts' directory
+$ helm dependency update target/jkube/helm/{artifactId}/kubernetes/
+$ helm install {artifactId} target/jkube/helm/{artifactId}/kubernetes/
+
+$ kubectl get services
+NAME	                	TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+{project.artifactId}-http	NodePort    10.106.252.180   <none>        8080:32583/TCP   66s
+----

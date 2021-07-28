@@ -22,7 +22,6 @@ limitations under the License.
   <packaging>war</packaging>
   <name>openid-security-wildfly</name>
   <description>OPENID security: using Keycloak Elytron in Wildfly</description>
-  <url>http://wildfly.org</url>
 
   <properties>
     <jboss_home>/opt/jboss/wildfly</jboss_home>
@@ -71,7 +70,12 @@ limitations under the License.
         <artifactId>kubernetes-maven-plugin</artifactId>
         <version>${jkube.version}</version>
         <configuration>
-          <registry>${docker.registry}</registry>
+	  <helm>
+	    <chart>${ArtifactId}</chart>
+	    <keywords>wildfly</keywords>
+	    <dependencies>
+	    </dependencies>
+	  </helm>
 	  <images>
 	    <image>
 	      <name>${docker.path}%a:%l</name>

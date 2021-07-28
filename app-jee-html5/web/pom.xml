@@ -22,7 +22,6 @@ limitations under the License.
   <packaging>pom</packaging>
   <name>app-jee-html5-wildfly</name>
   <description>OPENID security: using Keycloak Elytron in Wildfly</description>
-  <url>http://wildfly.org</url>
 
   <properties>
     <jboss_home>/opt/jboss/wildfly</jboss_home>

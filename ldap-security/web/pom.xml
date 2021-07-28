@@ -22,7 +22,6 @@ limitations under the License.
   <packaging>war</packaging>
   <name>ldap-security-wildfly</name>
   <description>LDAP security: using LDAP Elytron in Wildfly</description>
-  <url>http://wildfly.org</url>
 
   <licenses>
     <license>
@@ -70,6 +69,12 @@ limitations under the License.
         <artifactId>kubernetes-maven-plugin</artifactId>
         <version>${jkube.version}</version>
         <configuration>
+	  <helm>
+	    <chart>${ArtifactId}</chart>
+	    <keywords>wildfly</keywords>
+	    <dependencies>
+	    </dependencies>
+	  </helm>
 	  <images>
 	    <image>
 	      <name>${docker.path}%a:%l</name>

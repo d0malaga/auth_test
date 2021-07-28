@@ -27,7 +27,6 @@
     <packaging>pom</packaging>
     <name>Quickstart: ldap-security</name>
     <description>LDAP security: using LDAP Elytron in Wildfly</description>
-    <url>http://wildfly.org</url>
 
     <licenses>
         <license>
@@ -51,7 +50,6 @@
     </dependencies>
   </dependencyManagement>
 
-
   <modules>
     <module>ldap</module>
     <module>web</module>
@@ -63,8 +61,25 @@
         <groupId>org.eclipse.jkube</groupId>
         <artifactId>kubernetes-maven-plugin</artifactId>
         <version>${jkube.version}</version>
+	<configuration>
+	  <helm>
+	    <chart>${ArtifactId}</chart>
+	    <keywords>ldap,wildfly,testAccounts</keywords>
+	    <dependencies>
+              <dependency>
+		<name>${ArtifactId}-wildfly</name>
+		<version>${project.version}</version>
+		<repository>file://${basedir}/web/target/jkube/helm/${project.artifactId}-wildfly/kubernetes/</repository>
+              </dependency>
+              <dependency>
+		<name>${ArtifactId}-openldap</name>
+		<version>${project.version}</version>
+		<repository>file://${basedir}/ldap/target/jkube/helm/${project.artifactId}-openldap/kubernetes/</repository>
+              </dependency>
+	    </dependencies>
+	  </helm>
+	</configuration>
       </plugin>
     </plugins>
   </build>
-  
 </project>

@@ -51,6 +51,12 @@
               <artifactId>kubernetes-maven-plugin</artifactId>
               <version>${jkube.version}</version>
               <configuration>
+		<helm>
+		  <chart>${ArtifactId}</chart>
+		  <keywords>openldap</keywords>
+		  <dependencies>
+		  </dependencies>
+		</helm>
 		<images>
 		  <image>
 		    <name>${docker.path}%a:%l</name>

@@ -59,6 +59,29 @@
         <groupId>org.eclipse.jkube</groupId>
         <artifactId>kubernetes-maven-plugin</artifactId>
         <version>${jkube.version}</version>
+	<configuration>
+	  <helm>
+	    <chart>${ArtifactId}</chart>
+	    <keywords>openid,wildfly</keywords>
+	    <dependencies>
+              <dependency>
+		<name>${ArtifactId}-wildfly</name>
+		<version>${project.version}</version>
+		<repository>file://${basedir}/web/target/jkube/helm/${project.artifactId}-wildfly/kubernetes/</repository>
+              </dependency>
+              <dependency>
+		<name>${ArtifactId}-keycloak</name>
+		<version>${project.version}</version>
+		<repository>file://${basedir}/idp/target/jkube/helm/${project.artifactId}-keycloak/kubernetes/</repository>
+              </dependency>
+              <dependency>
+		<name>${ldap.component}</name>
+		<version>${project.version}</version>
+		<repository>file://${basedir}/../${ldap.helm}</repository>
+              </dependency>
+	    </dependencies>
+	  </helm>
+	</configuration>
       </plugin>
     </plugins>
   </build>
