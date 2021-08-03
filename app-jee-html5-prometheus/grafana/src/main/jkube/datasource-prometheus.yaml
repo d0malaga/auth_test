@@ -1,0 +1,23 @@
+# Example based on https://grafana.com/docs/grafana/latest/administration/provisioning/#datasources?utm_source=grafana_ds_list
+# can be load into k8s by:
+# kubectl create secret generic datasource-prometheus --from-file=prometheus/src/main/jkube/datasource_prometheus.yaml
+
+# config file version
+apiVersion: 1
+
+# list of datasources that should be deleted from the database
+deleteDatasources:
+  - name: app-htlm5-prometheus
+    orgId: 1
+
+# list of datasources to insert/update depending
+# what's available in the database
+datasources:
+  - name: app-htlm5-prometheus
+    type: prometheus
+    access: server
+    orgId: 1
+    url: http://prometheus.default.svc.cluster.local:9090
+    version: 1
+    # <bool> allow users to edit datasources from the UI.
+    editable: true
