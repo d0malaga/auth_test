@@ -1,0 +1,26 @@
+# kustomization.yaml, can be tested using
+# kubectl apply -k . --dry-run=client -o yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+generatorOptions:
+  # labels to add to all generated resources
+  labels:
+    kustomize.generated.resources: somevalue
+  # annotations to add to all generated resources
+  annotations:
+    kustomize.generated.resource: somevalue
+  # disableNameSuffixHash is true disables the default behavior of adding a
+  # suffix to the names of generated resources that is a hash of
+  # the resource contents.
+  disableNameSuffixHash: true
+
+#configMapGenerator:
+#- name: app-html5-dashboard
+#  files:
+#  - app-html5-dashboard.json
+
+secretGenerator:
+- name: datasource-prometheus
+  files:
+  - datasource-prometheus.yaml
