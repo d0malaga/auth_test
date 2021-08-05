@@ -32,7 +32,6 @@
   </licenses>
 
   <properties>
-    <datasource_prometheus>qwe</datasource_prometheus>
     <grafana_helm.version>6.1.5</grafana_helm.version>
   </properties>
 
@@ -56,6 +55,62 @@
 	    </dependencies>
 	  </helm>
 	</configuration>
+      </plugin>
+      <!-- Couldn't get jkube to use fragments for helm values.yaml, use other plugin.
+           jkube/template.yml works fine for basic settings, but did not work for:
+             1. changing the name of a secret/configmap
+             2. values with complex structure like mapping dashboards into grafana
+      -->
+      <!-- Copy files using filter to replace maven variables -->
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>generate-helm-resources</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/resources</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>src/main/kustomization</directory>
+		  <includes>
+		    <include>values_grafana.yaml</include>
+		  </includes>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Copy files that were written by k8s:helm -->
+      <plugin>
+        <groupId>com.google.code.maven-replacer-plugin</groupId>
+        <artifactId>replacer</artifactId>
+        <version>1.5.2</version>
+        <executions>
+          <execution>
+            <id>repair-values_yaml</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>replace</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <file>
+            ${project.build.directory}/resources/values_grafana.yaml
+          </file>
+          <outputFile>
+            ${project.build.directory}/jkube/helm/${project.ArtifactId}/kubernetes/values.yaml
+          </outputFile>
+          <variableTokenValueMap>
+            %%client.artifactId%%=${project.artifactId}
+          </variableTokenValueMap>
+        </configuration>
       </plugin>
     </plugins>
   </build>

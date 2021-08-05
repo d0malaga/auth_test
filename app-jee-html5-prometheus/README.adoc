@@ -77,6 +77,29 @@ docker exec -it kc_tmp /opt/jboss/keycloak/bin/standalone.sh -Djboss.socket.bind
 // Build and Deploy the Quickstart for Kubernetes
 include::../shared-doc/build-and-deploy-the-quickstart-kubernetes.adoc[leveloffset=+1]
 
+=== Using helm with included external charts
+
+The Grafana build here reuses the bitnami/grafana helm chart without creating any own docker files. Most of the kubernetes files are defined in the helm chart, but it requires local definitions:
+
+* Each dashboard has its own configmap. One crude dashboard included
+* All data sources (in this case only Prometheus) are defined in a secret
+* The helm chart needs values.yaml to point to the local definitions
+
+k8s:helm didn't seem to be able to create a values.yaml with Grafana dashboards (I failed to use complex value objects, googling and reading jkube source code indicates this is not yet fully supported) so this build has some workarounds to copy in that file after running k8s:helm:
+
+[source,subs="attributes+",options="nowrap"]
+----
+...
+$ mvn k8s:helm
+# Added other maven plugins to this goal
+$ mvn integration-test
+# Need this to include the external bitnami chart into the grafana helm chart
+$ helm dependency update grafana/target/jkube/helm/app-jee-html5-prometheus-grafana/kubernetes
+# Examples with sub modules need to include them in the main chart 'charts' directory
+$ helm dependency update target/jkube/helm/{artifactId}/kubernetes/
+----
+
+
 [[configure_the_wildfly]]
 == Configure the Wildfly manually
 

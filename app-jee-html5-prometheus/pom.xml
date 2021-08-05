@@ -52,6 +52,7 @@
     <module>idp</module>
     <module>web</module>
     <module>prometheus</module>
+    <module>grafana</module>
   </modules>
 
   <build>
@@ -62,23 +63,28 @@
         <version>${jkube.version}</version>
 	<configuration>
 	  <helm>
-	    <chart>${ArtifactId}</chart>
+	    <chart>${project.ArtifactId}</chart>
 	    <keywords>openid,wildfly</keywords>
 	    <dependencies>
               <dependency>
-		<name>${ArtifactId}-wildfly</name>
+		<name>${project.ArtifactId}-wildfly</name>
 		<version>${project.version}</version>
 		<repository>file://${basedir}/web/docker/target/jkube/helm/${project.artifactId}-wildfly/kubernetes/</repository>
               </dependency>
               <dependency>
-		<name>${ArtifactId}-keycloak</name>
+		<name>${project.ArtifactId}-keycloak</name>
 		<version>${project.version}</version>
 		<repository>file://${basedir}/idp/target/jkube/helm/${project.artifactId}-keycloak/kubernetes/</repository>
               </dependency>
               <dependency>
-		<name>${ArtifactId}-server</name>
+		<name>${project.ArtifactId}-server</name>
 		<version>${project.version}</version>
 		<repository>file://${basedir}/prometheus/target/jkube/helm/${project.artifactId}-server/kubernetes/</repository>
+              </dependency>
+              <dependency>
+		<name>${project.ArtifactId}-grafana</name>
+		<version>${project.version}</version>
+		<repository>file://${basedir}/grafana/target/jkube/helm/${project.artifactId}-grafana/kubernetes/</repository>
               </dependency>
               <dependency>
 		<name>${ldap.component}</name>
