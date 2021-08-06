@@ -49,8 +49,10 @@
 
 
   <modules>
+    <!--
     <module>idp</module>
     <module>web</module>
+    -->
     <module>prometheus</module>
     <module>grafana</module>
   </modules>
@@ -67,14 +69,14 @@
 	    <keywords>openid,wildfly</keywords>
 	    <dependencies>
               <dependency>
-		<name>${project.ArtifactId}-wildfly</name>
+		<name>app-jee-html5-wildfly</name>
 		<version>${project.version}</version>
-		<repository>file://${basedir}/web/docker/target/jkube/helm/${project.artifactId}-wildfly/kubernetes/</repository>
+		<repository>file://${basedir}/../app-jee-html5/web/docker/target/jkube/helm/app-jee-html5-wildfly/kubernetes/</repository>
               </dependency>
               <dependency>
-		<name>${project.ArtifactId}-keycloak</name>
+		<name>app-jee-html5-keycloak</name>
 		<version>${project.version}</version>
-		<repository>file://${basedir}/idp/target/jkube/helm/${project.artifactId}-keycloak/kubernetes/</repository>
+		<repository>file://${basedir}/../app-jee-html5/idp/target/jkube/helm/app-jee-html5-keycloak/kubernetes/</repository>
               </dependency>
               <dependency>
 		<name>${project.ArtifactId}-server</name>

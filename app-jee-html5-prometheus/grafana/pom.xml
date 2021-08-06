@@ -112,6 +112,32 @@
           </variableTokenValueMap>
         </configuration>
       </plugin>
+      <!-- Seemed like a good idea... but k8s:helm has automagic that triggers and creates
+	   deployment/service if this plugin is included.
+      <plugin>
+        <artifactId>exec-maven-plugin</artifactId>
+        <groupId>org.codehaus.mojo</groupId>
+        <version>3.0.0</version>
+        <executions>
+          <execution>
+            <id>Include bitnami/grafana chart</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>helm</executable>
+	      <arguments>
+		<argument>dependency</argument>
+		<argument>update</argument>
+		<argument>${project.build.directory}/jkube/helm/${project.ArtifactId}/kubernetes</argument>
+		<argument>- -skip-refresh</argument>
+	      </arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      -->
     </plugins>
   </build>
 </project>

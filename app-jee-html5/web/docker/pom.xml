@@ -93,6 +93,13 @@ limitations under the License.
       <artifactId>jboss-servlet-api_4.0_spec</artifactId>
       <scope>provided</scope>
     </dependency>
+
+    <!-- Import the MicroProfile Metrics API, we use provided scope as the API is included in the server -->
+    <dependency>
+      <groupId>org.eclipse.microprofile.metrics</groupId>
+      <artifactId>microprofile-metrics-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
 
   <build>
@@ -128,10 +135,12 @@ limitations under the License.
                 </env>
 		<user>jboss</user>
 		<cmd>
-		  <shell>/opt/jboss/wildfly/bin/standalone.sh -b  0.0.0.0 -Dopenid.IDP_URL=$IDP_URL</shell>
+		  <shell>/opt/jboss/wildfly/bin/standalone.sh -b  0.0.0.0 -bmanagement 0.0.0.0 -Dwildfly.statistics-enabled=true -Dopenid.IDP_URL=$IDP_URL</shell>
 		</cmd>
 		<runCmds>
-		  <!-- Install wildfly adapter -->
+		  <!-- Install wildfly admin -->
+		  <run>${jboss_home}/bin/add-user.sh -u 'admin' -p 'abcd123' -g 'admin'</run>
+		  <!-- Install keycloak adapter -->
 		  <run>mv ${jboss_home}/standalone/deployments/resources ${jboss_home}/standalone/</run>
 		  <run>cd ${jboss_home} &amp;&amp; tar zxf ${jboss_home}/standalone/resources/${keycloak_adapter} &amp;&amp; ${jboss_home}/bin/jboss-cli.sh --file=bin/adapter-elytron-install-offline.cli</run>
 		</runCmds>
@@ -163,6 +172,10 @@ limitations under the License.
 		  <user>jboss:jboss:jboss</user>
 		  <targetDir>${jboss_home}/standalone/deployments</targetDir>
 		</assembly>
+                <ports>
+                  <port>8080</port>
+                  <port>9990</port>
+                </ports>
 	      </build>
 	    </image>
 	  </images>
@@ -170,14 +183,21 @@ limitations under the License.
             <services>
               <service>
                 <type>NodePort</type>
-                <name>${project.artifactId}-http</name>
+                <name>${project.artifactId}</name>
                 <headless>false</headless>
                 <ports>
                   <port>
+                    <name>${project.artifactId}-http</name>
                     <protocol>tcp</protocol>
                     <port>8080</port>
                     <targetPort>8080</targetPort>
                     <nodePort>31180</nodePort>
+                  </port>
+                  <port>
+                    <name>${project.artifactId}-metrics</name>
+                    <protocol>tcp</protocol>
+                    <port>9990</port>
+                    <targetPort>9990</targetPort>
                   </port>
                 </ports>
 	      </service>
