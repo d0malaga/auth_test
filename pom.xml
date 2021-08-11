@@ -35,7 +35,7 @@ limitations under the License.
   <packaging>pom</packaging>
 
   <name>Quickstart: Parent</name>
-  <description>Quickstart's parent</description>
+  <description>Various tests for running web applictions in production like setups</description>
   <url>https://github.com/d0malaga/auth_test</url>
 
   <licenses>
@@ -415,6 +415,7 @@ limitations under the License.
         <module>saml-security</module>
         <module>app-jee-html5</module>
         <module>app-jee-html5-prometheus</module>
+        <module>kubernetes-helm</module>
       </modules>
     </profile>
     <profile>

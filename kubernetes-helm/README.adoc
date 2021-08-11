@@ -1,0 +1,216 @@
+include::../shared-doc/attributes.adoc[]
+
+= Kubernetes and Helm: Notes about setting up a local Kubernetes kluster
+:author: Tomas Aronsson
+:level: Intermediate
+:technologies: Docker, Kubernetes, Helm, Weave, Fedora, Virtualbox
+
+[abstract]
+Initially the tests/quickstarts where done on a native Fedora/Wildfly, but many authentication tools (ldap, idp) where easier to use as pre-packaged docker containers.
+
+The step from docker-compose to basic Kubernetes usage wasn't that big for the applications. But it required somewhere to run Kubernetes. Many examples from various howtos on the net use minikube, but I wanted to run a setup closer to larger kubernetes clusters. It was easy to get started, and if accepting some limitations it was quite easy to run on some computers I had at home without requireing that much resources.
+
+== What is it?
+
+My setup uses a bare metal Fedora as the master node with temporary virtual worker nodes that also runs Fedora. The pods run on docker and weave provides the virtual network. Kubernetes appears to have some requirements on the nodes: disable swap, disable SELinux... so it seemed easier to have small virtual worker nodes running in VirtualBox that easily can be replaced or temporarily stopped if the host machine is needed for other purposes.
+
+The master node also has a docker repository with certificates from letsencrypt.
+
+```
+                    +------------------+
+                    |                  |
+ Kubectl            |    Master node   |           +-------------+              
+<-------------------+                  |           |             |
+                    |  Docker repo     +<----------+ Letsencrypt |
+                    |  K8s master      |           |             |
+                    |                  |           +-------------+
+                    +-----------+------+
+                                ^                +---------------+
+                                |                |               |
+                                |                | Worker host   |
+                                |   Weave        |  VirtualBox   |
+                                +----------------+   Worker node |
+                                                 |               |
+                                                 +---------------+
+
+```
+=== Limitations
+
+* No external DNS server, ip#, names in /etc/hosts or `kubectl port-forward` in test urls
+* Small worker nodes without much disk, no PVCs configured
+* No propoer certificates for ingress yet
+
+== Master Node
+
+Notes from installing Kubernetes on Fedora 33. This node was later upgraded to run f34. It would probably be good to use more automation like terraform/ansible or possibly vagrant, but this has been quite easy after manually installing a live iso image in a VM.  
+
+My goal:
+ Install a k8s master node on a local server machine and let worker nodes from various VMs join it
+
+What worked:
+install latest google rpms 1.19.2, configure using kubeadm, use weave for virtual network
+(I had already swapped out podman for a working docker installation on these machines.
+Even if podman seems cool and good in the future, k8s does not appear to support cgroup v2 yet)
+ 
+I also tried:
+
+ - using the Fedora 32 packaged rpms and follow https://unofficial-kubernetes.readthedocs.io/en/latest/getting-started-guides/fedora/fedora_manual_config/
+ - trying to repair that by also installing kubeadm
+ - various troubleshooting for the virtual network, for example trying flannel
+
+
+Detailed notes, mainly following https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
+
+[source,options="nowrap"]
+----
+cat <<EOF | tee kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+exclude=kubelet kubeadm kubectl
+EOF
+
+sudo cp kubernetes.repo /etc/yum.repos.d/
+sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+
+#  enable services
+sudo systemctl enable kubelet.service
+
+# disable selinux, verify firewall is open enough/disabled
+# (kernel settings, net.bridge.bridge-nf-call-iptables... already appeared ok)
+
+# disable firewalls
+sudo systemctl stop firewalld
+sudo systemctl disable firewalld
+
+# disable swap
+sudo systemctl stop swap-create@zram0
+sudo dnf remove zram-generator-defaults
+cat /proc/swaps 
+
+# initialize the master node
+# test first
+sudo kubeadm init --node-name fed-master --ignore-preflight-errors=all --kubernetes-version $(kubeadm version -o short) --dry-run| less
+# apply changes (refused when still having swap):
+sudo kubeadm init --node-name fed-master --ignore-preflight-errors=all --kubernetes-version $(kubeadm version -
+o short) 
+
+# Setup kubectl and see if we have any k8s
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+kubectl get nodes
+
+# install a virtual network and clean up Fedora 32 things that mess up the network
+# (on the virtual node my first default gateway didn't point to my home network interface, caused this to fail)
+kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+sudo mv /etc/cni/net.d/87-podman-bridge.conflist /tmp
+sudo ln -s /usr/libexec/cni/portmap /opt/cni/bin/portmap
+sudo ln -s /usr/libexec/cni/loopback /opt/cni/bin/loopback
+
+----
+
+== Worker Node
+
+Create the VM from a live server iso image.
+
+[source,options="nowrap"]
+----
+# Repeat steps (except kubeadm init) on every node you'd like to join
+
+# Setup kubectl and see if we have any k8s
+scp -r <master-node>:.kube .
+kubectl get nodes
+
+# install a virtual network (weave) on master node seems ok, but needs some links on the client node
+# (on the virtual node my first default gateway didn't point to my home network interface, caused this to fail)
+sudo ln -s /usr/libexec/cni/portmap /opt/cni/bin/portmap
+sudo ln -s /usr/libexec/cni/loopback /opt/cni/bin/loopback
+
+# Use kubeadm to get a new token, it expires quite fast
+kubeadm token create --print-join-command
+
+# Something like
+# sudo kubeadm join 192.168.1.3:6443 --token qpvjn3.fbp5oz2v0i85d0gj     --discovery-token-ca-cert-hash sha256:043b56fe2abd911c147a6a5cec2fb1dfc3d99b5bfb9a8b635a46a44363bc2c9b
+
+----
+
+Removing a worker node:
+
+[source,options="nowrap"]
+----
+kubectl drain <node> --delete-local-data --force --ignore-daemonsets
+sudo kubeadm reset
+kubectl delete node <node>
+----
+
+== Local docker repo
+
+A docker repository can be started by just using a single command. But if other hosts should pull/push images it wants a certificate, and it's good to add some authentication for ´docker login´. The image had another htpasswd than my Fedora.
+
+[source,options="nowrap"]
+----
+# Create the certificate based on letsencrypt howtos. It can be renewed by something like
+sudo certbot --apache -d <domain>
+mkdir cert
+sudo cp /etc/letsencrypt/live/<domain>/fullchain.pem cert/domain.crt
+sudo cp /etc/letsencrypt/live/<domain>/privkey.pem cert/domain.key
+
+# Create docker repo accounts
+mkdir auth
+docker run --entrypoint htpasswd registry:2 <user> <passwd> > auth/htpasswd
+
+# Create a local repo to keep data if machine or docker container restarts 
+sudo mkdir /storage/vmimages
+
+# From https://docs.docker.com/registry/deploying/
+# And mount flag Z from https://stackoverflow.com/questions/24288616/permission-denied-on-accessing-host-directory-in-docker
+#  -e REGISTRY_HTTP_ADDR=0.0.0.0:443 \
+#  -p 5000:443 \
+docker run -d \
+  -p 5000:5000 \
+  -e REGISTRY_HTTP_ADDR=0.0.0.0:5000 \
+  --restart=always \
+  -v /storage/vmimages:/var/lib/registry:Z \
+  -v "$(pwd)"/certs:/certs \
+  -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/domain.crt \
+  -e REGISTRY_HTTP_TLS_KEY=/certs/domain.key \
+  -v "$(pwd)"/auth:/auth \
+  -e "REGISTRY_AUTH=htpasswd" \
+  -e "REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm" \
+  -e REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd \
+  --name registry \
+  registry:2
+----
+
+== Use helm to get more kubernetes infrastructure
+
+I couldn't find any Fedora rpm for helm, googled for a source rpm (https://download.copr.fedorainfracloud.org/results/cerenit/helm/fedora-34-x86_64/02330249-helm/) and rebuilt it locally. The Bitnami helm charts were good starting points for me.
+
+[source,options="nowrap"]
+----
+# Steps to add dashboards, loadbalancer and ingress to a local k8s
+helm repo add bitnami https://charts.bitnami.com/bitnami
+
+# Helm dashboard
+kubectl create namespace kubeapps
+helm install kubeapps --namespace kubeapps bitnami/kubeapps
+# Easiest way to expose the dashboard before ingress is in place
+# kubectl port-forward --namespace kubeapps --address 0.0.0.0 service/kubeapps 8080:80 &
+
+# K8s dashboard
+helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+helm install kubernetes-dashboard --namespace kubeapps kubernetes-dashboard/kubernetes-dashboard
+k -n kubeapps get sa kubernetes-dashboard -o yaml
+k -n kubeapps get secret kubernetes-dashboard-token-qxk4v -o yaml
+echo "$(echo 'ZXlKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNklscFRTV0pVTFRVNE5YUjRaWE5QTFRSSlRUUk1aazVTU2tJelIxTm1Xa3R2UmxaQ2MzTjBPRWxYZERnaWZRLmV5SnBjM01pT2lKcmRXSmxjbTVsZEdWekwzTmxjblpwWTJWaFkyTnZkVzUwSWl3aWEzVmlaWEp1WlhSbGN5NXBieTl6WlhKMmFXTmxZV05qYjNWdWRDOXVZVzFsYzNCaFkyVWlPaUpyZFdKbFlYQndjeUlzSW10MVltVnlibVYwWlhNdWFXOHZjMlZ5ZG1salpXRmpZMjkxYm5RdmMyVmpjbVYwTG01aGJXVWlPaUpyZFdKbGNtNWxkR1Z6TFdSaGMyaGliMkZ5WkMxMGIydGxiaTF4ZUdzMGRpSXNJbXQxWW1WeWJtVjBaWE11YVc4dmMyVnlkbWxqWldGalkyOTFiblF2YzJWeWRtbGpaUzFoWTJOdmRXNTBMbTVoYldVaU9pSnJkV0psY201bGRHVnpMV1JoYzJoaWIyRnlaQ0lzSW10MVltVnlibVYwWlhNdWFXOHZjMlZ5ZG1salpXRmpZMjkxYm5RdmMyVnlkbWxqWlMxaFkyTnZkVzUwTG5WcFpDSTZJbUZqWXpnelpqQTRMV0UyWTJZdE5HRTVOaTA1TUdNMExXTXlZVEJsT0RReVlXWm1OU0lzSW5OMVlpSTZJbk41YzNSbGJUcHpaWEoyYVdObFlXTmpiM1Z1ZERwcmRXSmxZWEJ3Y3pwcmRXSmxjbTVsZEdWekxXUmhjMmhpYjJGeVpDSjkuUkFWRjJYazZuSG14V3R3V19fOXJLWjFNOXAwbkVteWhON2h1Qko0WmV3ZkZXMWdZT2dlUXA4RWMtUjM1aXVYOF9uWTZBa3ZDWXcwb3hER0JWdXFJMUV6d1FsZUJ0RVFZUmFfVWZEdWVNNUpseFVUamJadGw0S2ZFVWZOWXhGMFE2UnZqT0c3bzhqT1lueWl6NGZnZjZJSjBpVE1tRk01U3E3UHBlNy1Ea0Q4ZHV2dGcwS3ZsRmxUcjgzempoZWxWUjJRdlhHMHlOdE9IOFExUkEyMG5vOW1uLVBsSjdpWktCTmdDVDByQkJrM0tmRVgwdGowOXU1VzEwSDJSenNaSDdXQTNmUjh0MVo4cEZTdEo0RkpUSzBXdGhXOHo2eXhXVlh2RHZfSnNVNU9xRHYtTmpfdkg4YnJZcTJmUm1kbUt3UjV3QW9KSzZzWWNnWmppdkRDTGZR'|base64 -d)"
+
+# Load balancer and ingress
+kubectl create ns nw-infra
+helm install metallb -f values_melatlb.yaml --namespace nw-infra bitnami/metallb
+helm install nging-ingress  --namespace nw-infra bitnami/nginx-ingress-controller
+----

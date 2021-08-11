@@ -10,12 +10,18 @@ ifndef::ProductRelease,EAPCDRelease[]
 [toc]
 
 [abstract]
+This started by exploring some wildfly quickstarts mainly related to authentication/authorization. By time it has grown to include other aspects of running a web application:
+
+ * Different ways to authenticate: local accounts, ldap. saml, openid
+ * Different ways to deploy: native, docker, kubernetes, helm
+ * Monitoring with Prometheues/Grafana
+ * Different UI technology, a crude Angular application
+
 The original Wildlfy quickstarts demonstrate Jakarta EE 8 and a few additional technologies from the WildFly stack. They provide small, specific, working examples that can be used as a reference for your own project.
 
 These examples have been repackaged to use the jkube maven plugin to create a docker file and reduces manual steps to get started without installing a local Wildfly. Most of the examples can also be run in Kubernetes.
 
 The focus of the selected quickstarts relates to security and some parts are based on the Keycloak quickstarts. The Kitchensink is a rewrite of the WF quickstart AngularJS UI, using several examples from the Angular `Tour of heroes` tutorial.
-
 
 [[introduction]]
 == Introduction
@@ -35,7 +41,8 @@ Please consider running `mvn clean package -Pdocs` to render html documentation 
 5. wildfly quickstart kitchensink-angular - originally using AngularJS, adds Angular 10 UI
 6. keycloak quickstart app-jee-html5 - openid-security for a REST API and a separate html5 app, adds jkube (docker+k8s)
 7. app-jee-html5-prometheus - REST API, adding microprofile metrics + Prometheus/Grafana
-8. TBD: what's next?
+8. Better usage of Kubernetes
+9. TBD: what's next?
 
 [[available_quickstarts]]
 == Table of Available Quickstarts
@@ -60,9 +67,10 @@ $ mvn k8s:push
 |===
 | Quickstart Name | Demonstrated Technologies | Description | Experience Level Required | Prerequisites 
 | link:app-jee-html5/README{outfilesuffix}[app-jee-html5]|html5, WildFly Elytron, Keycloak, OpenID | Demonstrate how to configure Wildlfy Elytron with a keycloak Adapter for openid reusing the login/role UI code from app-jee-html5.  | Unknown | _none_
-| link:app-jee-html5-prometheus/README{outfilesuffix}[app-jee-html5-prometheus]|html5, WildFly Elytron, Keycloak, microprofile-metrics, OpenID, Prometheus, Grafana | Demonstrate how to configure Wildlfy Elytron with a keycloak Adapter for openid reusing the login/role UI code from app-jee-html5. Collecting application and wildfly metrics into Prometheus/Grafana. | Unknown | _none_
+| link:app-jee-html5-prometheus/README{outfilesuffix}[app-jee-html5-prometheus]|html5, WildFly Elytron, Keycloak, microprofile-metrics, OpenID, Prometheus, Grafana | Demonstrate how to configure Wildlfy Elytron with a keycloak Adapter for openid reusing app-jee-html5. Collecting application and wildfly metrics into Prometheus/Grafana. | Unknown | _none_
 | link:deltaspike-authorization/README{outfilesuffix}[deltaspike-authorization]|JSF, CDI, Deltaspike, Docker, jkube | Demonstrate the creation of a custom authorization example using @SecurityBindingType from DeltaSpike. This is an updated version of the Wildfly quickstart which uses the jkube maven plugin to create a docker file and reduces manual steps to get started without installing a local Wildfly. | Beginner | _none_
 | link:kitchensink-angular/README{outfilesuffix}[kitchensink-angular]|AngularJS, Angular 10, CDI, JPA, EJB, JPA, JAX-RS, BV | The `kitchensink-angular` quickstart demonstrates a {javaVersion} application using Angular JS/10 with JAX-RS, CDI, EJB, JPA, and Bean Validation. This is a modification using an Angular 10 UI. It is also updated to use the jkube maven plugin to create a docker file and reduce manual steps to get started without installing a local Wildfly. | Intermediate | _none_
+| link:kubernetes-helm/README{outfilesuffix}[kubernetes-helm]|Docker, Kubernetes, Helm, Weave, Fedora, Virtualbox | Initially the tests/quickstarts where done on a native Fedora/Wildfly, but many authentication tools (ldap, idps) where easier to use as pre-packaged docker containers. The step from docker-compose to basic Kubernetes usage wasn't that big for the applications. But it required somewhere to run Kubernetes. Many examples from various howtos on the net use minikube, but I wanted to run a setup closer to larger kubernetes clusters. It was easy to get started, and if accepting some limitations it was quite easy to run on some computers I had at home without requireing that much resources. | Beginner | _none_
 | link:ldap-security/README{outfilesuffix}[ldap-security]|JSF, CDI, Deltaspike, WildFly Elytron, LDAP | Demonstrate how to configure Wildlfy Elytron for LDAP reusing the login/role UI code from Quickstart deltaspike-authorization. | Unknown | _none_
 | link:openid-security/README{outfilesuffix}[openid-security]|JSF, CDI, Deltaspike, WildFly Elytron, Keycloak, OpenID | Demonstrate how to configure Wildlfy Elytron with a keycloak Adapter for openid reusing the login/role UI code from Quickstart deltaspike-authorization.  | Unknown | _none_
 | link:saml-security/README{outfilesuffix}[saml-security]|JSP, WildFly Elytron, Keycloak, SAML | Demonstrate how to configure Wildlfy Elytron with a keycloak Adapter for saml reusing the login/role UI code from the keycloak Quickstart app-profile-saml-jee-jsp. Adds role info to UI and role mappers. | Unknown | _none_
