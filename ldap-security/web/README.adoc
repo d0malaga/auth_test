@@ -1,0 +1,25 @@
+include::../shared-doc/attributes.adoc[]
+
+= ldap-security: reuses deltaspike-authorization for ldap authentication. Demonstrate the creation of a custom authorization example using @SecurityBindingType from DeltaSpike
+
+This contains small local changes to run a local wf26 and point to an ldap deployed in an internal openstack cluster.
+
+== Steps
+
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+#Start the wildfly server locally:
+export JBOSS_HOME=/opt/wildfly-26.1.0.Final/
+$JBOSS_HOME/bin/standalone.sh
+# In another shell, add the cli script:
+cd auth_test/ldap-security/web
+$JBOSS_HOME/bin/jboss-cli.sh --connect --file=src/main/cli/configure-elytron-openldap-ots-jct.cli
+# Build and deploy the application
+cd auth_test/deltaspike-authorization 
+mvn clean install
+cd auth_test/ldap-security/web
+mvn clean package wildfly:deploy
+# Run it
+$ firefox http://127.0.0.1:8080/ldap-security-wildfly
+----

@@ -33,6 +33,8 @@
             <url-pattern>/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
+            <role-name>Developer</role-name>
+            <role-name>Crew FC</role-name>
             <role-name>appuser</role-name>
             <role-name>guest</role-name>
             <role-name>appadmin</role-name>
